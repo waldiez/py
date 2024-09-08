@@ -34,7 +34,3 @@ waldiez /path/to/a/flow.waldiez --output /path/to/an/output[.py] [--force]
 - [juptytext](https://github.com/mwouts/jupytext)
 - [twisted](https://github.com/twisted/twisted)
 - [pydantic](https://github.com/pydantic/pydantic)
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.

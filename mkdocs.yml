@@ -84,12 +84,9 @@ plugins:
       default_handler: python
       handlers:
         python:
-          setup_commands:
-            - import sys
-            - sys.path.append('../')
           selection:
             new_path_syntax: true
-          paths: [waldiez]
+          paths: [.]
           options:
             filters:
               - "!^_"
