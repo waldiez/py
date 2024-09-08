@@ -12,11 +12,11 @@ python -m pip install uv
 # generate a new venv
 uv venv --python 3.10
 # activate the venv
-. venv/bin/activate
+. .venv/bin/activate
 # on windows
-# . venv/Scripts/activate
+# .venv\Scripts\activate.ps1 or .venv\Scripts\activate.bat
 # upgrade pip
-un pip install --upgrade pip
+uv pip install --upgrade pip
 # install the dependencies
 pip install -r requirements/all.txt
 ```
