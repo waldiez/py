@@ -1,6 +1,6 @@
 # Waldiez
 
-![CI Build](https://github.com/waldiez/py/actions/workflows/main.yml/badge.svg)
+![CI Build](https://github.com/waldiez/py/actions/workflows/main.yaml/badge.svg)
 
 Translate a Waldiez flow:
 
