@@ -204,10 +204,10 @@ class TestTCPProvider(unittest.TestCase):
         mock_socket.recv.side_effect = [END_OF_MESSAGE]
 
         provider = TCPProvider(
-            "localhost", 1234, response="response", timeout=1.1
+            "localhost", 1234, response="response", timeout=2
         )
         provider.start()
-        provider.wait(1.1)
+        provider.wait(2)
 
         mock_socket.sendall.assert_called_once_with(b"PROVIDER\r\n")
 
