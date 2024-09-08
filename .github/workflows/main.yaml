@@ -6,6 +6,8 @@ on:
   push:
     branches:
       - main
+  pull_request:
+
 
 permissions:
   contents: write
@@ -51,20 +53,14 @@ jobs:
             --cov-report=term-missing:skip-covered \
             --cov-report html:reports/html \
             --cov-report xml:reports/coverage.xml \
+            --cov-report lcov:reports/lcov.info \
             --junitxml=reports/xunit.xml \
             tests/
-      - name: Code Coverage Report
-        uses: irongut/CodeCoverageSummary@v1.3.0
+      - name: Report to Coveralls
+        uses: coverallsapp/github-action@v2
         with:
-          filename: reports/coverage.xml
-          badge: true
-          fail_below_min: true
-          format: markdown
-          hide_branch_rate: false
-          hide_complexity: true
-          indicators: true
-          output: both
-          thresholds: '60 80'
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path-to-lcov: ./reports/lcov.info
 
   build-docs:
     runs-on: ubuntu-latest
