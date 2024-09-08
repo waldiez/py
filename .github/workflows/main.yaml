@@ -73,7 +73,7 @@ jobs:
         with:
           python-version: 3.12
       - run: pip install  -r requirements/docs.txt
-      - run: mkdocs gh-deploy --config-file mkdocs.yaml --force --site-dir public -b gh-pages
+      - run: mkdocs gh-deploy --config-file mkdocs.yaml --force --site-dir public
 
   deploy-docs:
     needs: build-docs
