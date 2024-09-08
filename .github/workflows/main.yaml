@@ -63,6 +63,7 @@ jobs:
           path-to-lcov: ./reports/lcov.info
 
   build-docs:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -76,6 +77,7 @@ jobs:
       - run: mkdocs gh-deploy --config-file mkdocs.yml --force
 
   deploy-docs:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     needs: build-docs
     environment:
       name: github-pages
