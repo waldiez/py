@@ -19,3 +19,4 @@ __pycache__/
 dmypy.json
 .ruff_cache/
 .DS_Store
+**/*.ffs_db
