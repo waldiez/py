@@ -1,8 +1,6 @@
 # Waldiez
 
-![CI Build](https://github.com/waldiez/py/actions/workflows/main.yaml/badge.svg)
-
-[![Coverage Status](https://coveralls.io/repos/github/waldiez/py/badge.svg)](https://coveralls.io/github/waldiez/py)
+![CI Build](https://github.com/waldiez/py/actions/workflows/main.yaml/badge.svg) [![Coverage Status](https://coveralls.io/repos/github/waldiez/py/badge.svg)](https://coveralls.io/github/waldiez/py)
 
 Translate a Waldiez flow:
 
