@@ -219,7 +219,8 @@ class WaldieFlow(WaldieBase):
                 for chat in self.data.chats
             ):
                 raise ValueError(
-                    f"Agent {agent.id} does not connect to any other node."
+                    f"Agent {agent.id} ({agent.name}) "
+                    "does not connect to any other node."
                 )
             # already covered above
             # if agent.agent_type == "manager":
