@@ -1,0 +1,30 @@
+"""Waldie RAG user agent data."""
+
+from pydantic import Field
+from typing_extensions import Annotated
+
+from ..user_proxy import WaldieUserProxyData
+from .retrieve_config import WaldieRagUserRetrieveConfig
+
+
+class WaldieRagUserData(WaldieUserProxyData):
+    """RAG user agent data.
+
+    The data for a RAG user agent.
+
+    Attributes
+    ----------
+    retrieve_config : WaldieRagUserRetrieveConfig
+        The RAG user agent's retrieve config.
+
+    """
+
+    retrieve_config: Annotated[
+        WaldieRagUserRetrieveConfig,
+        Field(
+            title="Retrieve Config",
+            description="The RAG user agent's retrieve config",
+            default_factory=WaldieRagUserRetrieveConfig,
+            alias="retrieveConfig",
+        ),
+    ]
