@@ -27,7 +27,7 @@ python -m pip install waldiez
 From this repository:
 
 ```bash
-python -m pip install https://github.com/waldiez/py.git
+python -m pip install git+https://github.com/waldiez/py.git
 ```
 
 ## Usage
