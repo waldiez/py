@@ -2,7 +2,11 @@
 name: Lint, test, and deploy
 
 # yamllint disable rule:truthy
-on: [push]
+on:
+  push:
+    branches:
+      - main
+
 permissions:
   contents: write
   pages: write
