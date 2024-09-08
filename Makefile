@@ -80,6 +80,7 @@ test: .before_test
 		--cov-report=term-missing:skip-covered \
 		--cov-report html:${.REPORTS_DIR}/html \
 		--cov-report xml:${.REPORTS_DIR}/coverage.xml \
+		--cov-report lcov:${.REPORTS_DIR}/lcov.info \
 		--junitxml=${.REPORTS_DIR}/xunit.xml \
 		${.TESTS_DIR}/
 

@@ -19,4 +19,6 @@ __pycache__/
 dmypy.json
 .ruff_cache/
 .DS_Store
+.coverage
+**/*.coverage*
 **/*.ffs_db
