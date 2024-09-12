@@ -23,6 +23,8 @@ def test_waldie_agent() -> None:
         agent_type="assistant",
         tags=["tag-1", "tag-2"],
         requirements=["req-1", "req-2"],
+        created_at="2021-01-01T00:00:00.000Z",
+        updated_at="2021-01-01T00:00:00.000Z",
         data=WaldieAgentData(
             system_message="system_message",
             human_input_mode="NEVER",

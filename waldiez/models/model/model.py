@@ -6,7 +6,7 @@ from typing import Any, Dict, List, Optional
 from pydantic import Field
 from typing_extensions import Annotated, Literal
 
-from ..common import WaldieBase
+from ..common import WaldieBase, now
 from .model_data import WaldieModelData
 
 
@@ -25,6 +25,10 @@ class WaldieModel(WaldieBase):
         The tags of the model.
     requirements : List[str]
         The requirements of the model.
+    created_at : str
+        The date and time when the model was created.
+    updated_at : str
+        The date and time when the model was last updated.
     data : WaldieModelData
         The data of the model.
         See `waldie.models.model.WaldieModelData` for more information.
@@ -66,6 +70,22 @@ class WaldieModel(WaldieBase):
             default_factory=list,
             title="Requirements",
             description="The requirements of the model.",
+        ),
+    ]
+    created_at: Annotated[
+        str,
+        Field(
+            default_factory=now,
+            title="Create At",
+            description="The date and time when the model was created.",
+        ),
+    ]
+    updated_at: Annotated[
+        str,
+        Field(
+            default_factory=now,
+            title="Updated At",
+            description="The date and time when the model was last updated.",
         ),
     ]
     data: Annotated[
