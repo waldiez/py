@@ -42,6 +42,8 @@ def test_export_skills() -> None:
         tags=[],
         requirements=[],
         description="A skill that does something.",
+        created_at="2021-01-01T00:00:00.000Z",
+        updated_at="2021-01-01T00:00:00.000Z",
         data=WaldieSkillData(
             content="def skill1():\n    print('skill1')",
             secrets={},
@@ -54,6 +56,8 @@ def test_export_skills() -> None:
         tags=[],
         requirements=[],
         description="A skill that does something else.",
+        created_at="2021-01-01T00:00:00.000Z",
+        updated_at="2021-01-01T00:00:00.000Z",
         data=WaldieSkillData(
             content="def skill2():\n    print('skill2')",
             secrets={"SKILL_2_KEY": "123456"},

@@ -8,7 +8,7 @@ from typing_extensions import Annotated, Literal, Self
 
 from ..agents import WaldieAgent
 from ..chat import WaldieChat
-from ..common import WaldieBase
+from ..common import WaldieBase, now
 from .flow_data import WaldieFlowData
 
 
@@ -29,6 +29,10 @@ class WaldieFlow(WaldieBase):
         The tags of the flow.
     requirements : List[str]
         The requirements of the flow.
+    created_at : str
+        The date and time when the flow was created.
+    updated_at : str
+        The date and time when the flow was last updated.
     data : WaldieFlowData
         The data of the flow. See `WaldieFlowData`.
     """
@@ -89,7 +93,22 @@ class WaldieFlow(WaldieBase):
             title="Data",
         ),
     ]
-
+    created_at: Annotated[
+        str,
+        Field(
+            default_factory=now,
+            title="Created At",
+            description="The date and time when the flow was created.",
+        ),
+    ]
+    updated_at: Annotated[
+        str,
+        Field(
+            default_factory=now,
+            title="Updated At",
+            description="The date and time when the flow was last updated.",
+        ),
+    ]
     _ordered_flow: Optional[
         List[Tuple[WaldieChat, WaldieAgent, WaldieAgent]]
     ] = None

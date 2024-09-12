@@ -41,6 +41,8 @@ def test_waldie_flow() -> None:
         description="User",
         tags=["user"],
         requirements=["user"],
+        created_at="2021-01-01T00:00:00.000Z",
+        updated_at="2021-01-01T00:00:00.000Z",
         data=WaldieUserProxyData(
             system_message="User message",
             human_input_mode="ALWAYS",
@@ -74,6 +76,8 @@ def test_waldie_flow() -> None:
         description="Assistant",
         tags=["assistant"],
         requirements=["assistant"],
+        created_at="2021-01-01T00:00:00.000Z",
+        updated_at="2021-01-01T00:00:00.000Z",
         data=WaldieAssistantData(
             system_message="Assistant message",
             human_input_mode="ALWAYS",
@@ -107,6 +111,8 @@ def test_waldie_flow() -> None:
         description="Manager",
         tags=["manager"],
         requirements=["manager"],
+        created_at="2021-01-01T00:00:00.000Z",
+        updated_at="2021-01-01T00:00:00.000Z",
         data=WaldieGroupManagerData(
             system_message="Manager message",
             human_input_mode="ALWAYS",
@@ -155,6 +161,8 @@ def test_waldie_flow() -> None:
         description="Rag user",
         tags=["rag_user"],
         requirements=["rag_user"],
+        created_at="2021-01-01T00:00:00.000Z",
+        updated_at="2021-01-01T00:00:00.000Z",
         data=WaldieRagUserData(
             system_message="Rag user message",
             human_input_mode="ALWAYS",
@@ -285,6 +293,8 @@ def test_waldie_flow() -> None:
         description="Skill description",
         tags=["skill"],
         requirements=["skill"],
+        created_at="2021-01-01T00:00:00.000Z",
+        updated_at="2021-01-01T00:00:00.000Z",
         data=WaldieSkillData(
             content="def skill_name():\n    return 'Skill name'",
             secrets={},
@@ -297,6 +307,8 @@ def test_waldie_flow() -> None:
         description="Model description",
         tags=["model"],
         requirements=["model"],
+        created_at="2021-01-01T00:00:00.000Z",
+        updated_at="2021-01-01T00:00:00.000Z",
         data=WaldieModelData(
             api_key="-",
             api_type="openai",
@@ -329,6 +341,8 @@ def test_waldie_flow() -> None:
         description="Flow",
         tags=["flow"],
         requirements=["flow"],
+        created_at="2021-01-01T00:00:00.000Z",
+        updated_at="2021-01-01T00:00:00.000Z",
         data=flow_data,
     )
     # Then
@@ -354,6 +368,8 @@ def test_waldie_flow() -> None:
             description="Flow",
             tags=["flow"],
             requirements=["flow"],
+            created_at="2021-01-01T00:00:00.000Z",
+            updated_at="2021-01-01T00:00:00.000Z",
             data=WaldieFlowData(
                 nodes=[],
                 edges=[],
@@ -373,6 +389,8 @@ def test_waldie_flow() -> None:
             description="Flow",
             tags=["flow"],
             requirements=["flow"],
+            created_at="2021-01-01T00:00:00.000Z",
+            updated_at="2021-01-01T00:00:00.000Z",
             data=WaldieFlowData(
                 nodes=[],
                 edges=[],
@@ -393,6 +411,8 @@ def test_waldie_flow() -> None:
             description="Flow",
             tags=["flow"],
             requirements=["flow"],
+            created_at="2021-01-01T00:00:00.000Z",
+            updated_at="2021-01-01T00:00:00.000Z",
             data=WaldieFlowData(
                 nodes=[],
                 edges=[],
@@ -411,6 +431,8 @@ def test_waldie_flow() -> None:
         description="Assistant",
         tags=["assistant"],
         requirements=["assistant"],
+        created_at="2021-01-01T00:00:00.000Z",
+        updated_at="2021-01-01T00:00:00.000Z",
         data=WaldieAssistantData(
             system_message="Assistant message",
             human_input_mode="ALWAYS",
@@ -451,6 +473,8 @@ def test_waldie_flow() -> None:
             description="Flow",
             tags=["flow"],
             requirements=["flow"],
+            created_at="2021-01-01T00:00:00.000Z",
+            updated_at="2021-01-01T00:00:00.000Z",
             data=WaldieFlowData(
                 nodes=[],
                 edges=[],
@@ -496,6 +520,8 @@ def test_waldie_flow() -> None:
         description="Flow",
         tags=["flow"],
         requirements=["flow"],
+        created_at="2021-01-01T00:00:00.000Z",
+        updated_at="2021-01-01T00:00:00.000Z",
         data=WaldieFlowData(
             nodes=[],
             edges=[],

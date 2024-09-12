@@ -5,7 +5,7 @@ from typing import List
 from pydantic import Field
 from typing_extensions import Annotated, Literal
 
-from ...common import WaldieBase
+from ...common import WaldieBase, now
 from .agent_data import WaldieAgentData
 from .code_execution import WaldieAgentCodeExecutionConfig
 
@@ -31,6 +31,10 @@ class WaldieAgent(WaldieBase):
         Tags for this agent.
     requirements : List[str]
         Python requirements for the agent.
+    created_at : str
+        The date and time when the agent was created.
+    updated_at : str
+        The date and time when the agent was last updated.
     data: WaldieAgentData
         The data (properties) of this agent.
         See `waldiez.models.agents.WaldieAgentData` for more info.
@@ -87,6 +91,22 @@ class WaldieAgent(WaldieBase):
             title="Requirements",
             description="Python requirements for the agent",
             default_factory=list,
+        ),
+    ]
+    created_at: Annotated[
+        str,
+        Field(
+            title="Created at",
+            description="The date and time when the agent was created",
+            default_factory=now,
+        ),
+    ]
+    updated_at: Annotated[
+        str,
+        Field(
+            title="Updated at",
+            description="The date and time when the agent was last updated",
+            default_factory=now,
         ),
     ]
     data: Annotated[

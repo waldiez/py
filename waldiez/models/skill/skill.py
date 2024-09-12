@@ -5,7 +5,7 @@ from typing import Dict, List
 from pydantic import Field, model_validator
 from typing_extensions import Annotated, Literal, Self
 
-from ..common import WaldieBase, parse_code_string
+from ..common import WaldieBase, now, parse_code_string
 from .skill_data import WaldieSkillData
 
 
@@ -26,6 +26,10 @@ class WaldieSkill(WaldieBase):
         The tags of the skill.
     requirements : List[str]
         The requirements of the skill.
+    created_at : str
+        The date and time when the skill was created.
+    updated_at : str
+        The date and time when the skill was last updated.
     data : WaldieSkillData
         The data of the skill. See `WaldieSkillData`.
     """
@@ -71,6 +75,22 @@ class WaldieSkill(WaldieBase):
     data: Annotated[
         WaldieSkillData,
         Field(..., title="Data", description="The data of the skill."),
+    ]
+    created_at: Annotated[
+        str,
+        Field(
+            default_factory=now,
+            title="Created At",
+            description="The date and time when the skill was created.",
+        ),
+    ]
+    updated_at: Annotated[
+        str,
+        Field(
+            default_factory=now,
+            title="Updated At",
+            description="The date and time when the skill was last updated.",
+        ),
     ]
 
     @model_validator(mode="after")
