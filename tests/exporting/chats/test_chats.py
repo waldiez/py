@@ -31,6 +31,7 @@ def test_export_chats() -> None:
             source="wa-1",
             target="wa-2",
             position=1,
+            order=1,
             clear_history=False,
             message=WaldieChatMessage(
                 type="string",
@@ -55,6 +56,7 @@ def test_export_chats() -> None:
             source="wa-2",
             target="wa-1",
             position=1,
+            order=1,
             clear_history=False,
             message=WaldieChatMessage(
                 type="string",

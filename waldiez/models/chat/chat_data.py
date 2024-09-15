@@ -33,7 +33,9 @@ class WaldieChatData(WaldieBase):
     description : str
         The description of the chat.
     position : int
-        The position (order) of the chat. If negative, ignored.
+        The position of the chat. Ignored (UI related).
+    order : int
+        The of the chat. If negative, ignored.
     clear_history : Optional[bool], optional
         Whether to clear the chat history, by default None.
     message : Union[str, WaldieChatMessage]
@@ -103,9 +105,17 @@ class WaldieChatData(WaldieBase):
     position: Annotated[
         int,
         Field(
-            ...,
+            -1,
             title="Position",
-            description="The position (order) of the chat in the flow.",
+            description="The position of the chat in the flow (Ignored).",
+        ),
+    ]
+    order: Annotated[
+        int,
+        Field(
+            -1,
+            title="Order",
+            description="The order of the chat in the flow.",
         ),
     ]
     clear_history: Annotated[
