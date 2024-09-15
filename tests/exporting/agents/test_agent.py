@@ -391,6 +391,7 @@ rag_user = RetrieveUserProxyAgent(
     name="rag_user",
     description="Agent's description",
     llm_config=False,
+    system_message="Do stuff using docs.",
     human_input_mode="ALWAYS",
     max_consecutive_auto_reply=2,
     default_auto_reply="I am the RAG user.",
