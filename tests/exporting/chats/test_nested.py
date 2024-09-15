@@ -27,7 +27,8 @@ def test_get_chat_nested_string() -> None:
             description="A nested chat.",
             source="wa-1",
             target="wa-2",
-            position=1,
+            position=-1,
+            order=1,
             clear_history=False,
             message=WaldieChatMessage(
                 type="string",
@@ -234,7 +235,8 @@ agent1.register_nested_chats(
             description="A nested chat.",
             source="wa-1",
             target="wa-2",
-            position=1,
+            position=-1,
+            order=1,
             clear_history=False,
             message=WaldieChatMessage(
                 type="string",
@@ -270,7 +272,8 @@ agent1.register_nested_chats(
             description="Another nested chat.",
             source="wa-2",
             target="wa-3",
-            position=2,
+            position=-1,
+            order=2,
             clear_history=True,
             message=WaldieChatMessage(
                 type="string",
@@ -379,7 +382,8 @@ agent2.register_nested_chats(
             description="A nested chat.",
             source="wa-1",
             target="wa-2",
-            position=1,
+            position=-1,
+            order=1,
             clear_history=False,
             message=WaldieChatMessage(
                 type="string",
@@ -403,7 +407,8 @@ agent2.register_nested_chats(
             description="Another nested chat.",
             source="wa-2",
             target="wa-3",
-            position=2,
+            position=-1,
+            order=2,
             clear_history=True,
             message=WaldieChatMessage(
                 type="string",

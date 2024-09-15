@@ -14,7 +14,8 @@ def test_waldie_chat_data() -> None:
         description="Chat data",
         source="wa-1",
         target="wa-2",
-        position=0,
+        position=-1,
+        order=1,
         clear_history=False,
         message={  # type: ignore
             "type": "string",
@@ -52,7 +53,8 @@ def test_waldie_chat_data() -> None:
     assert chat_data.description == "Chat data"
     assert chat_data.source == "wa-1"
     assert chat_data.target == "wa-2"
-    assert chat_data.position == 0
+    assert chat_data.position == -1
+    assert chat_data.order == 1
     assert not chat_data.clear_history
     assert isinstance(chat_data.message, WaldieChatMessage)
     assert chat_data.message.type == "string"

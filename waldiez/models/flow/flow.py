@@ -156,15 +156,15 @@ class WaldieFlow(WaldieBase):
         self,
     ) -> List[Tuple[WaldieChat, WaldieAgent, WaldieAgent]]:
         """Get the ordered flow."""
-        # in the chats, there is the 'position' field, we use this,
-        # we only keep the ones with position >=0
-        # and sort them by their position
+        # in the chats, there is the 'order' field, we use this,
+        # we only keep the ones with order >=0
+        # and sort them by this property
         ordered_flow: List[Tuple[WaldieChat, WaldieAgent, WaldieAgent]] = []
-        sorted_chats_by_position = sorted(
-            self.data.chats, key=lambda chat: chat.data.position
+        sorted_chats_by_order = sorted(
+            self.data.chats, key=lambda chat: chat.data.order
         )
-        for chat in sorted_chats_by_position:
-            if chat.data.position < 0:
+        for chat in sorted_chats_by_order:
+            if chat.data.order < 0:
                 continue
             source = self.get_agent_by_id(chat.source)
             target = self.get_agent_by_id(chat.target)
