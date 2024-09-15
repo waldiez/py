@@ -66,6 +66,27 @@ def get_agent_imports(agent_class: str) -> Set[str]:
     return imports
 
 
+def get_system_message_arg(agent: WaldieAgent) -> str:
+    """Get the system message argument.
+
+    Parameters
+    ----------
+    agent : WaldieAgent
+        The agent.
+
+    Returns
+    -------
+    str
+        The system message argument.
+    """
+    if not agent.data.system_message:
+        return ""
+    return (
+        "\n    "
+        f'system_message="{get_escaped_string(agent.data.system_message)}",'
+    )
+
+
 # pylint: disable=too-many-locals, unused-argument
 def export_agent(
     agent: WaldieAgent,
@@ -176,7 +197,7 @@ def export_agent(
     agent_str = f"""{agent_name} = {agent_class}(
     name="{agent_name}",
     description="{agent.description}",
-    llm_config={get_agent_llm_config(agent, model_names)},
+    llm_config={get_agent_llm_config(agent, model_names)},{(get_system_message_arg(agent))}
     human_input_mode="{agent.data.human_input_mode}",
     max_consecutive_auto_reply={agent.data.max_consecutive_auto_reply},
     default_auto_reply={default_auto_reply},
