@@ -496,6 +496,7 @@ def get_flow() -> WaldieFlow:
         description="Flow Description",
         tags=["flow"],
         requirements=[],
+        storage_id="flow-1",
         created_at="2021-01-01T00:00:00.000Z",
         updated_at="2021-01-01T00:00:00.000Z",
         data=WaldieFlowData(

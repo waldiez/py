@@ -29,6 +29,8 @@ class WaldieFlow(WaldieBase):
         The tags of the flow.
     requirements : List[str]
         The requirements of the flow.
+    storage_id : str
+        The storage ID of the flow (ignored, UI related).
     created_at : str
         The date and time when the flow was created.
     updated_at : str
@@ -91,6 +93,15 @@ class WaldieFlow(WaldieBase):
             ...,
             description="The data of the flow",
             title="Data",
+        ),
+    ]
+    storage_id: Annotated[
+        str,
+        Field(
+            uuid.uuid4(),
+            description="The storage ID of the flow (ignored, UI related)",
+            title="Storage ID",
+            alias="storageId",
         ),
     ]
     created_at: Annotated[
