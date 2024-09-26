@@ -138,6 +138,62 @@ def test_waldie_model_api_key_and_price() -> None:
     assert model.api_key == os.environ.get("OPENAI_API_KEY", "")
 
 
+def test_waldie_api_key() -> None:
+    """Test WaldieModel api key from env var."""
+    current_api_key = os.environ.pop("GOOGLE_GEMINI_API_KEY", None)
+    os.environ["GOOGLE_GEMINI_API_KEY"] = "gemini_api_key"
+    # Given
+    api_type: WaldieModelAPIType = "google"
+    data = WaldieModelData(  # type: ignore
+        base_url="https://example.com",
+        api_type=api_type,
+    )
+    # When
+    model = WaldieModel(
+        id="wm-1",
+        name="model",
+        description="description",
+        data=data,
+        type="model",
+        tags=["tag1", "tag2"],
+        requirements=["requirement1", "requirement2"],
+        created_at="2021-01-01T00:00:00.000Z",
+        updated_at="2021-01-01T00:00:00.000Z",
+    )
+    # Then
+    assert model.api_key == "gemini_api_key"
+    if current_api_key is not None:
+        os.environ["GOOGLE_GEMINI_API_KEY"] = current_api_key
+    else:
+        os.environ.pop("GOOGLE_GEMINI_API_KEY", None)
+
+    current_api_key = os.environ.pop("GROQ_API_KEY", None)
+    os.environ["GROQ_API_KEY"] = "groq_api_key"
+    # Given
+    api_type = "groq"
+    data = WaldieModelData(  # type: ignore
+        api_type=api_type,
+    )
+    # When
+    model = WaldieModel(
+        id="wm-1",
+        name="model",
+        description="description",
+        data=data,
+        type="model",
+        tags=["tag1", "tag2"],
+        requirements=["requirement1", "requirement2"],
+        created_at="2021-01-01T00:00:00.000Z",
+        updated_at="2021-01-01T00:00:00.000Z",
+    )
+    # Then
+    assert model.api_key == "groq_api_key"
+    if current_api_key is not None:
+        os.environ["GROQ_API_KEY"] = current_api_key
+    else:
+        os.environ.pop("GROQ_API_KEY", None)
+
+
 def test_waldie_invalid_model() -> None:
     """Test invalid WaldieModel."""
     with pytest.raises(ValueError):

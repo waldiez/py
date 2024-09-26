@@ -13,8 +13,9 @@ WaldieModelAPIType = Literal[
     "google",
     "anthropic",
     "mistral",
-    "grog",
+    "groq",
     "together",
+    "nim",
     "other",
 ]
 
@@ -48,7 +49,7 @@ class WaldieModelData(WaldieBase):
         The base url of the model, by default None.
     api_key : Optional[str]
         The api key to use with the model, by default None.
-    api_type : Literal["openai","azure","google","anthropic","mistral","grog","together","other"]
+    api_type : Literal["openai","azure","google","anthropic","mistral","groq","together","nim","other"]
         The api type of the model.
     api_version : Optional[str]
         The api version of the model, by default None.
