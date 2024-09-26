@@ -202,6 +202,7 @@ max-try-statements=3
 [tool.pylint.design]
 max-args=10
 max-attributes=10
+max-positional-arguments=10
 [tool.pylint.string]
 check-quote-consistency = true
 check-str-concat-over-line-jumps = true
