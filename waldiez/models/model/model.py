@@ -95,10 +95,28 @@ class WaldieModel(WaldieBase):
 
     @property
     def api_key(self) -> str:
-        """Get the model's api key."""
+        """Get the model's api key.
+
+        Either from the model's data or from the environment variables:
+
+          - openai: 'OPENAI_API_KEY',
+          - azure: 'AZURE_API_KEY',
+          - google: 'GOOGLE_GEMINI_API_KEY',
+          - anthropic: 'ANTHROPIC_API_KEY',
+          - mistral: 'MISTRAL_API_KEY',
+          - groq: 'GROQ_API_KEY',
+          - together: 'TOGETHER_API_KEY',
+          - nim: 'NIM_API_KEY',
+          - other: 'OPENAI_API_KEY'
+        """
         if self.data.api_key:
             return self.data.api_key
-        api_key = os.environ.get("OPENAI_API_KEY", "")
+        env_key = "OPENAI_API_KEY"
+        if self.data.api_type == "google":
+            env_key = "GOOGLE_GEMINI_API_KEY"
+        elif self.data.api_type not in ["openai", "other"]:
+            env_key = f"{self.data.api_type.upper()}_API_KEY"
+        api_key = os.environ.get(env_key, "")
         return api_key
 
     @property
@@ -126,12 +144,13 @@ class WaldieModel(WaldieBase):
             ("temperature", float),
             ("top_p", float),
             ("api_version", str),
-            ("api_type", str),
             ("default_headers", dict),
         ]:
             value = getattr(self.data, attr)
             if value and isinstance(value, atr_type):
                 _llm_config[attr] = value
+        if self.data.api_type not in ["nim", "other"]:
+            _llm_config["api_type"] = self.data.api_type
         for attr in ["api_key", "price"]:
             value = getattr(self, attr)
             if value:
