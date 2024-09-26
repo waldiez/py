@@ -32,11 +32,31 @@ python -m pip install git+https://github.com/waldiez/py.git
 
 ## Usage
 
+### CLI
+
 ```bash
 # Export a Waldiez flow to a python script or a jupyter notebook
 waldiez --export /path/to/a/flow.waldiez --output /path/to/an/output[.py|.ipynb]
 # Export and run the script, optionally force generation if the output file already exists
 waldiez /path/to/a/flow.waldiez --output /path/to/an/output[.py] [--force]
+```
+
+### As a library
+
+```python
+
+# Export a Waldiez flow to a python script or a jupyter notebook
+from waldiez import WaldieExporter
+flow_path = "/path/to/a/flow.waldiez"
+output_path = "/path/to/an/output.py"
+exporter = WaldieExporter.load(flow_path)
+exporter.export(output_path)
+
+# Run the flow
+from waldiez import WaldieRunner
+runner = WaldieRunner.load(flow_path)
+runner.run(output_path=output_path)
+
 ```
 
 ### Tools
