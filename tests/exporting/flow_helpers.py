@@ -462,6 +462,8 @@ def get_chats(count: int = 3) -> List[WaldieChat]:
                     prompt="Summarize the chat.", args={"summary_role": "user"}
                 ),
                 nested_chat=nested_chat,
+                real_source=None,
+                real_target=None,
             ),
         )
         chats.append(chat)

@@ -23,6 +23,16 @@ def test_export_chats() -> None:
         name="agent2",
         agent_type="assistant",
     )
+    agent3 = WaldieAgent(  # type: ignore
+        id="wa-3",
+        name="agent3",
+        agent_type="assistant",
+    )
+    agent4 = WaldieAgent(  # type: ignore
+        id="wa-4",
+        name="agent4",
+        agent_type="assistant",
+    )
     chat1 = WaldieChat(
         id="wc-1",
         data=WaldieChatData(
@@ -46,6 +56,8 @@ def test_export_chats() -> None:
                 reply=None,
             ),
             silent=False,
+            real_source="wa-3",
+            real_target=None,
         ),
     )
     chat2 = WaldieChat(
@@ -71,9 +83,11 @@ def test_export_chats() -> None:
                 reply=None,
             ),
             silent=False,
+            real_source=None,
+            real_target="wa-4",
         ),
     )
-    all_agents = [agent1, agent2]
+    all_agents = [agent1, agent2, agent3, agent4]
     agent_names = {agent.id: agent.name for agent in all_agents}
     # When
     all_chats = [chat1]

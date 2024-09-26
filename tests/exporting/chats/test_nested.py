@@ -46,6 +46,8 @@ def test_get_chat_nested_string() -> None:
                     content="Hi",
                 ),
             ),
+            real_source=None,
+            real_target=None,
         ),
     )
     chat_names = {
@@ -263,6 +265,8 @@ agent1.register_nested_chats(
                     ),
                 ),
             ),
+            real_source=None,
+            real_target=None,
         ),
     )
     chat2 = WaldieChat(
@@ -300,6 +304,8 @@ agent1.register_nested_chats(
                     ),
                 ),
             ),
+            real_source=None,
+            real_target=None,
         ),
     )
     agent_names = {
@@ -374,7 +380,6 @@ agent2.register_nested_chats(
             ]
         },
     )
-    # pylint: disable=line-too-long
     chat1 = WaldieChat(
         id="wc-1",
         data=WaldieChatData(
@@ -398,6 +403,8 @@ agent2.register_nested_chats(
                 message=None,
                 reply=None,
             ),
+            real_source=None,
+            real_target=None,
         ),
     )
     chat2 = WaldieChat(
@@ -426,6 +433,8 @@ agent2.register_nested_chats(
                 ),
                 reply=None,
             ),
+            real_source=None,
+            real_target=None,
         ),
     )
     agent_names = {

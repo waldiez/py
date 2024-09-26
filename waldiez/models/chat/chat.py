@@ -65,11 +65,15 @@ class WaldieChat(WaldieBase):
     @property
     def source(self) -> str:
         """Get the source."""
+        if self.data.real_source:
+            return self.data.real_source
         return self.data.source
 
     @property
     def target(self) -> str:
         """Get the target."""
+        if self.data.real_target:
+            return self.data.real_target
         return self.data.target
 
     @property
