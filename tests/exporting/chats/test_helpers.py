@@ -53,6 +53,8 @@ def test_export_empty_single_chat_string() -> None:
                 ),
                 reply=None,
             ),
+            real_source=None,
+            real_target=None,
         ),
     )
     chat_names = {"wc-1": "chat1"}
@@ -116,6 +118,8 @@ def test_export_single_chat_string() -> None:
                 ),
                 reply=None,
             ),
+            real_source=None,
+            real_target=None,
         ),
     )
     chat_names = {"wc-1": "chat1"}
@@ -168,6 +172,8 @@ def test_export_single_chat_string() -> None:
                 message=None,
                 reply=None,
             ),
+            real_source=None,
+            real_target=None,
         ),
     )
     chat_names = {"wc-2": "chat2"}
@@ -219,6 +225,8 @@ def test_export_single_chat_string() -> None:
                 message=None,
                 reply=None,
             ),
+            real_source=None,
+            real_target=None,
         ),
     )
     chat_names = {"wc-3": "chat3"}
@@ -302,6 +310,8 @@ def test_export_multiple_chats_string() -> None:
                 ),
                 reply=None,
             ),
+            real_source=None,
+            real_target=None,
         ),
     )
     chat2 = WaldieChat(
@@ -330,6 +340,8 @@ def test_export_multiple_chats_string() -> None:
                 ),
                 reply=None,
             ),
+            real_source=None,
+            real_target=None,
         ),
     )
     chat3 = WaldieChat(
@@ -358,6 +370,8 @@ def test_export_multiple_chats_string() -> None:
                 ),
                 reply=None,
             ),
+            real_source=None,
+            real_target=None,
         ),
     )
     chat_names = {"wc-1": "chat1", "wc-2": "chat2", "wc-3": "chat3"}

@@ -48,3 +48,41 @@ def test_waldie_chat() -> None:
         "alternative_solution": 42,
         "not_a_solution": None,
     }
+
+    # Given
+    chat = WaldieChat(
+        id="wc-1",
+        data=WaldieChatData(  # type: ignore
+            name="chat_data",
+            description="Chat data",
+            source="wa-1",
+            target="wa-2",
+            real_source="wa-3",
+            real_target=None,
+        ),
+    )
+    # Then
+    assert chat.id == "wc-1"
+    assert chat.data.source == "wa-1"
+    assert chat.source == "wa-3"
+    assert chat.target == "wa-2"
+
+    # Given
+    chat = WaldieChat(
+        id="wc-1",
+        data=WaldieChatData(  # type: ignore
+            name="chat_data",
+            description="Chat data",
+            source="wa-1",
+            target="wa-2",
+            real_source=None,
+            real_target="wa-4",
+        ),
+    )
+    # Then
+    assert chat.id == "wc-1"
+    assert chat.data.source == "wa-1"
+    assert chat.source == "wa-1"
+    assert chat.target == "wa-4"
+    assert chat.data.target == "wa-2"
+    assert chat.data.real_target == "wa-4"

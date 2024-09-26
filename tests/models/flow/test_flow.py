@@ -248,6 +248,8 @@ def test_waldie_flow() -> None:
                 nested_chat=WaldieChatNested(message=None, reply=None),
                 llm_summary_method_options=None,
                 silent=False,
+                real_source=None,
+                real_target=None,
             ),
         ),
         WaldieChat(
@@ -267,6 +269,8 @@ def test_waldie_flow() -> None:
                 nested_chat=WaldieChatNested(message=None, reply=None),
                 llm_summary_method_options=None,
                 silent=False,
+                real_source=None,
+                real_target=None,
             ),
         ),
         WaldieChat(
@@ -286,6 +290,8 @@ def test_waldie_flow() -> None:
                 nested_chat=WaldieChatNested(message=None, reply=None),
                 llm_summary_method_options=None,
                 silent=False,
+                real_source=None,
+                real_target=None,
             ),
         ),
     ]
@@ -519,6 +525,8 @@ def test_waldie_flow() -> None:
                 nested_chat=WaldieChatNested(message=None, reply=None),
                 llm_summary_method_options=None,
                 silent=False,
+                real_source=None,
+                real_target=None,
             ),
         ),
     ]

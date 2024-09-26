@@ -55,6 +55,10 @@ class WaldieChatData(WaldieBase):
         Whether to run the chat silently, by default None (ignored).
     summary_args : Optional[Dict[str, Any]]
         The summary args to use in autogen.
+    real_source : Optional[str]
+        The real source of the chat (overrides the source).
+    real_target : Optional[str]
+        The real target of the chat (overrides the target).
 
     Functions
     ---------
@@ -186,6 +190,24 @@ class WaldieChatData(WaldieBase):
             None,
             title="Silent",
             description="Whether to run the chat silently.",
+        ),
+    ]
+    real_source: Annotated[
+        Optional[str],
+        Field(
+            None,
+            alias="realSource",
+            title="Real Source",
+            description="The real source of the chat (overrides the source).",
+        ),
+    ]
+    real_target: Annotated[
+        Optional[str],
+        Field(
+            None,
+            alias="realTarget",
+            title="Real Target",
+            description="The real target of the chat (overrides the target).",
         ),
     ]
 
