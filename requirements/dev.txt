@@ -26,7 +26,7 @@ pylint==3.3.1
     # via waldiez (pyproject.toml)
 python-dotenv==1.0.1
     # via waldiez (pyproject.toml)
-ruff==0.6.7
+ruff==0.6.8
     # via waldiez (pyproject.toml)
 twisted==24.7.0
     # via waldiez (pyproject.toml)

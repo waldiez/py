@@ -12,7 +12,7 @@ mkdocs-jupyter==0.25.0
     # via waldiez (pyproject.toml)
 mkdocs-macros-plugin==1.2.0
     # via waldiez (pyproject.toml)
-mkdocs-material==9.5.37
+mkdocs-material==9.5.38
     # via waldiez (pyproject.toml)
 mkdocs-minify-html-plugin==0.2.3
     # via waldiez (pyproject.toml)
