@@ -31,7 +31,7 @@ def test_export_models() -> None:
     )
     model_names = {"wm-1": "llama3_1"}
     # When
-    result = export_models([model1], model_names, True)
+    result, _ = export_models([model1], model_names, True)
     # Then
     expected = """
 # ## Models
@@ -54,15 +54,15 @@ llama3_1 = {
     # Given
     model2 = WaldieModel(
         id="wm-2",
-        name="llama3.2",
+        name="groq_model",
         type="model",
-        description="A model for llamas :P.",
-        tags=["llama", "llama3.2"],
+        description="A groq model.",
+        tags=["groq"],
         requirements=[],
         data=WaldieModelData(
             base_url="https://example.com/v2",
             api_key="1234567890",
-            api_type="openai",
+            api_type="groq",
             api_version=None,
             temperature=0.5,
             top_p=None,
@@ -74,9 +74,9 @@ llama3_1 = {
             },
         ),
     )
-    model_names = {"wm-1": "llama3_1", "wm-2": "llama3_2"}
+    model_names = {"wm-1": "llama3_1", "wm-2": "groq_model"}
     # When
-    result = export_models([model1, model2], model_names, True)
+    result, model_import = export_models([model1, model2], model_names, True)
     # Then
     expected = """
 # ## Models
@@ -92,12 +92,11 @@ llama3_1 = {
         0.0002
     ]
 }
-
-llama3_2 = {
-    "model": "llama3.2",
+groq_model = {
+    "model": "groq_model",
     "base_url": "https://example.com/v2",
     "temperature": 0.5,
-    "api_type": "openai",
+    "api_type": "groq",
     "api_key": "1234567890",
     "price": [
         0.0001,
@@ -105,3 +104,5 @@ llama3_2 = {
     ]
 }
 """
+    assert result == expected
+    assert model_import == {"pyautogen[groq]"}

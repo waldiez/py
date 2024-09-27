@@ -6,7 +6,7 @@ export_models
     Get the string representations of the LLM configs.
 """
 
-from typing import Dict, List
+from typing import Dict, List, Set, Tuple
 
 from waldiez.models import WaldieModel
 
@@ -17,7 +17,7 @@ def export_models(
     all_models: List[WaldieModel],
     model_names: Dict[str, str],
     notebook: bool,
-) -> str:
+) -> Tuple[str, Set[str]]:
     """Get the string representations of the LLM configs.
 
     Parameters
@@ -31,8 +31,9 @@ def export_models(
 
     Returns
     -------
-    str
-        The string representation of the LLM configs.
+    Tuple[str, Set[str]]
+        The string representation of the models and the set of additional
+        imports required.
 
     Example
     -------
@@ -67,17 +68,36 @@ def export_models(
         "temperature": 0.5,
         "price": [0.0001, 0.0002],
     }
+    {}
     ```
     """
+    # ref: https://github.com/microsoft/autogen/blob/main/setup.py
+    models_with_additional_imports = [
+        "together",
+        "gemini",
+        "mistral",
+        "groq",
+        "anthropic",
+        "cohere",
+        "bedrock",
+    ]
     content = get_comment("models", notebook) + "\n"
+    additional_imports: Set[str] = set()
     if len(all_models) == 1:
-        model_name = model_names[all_models[0].id]
-        model_dict_str = get_object_string(all_models[0].llm_config, tabs=0)
+        only_model = all_models[0]
+        model_name = model_names[only_model.id]
+        model_dict_str = get_object_string(only_model.llm_config, tabs=0)
         content += f"{model_name} = {model_dict_str}\n"
-        return content
+        api_type = only_model.llm_config.get("api_type", "openai")
+        if api_type in models_with_additional_imports:
+            additional_imports.add(f"autogen[{api_type}]")
+        return content, additional_imports
     for model in all_models:
         model_name = model_names[model.id]
         content += (
             f"{model_name} = {get_object_string(model.llm_config, tabs=0)}\n"
         )
-    return content
+        api_type = model.llm_config.get("api_type", "openai")
+        if api_type in models_with_additional_imports:
+            additional_imports.add(f"pyautogen[{api_type}]")
+    return content, additional_imports
