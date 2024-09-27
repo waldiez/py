@@ -123,7 +123,11 @@ def get_sqlite_to_csv_string() -> str:
     content += '    """\n'
     content += "    conn = sqlite3.connect(dbname)\n"
     content += '    query = f"SELECT * FROM {table}"  # nosec\n'
-    content += "    cursor = conn.execute(query)\n"
+    content += "    try:\n"
+    content += "        cursor = conn.execute(query)\n"
+    content += "    except sqlite3.OperationalError:\n"
+    content += "        conn.close()\n"
+    content += "        return\n"
     content += "    rows = cursor.fetchall()\n"
     content += "    column_names = [description[0] for description "
     content += "in cursor.description]\n"
