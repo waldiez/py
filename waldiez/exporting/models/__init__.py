@@ -90,7 +90,7 @@ def export_models(
         content += f"{model_name} = {model_dict_str}\n"
         api_type = only_model.llm_config.get("api_type", "openai")
         if api_type in models_with_additional_imports:
-            additional_imports.add(f"autogen[{api_type}]")
+            additional_imports.add(f"pyautogen[{api_type}]")
         return content, additional_imports
     for model in all_models:
         model_name = model_names[model.id]

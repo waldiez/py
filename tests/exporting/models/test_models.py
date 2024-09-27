@@ -52,6 +52,51 @@ llama3_1 = {
     assert result == expected
 
     # Given
+    model = WaldieModel(
+        id="wm-1",
+        name="anthropic_model",
+        type="model",
+        description="An anthropic model.",
+        tags=[],
+        requirements=[],
+        data=WaldieModelData(
+            base_url="https://example.com/v1",
+            api_key="1234567890",
+            api_type="anthropic",
+            api_version=None,
+            temperature=0.5,
+            top_p=None,
+            max_tokens=None,
+            default_headers={},
+            price={  # type: ignore
+                "prompt_price_per_1k": 0.0001,
+                "completion_token_price_per_1k": 0.0002,
+            },
+        ),
+    )
+    model_names = {"wm-1": "anthropic_model"}
+    # When
+    result, extra_import = export_models([model], model_names, True)
+    # Then
+    expected_str = """
+# ## Models
+
+anthropic_model = {
+    "model": "anthropic_model",
+    "base_url": "https://example.com/v1",
+    "temperature": 0.5,
+    "api_type": "anthropic",
+    "api_key": "1234567890",
+    "price": [
+        0.0001,
+        0.0002
+    ]
+}
+"""
+    assert result == expected_str
+    assert extra_import == {"pyautogen[anthropic]"}
+
+    # Given
     model2 = WaldieModel(
         id="wm-2",
         name="groq_model",
