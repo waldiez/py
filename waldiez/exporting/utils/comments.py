@@ -87,7 +87,7 @@ def get_comment(
     '# Skills'
     ```
     """
-    # mostly to make the caller a tiny bit more readable
+    # pylint: disable=too-many-return-statements
     if key == "agents":
         return "\n" + comment(for_notebook, 2) + "Agents\n"
     if key == "skills":
