@@ -14,11 +14,22 @@ class WaldieRagUserData(WaldieUserProxyData):
 
     Attributes
     ----------
+    use_message_generator: bool
+        Whether to use the message generator in user's chats. Defaults to False.
     retrieve_config : WaldieRagUserRetrieveConfig
         The RAG user agent's retrieve config.
 
     """
 
+    use_message_generator: Annotated[
+        bool,
+        Field(
+            title="Use Message Generator",
+            description="Whether to use the message generator in user's chats.",
+            default=False,
+            alias="useMessageGenerator",
+        ),
+    ]
     retrieve_config: Annotated[
         WaldieRagUserRetrieveConfig,
         Field(

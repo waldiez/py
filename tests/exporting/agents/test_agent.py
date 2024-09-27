@@ -285,6 +285,7 @@ def test_export_rag_user() -> None:
         data=WaldieRagUserData(
             agent_default_auto_reply="I am the RAG user.",
             human_input_mode="ALWAYS",
+            use_message_generator=False,
             system_message="Do stuff using docs.",
             max_tokens=100,
             max_consecutive_auto_reply=2,
