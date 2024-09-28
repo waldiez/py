@@ -13,6 +13,10 @@ get_sqlite_to_csv_call_string
 """
 
 
+# Check issue:
+# https://github.com/microsoft/autogen/issues/2286
+# we cannot log new agents if they have code_execution enabled
+# we get `Path` is not JSON serializable (on code_executor)
 # pylint: disable=inconsistent-quotes
 def get_logging_start_string(tabs: int = 0) -> str:
     """Get the logging start string.

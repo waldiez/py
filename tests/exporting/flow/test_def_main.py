@@ -9,6 +9,10 @@ def test_get_def_main() -> None:
     expected = """def main():
     # type: () -> Union[ChatResult, List[ChatResult]]
     \"\"\"Start chatting.\"\"\"
+    runtime_logging.start(
+        logger_type="sqlite",
+        config={"dbname": "flow.db"},
+    )
     results = waldie_chats
     runtime_logging.stop()
 

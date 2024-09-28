@@ -1,6 +1,10 @@
 """Get the main function (if exporting to python)."""
 
-from ..utils import get_logging_stop_string, get_sqlite_to_csv_call_string
+from ..utils import (
+    get_logging_start_string,
+    get_logging_stop_string,
+    get_sqlite_to_csv_call_string,
+)
 
 
 def get_def_main(waldie_chats: str) -> str:
@@ -25,6 +29,7 @@ def get_def_main(waldie_chats: str) -> str:
     # type: () -> Union[ChatResult, List[ChatResult]]
     \"\"\"Start chatting.\"\"\"
 """
+    content += get_logging_start_string(1)
     content += f"    results = {waldie_chats}" + "\n"
     content += get_logging_stop_string(1) + "\n"
     content += get_sqlite_to_csv_call_string(1) + "\n"

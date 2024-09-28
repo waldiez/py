@@ -149,8 +149,8 @@ def _combine_strings(
 ) -> str:
     content = get_pylint_ignore_comment(notebook)
     content += imports_string
-    content += get_comment("logging", notebook) + "\n"
-    content += get_logging_start_string(tabs=0) + "\n\n"
+    # content += get_comment("logging", notebook) + "\n"
+    # content += get_logging_start_string(tabs=0) + "\n\n"
     content += models_string
     content += get_comment("agents", notebook) + "\n"
     content += agents_string
@@ -172,6 +172,7 @@ def _combine_strings(
     if not notebook:
         content += get_def_main(chats_content)
     else:
+        content += get_logging_start_string(tabs=0)
         content += "\n" + chats_content + "\n"
         content += get_logging_stop_string(tabs=0) + "\n"
         content += get_sqlite_to_csv_call_string(tabs=0) + "\n"
