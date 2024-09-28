@@ -113,12 +113,11 @@ def export_flow(
         if agent_nested_chats_string:
             nested_chats_strings += "\n" + agent_nested_chats_string
     agent_strings += skipped_agent_strings
-    models_string, model_imports = export_models(
+    models_string = export_models(
         all_models=all_models,
         model_names=model_names,
         notebook=notebook,
     )
-    other_imports.update(model_imports)
     all_imports_string = get_imports_string(
         imports=other_imports,
         builtin_imports=builtin_imports,

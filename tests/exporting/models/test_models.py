@@ -31,7 +31,7 @@ def test_export_models() -> None:
     )
     model_names = {"wm-1": "llama3_1"}
     # When
-    result, _ = export_models([model1], model_names, True)
+    result = export_models([model1], model_names, True)
     # Then
     expected = """
 # ## Models
@@ -76,7 +76,7 @@ llama3_1 = {
     )
     model_names = {"wm-1": "anthropic_model"}
     # When
-    result, extra_import = export_models([model], model_names, True)
+    result = export_models([model], model_names, True)
     # Then
     expected_str = """
 # ## Models
@@ -94,7 +94,6 @@ anthropic_model = {
 }
 """
     assert result == expected_str
-    assert extra_import == {"pyautogen[anthropic]"}
 
     # Given
     model2 = WaldieModel(
@@ -121,7 +120,7 @@ anthropic_model = {
     )
     model_names = {"wm-1": "llama3_1", "wm-2": "groq_model"}
     # When
-    result, model_import = export_models([model1, model2], model_names, True)
+    result = export_models([model1, model2], model_names, True)
     # Then
     expected = """
 # ## Models
@@ -150,4 +149,3 @@ groq_model = {
 }
 """
     assert result == expected
-    assert model_import == {"pyautogen[groq]"}

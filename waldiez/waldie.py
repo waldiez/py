@@ -202,13 +202,26 @@ class Waldie:
     @property
     def requirements(self) -> List[str]:
         """Get the flow requirements."""
-        requirements = self.flow.requirements
+        requirements = set(self.flow.requirements)
         if (
             self.has_rag_agents
             and "pyautogen[retrievechat]" not in requirements
         ):
-            requirements.append("pyautogen[retrievechat]")
-        return requirements
+            requirements.add("pyautogen[retrievechat]")
+        # ref: https://github.com/microsoft/autogen/blob/main/setup.py
+        models_with_additional_requirements = [
+            "together",
+            "gemini",
+            "mistral",
+            "groq",
+            "anthropic",
+            "cohere",
+            "bedrock",
+        ]
+        for model in self.models:
+            if model.data.api_type in models_with_additional_requirements:
+                requirements.add(f"pyautogen[{model.data.api_type}]")
+        return list(requirements)
 
     def get_flow_env_vars(self) -> List[Tuple[str, str]]:
         """Get the flow environment variables.
