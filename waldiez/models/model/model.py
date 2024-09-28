@@ -133,9 +133,19 @@ class WaldieModel(WaldieBase):
             ]
         return None
 
-    @property
-    def llm_config(self) -> Dict[str, Any]:
-        """Get the model's llm config to be used as an autogen argument."""
+    def get_llm_config(self, skip_price: bool = False) -> Dict[str, Any]:
+        """Get the model's llm config.
+
+        Parameters
+        ----------
+        skip_price : bool, optional
+            Whether to skip the price, by default False
+
+        Returns
+        -------
+        Dict[str, Any]
+            The model's llm config dictionary.
+        """
         _llm_config: Dict[str, Any] = {}
         _llm_config["model"] = self.name
         for attr, atr_type in [
@@ -151,7 +161,8 @@ class WaldieModel(WaldieBase):
                 _llm_config[attr] = value
         if self.data.api_type not in ["nim", "other"]:
             _llm_config["api_type"] = self.data.api_type
-        for attr in ["api_key", "price"]:
+        other_attrs = ["api_key"] if skip_price else ["api_key", "price"]
+        for attr in other_attrs:
             value = getattr(self, attr)
             if value:
                 _llm_config[attr] = value

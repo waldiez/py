@@ -86,18 +86,18 @@ def export_models(
     if len(all_models) == 1:
         only_model = all_models[0]
         model_name = model_names[only_model.id]
-        model_dict_str = get_object_string(only_model.llm_config, tabs=0)
+        llm_config = only_model.get_llm_config()
+        model_dict_str = get_object_string(llm_config, tabs=0)
         content += f"{model_name} = {model_dict_str}\n"
-        api_type = only_model.llm_config.get("api_type", "openai")
+        api_type = llm_config.get("api_type", "openai")
         if api_type in models_with_additional_imports:
             additional_imports.add(f"pyautogen[{api_type}]")
         return content, additional_imports
     for model in all_models:
         model_name = model_names[model.id]
-        content += (
-            f"{model_name} = {get_object_string(model.llm_config, tabs=0)}\n"
-        )
-        api_type = model.llm_config.get("api_type", "openai")
+        llm_config = model.get_llm_config()
+        content += f"{model_name} = {get_object_string(llm_config, tabs=0)}\n"
+        api_type = llm_config.get("api_type", "openai")
         if api_type in models_with_additional_imports:
             additional_imports.add(f"pyautogen[{api_type}]")
     return content, additional_imports
