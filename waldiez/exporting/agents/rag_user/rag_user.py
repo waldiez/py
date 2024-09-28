@@ -116,9 +116,14 @@ def _get_model_arg(
 ) -> str:  # pragma: no cover
     agent_models = agent.data.model_ids
     if agent_models:
-        return f"{model_names[agent_models[0]]}"
+        first_model = agent_models[0]
+        first_model_name = model_names[first_model]
+        new_model_name = f"{first_model_name}"
+        return f"{new_model_name}"
     if retrieve_config.model in model_names:
-        return f"{model_names[retrieve_config.model]}"
+        selected_model = model_names[retrieve_config.model]
+        new_model_name = f"{selected_model}"
+        return f"{new_model_name}"
     return WaldieRagUserModels[retrieve_config.vector_db]
 
 
@@ -127,9 +132,10 @@ def _get_args_dict(
     retrieve_config: WaldieRagUserRetrieveConfig,
     model_names: Dict[str, str],
 ) -> Dict[str, str]:
+    model_arg = _get_model_arg(agent, retrieve_config, model_names)
     args_dict = {
         "task": retrieve_config.task,
-        "model": _get_model_arg(agent, retrieve_config, model_names),
+        "model": model_arg,
     }
     optional_args = [
         "chunk_token_size",

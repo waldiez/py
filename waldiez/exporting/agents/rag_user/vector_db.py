@@ -74,12 +74,13 @@ def get_rag_user_vector_db_string(
     ef_body: str = ""
     db_imports: Set[str] = set()
     kwarg_string = ""
+    content_before = ""
     vdb_class = "ChromaVectorDB"
     if agent.retrieve_config.vector_db == "chroma":
         imports.add(
             "from autogen.agentchat.contrib.vectordb.chromadb import ChromaVectorDB"
         )
-        kwarg_string, db_imports, ef_body = get_chroma_db_args(
+        kwarg_string, db_imports, ef_body, content_before = get_chroma_db_args(
             agent, agent_name
         )
     if agent.retrieve_config.vector_db == "qdrant":
@@ -106,6 +107,8 @@ def get_rag_user_vector_db_string(
         kwarg_string, db_imports, ef_body = get_pgvector_db_args(
             agent, agent_name
         )
+    if content_before:
+        before += f"\n{content_before}"
     if ef_body:
         before += f"\n{ef_body}\n"
     if db_imports:

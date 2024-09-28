@@ -75,7 +75,7 @@ def _get_chroma_embedding_function_string(
 
 def get_chroma_db_args(
     agent: WaldieRagUser, agent_name: str
-) -> Tuple[str, Set[str], str]:
+) -> Tuple[str, Set[str], str, str]:
     """Get the 'kwargs to use for ChromaVectorDB.
 
     Parameters
@@ -88,7 +88,11 @@ def get_chroma_db_args(
     Returns
     -------
     Tuple[str, Set[str], str]
-        The 'kwargs' string, the imports and the custom embedding function.
+
+        - The 'kwargs' string.
+        - What to import.
+        - The custom embedding function.
+        - Any additional content to be used before the `kwargs` string.
     """
     client_str, to_import_client = _get_chroma_client_string(agent)
     embedding_function_arg, to_import_embedding, embedding_function_body = (
@@ -97,9 +101,34 @@ def get_chroma_db_args(
     to_import = {to_import_client}
     if to_import_embedding:
         to_import.add(to_import_embedding)
-    # kwargs: Dict[str, str] = {
     kwarg_string = (
         f"            client={client_str},\n"
         f"            embedding_function={embedding_function_arg},\n"
     )
-    return kwarg_string, to_import, embedding_function_body
+    # The RAG example:
+    # https://microsoft.github.io/autogen/docs/\
+    #                                       notebooks/agentchat_groupchat_RAG
+    # raises `InvalidCollectionException`: Collection groupchat does not exist.
+    # https://github.com/chroma-core/chroma/issues/861
+    # https://github.com/microsoft/autogen/issues/3551#issuecomment-2366930994
+    # manually initializing the collection before running the flow,
+    # might be a workaround.
+    content_before = ""
+    collection_name = agent.retrieve_config.collection_name
+    get_or_create = agent.retrieve_config.get_or_create
+    if collection_name:
+        content_before = f"{agent_name}_client = {client_str}\n"
+        if get_or_create:
+            content_before += (
+                f"{agent_name}_client.get_or_create_collection("
+                f'"{collection_name}")\n'
+            )
+        else:
+            content_before += (
+                "try:\n"
+                f'    {agent_name}_client.get_collection("{collection_name}")\n'
+                "except ValueError:\n"
+                f"    {agent_name}_client.create_collection("
+                f'"{collection_name}")\n'
+            )
+    return kwarg_string, to_import, embedding_function_body, content_before
