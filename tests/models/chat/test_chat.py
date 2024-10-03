@@ -1,5 +1,6 @@
 """Test waldiez.models.chat.chat.*."""
 
+from waldiez.models.agents.rag_user import WaldieRagUser
 from waldiez.models.chat.chat import WaldieChat
 from waldiez.models.chat.chat_data import WaldieChatData
 from waldiez.models.chat.chat_nested import WaldieChatNested
@@ -88,3 +89,45 @@ def test_waldie_chat() -> None:
     assert chat.target == "wa-4"
     assert chat.data.target == "wa-2"
     assert chat.data.real_target == "wa-4"
+
+
+def test_waldie_chat_with_rag_user() -> None:
+    """Test WaldieChat with RAG user as a source."""
+    agent = WaldieRagUser(
+        id="wa-1",
+        type="agent",
+        agent_type="rag_user",
+        name="rag_user",
+        description="RAG user",
+        tags=["rag_user"],
+        requirements=[],
+        created_at="2021-01-01T00:00:00Z",
+        updated_at="2021-01-01T00:00:00Z",
+        data={  # type: ignore
+            "retrieve_config": {
+                "n_results": 5,
+            }
+        },
+    )
+    # Given
+    chat = WaldieChat(
+        id="wc-1",
+        data=WaldieChatData(  # type: ignore
+            name="chat_data",
+            description="Chat data",
+            source="wa-1",
+            target="wa-2",
+            message={  # type: ignore
+                "type": "rag_message_generator",
+                "content": None,
+                "context": {
+                    "problem": "Solve this task",
+                },
+            },
+        ),
+    )
+    # When
+    chat_args = chat.get_chat_args(sender=agent)
+    # Then
+    assert chat_args["n_results"] == 5
+    assert chat_args["problem"] == "Solve this task"

@@ -21,15 +21,6 @@ class WaldieRagUserData(WaldieUserProxyData):
 
     """
 
-    use_message_generator: Annotated[
-        bool,
-        Field(
-            title="Use Message Generator",
-            description="Whether to use the message generator in user's chats.",
-            default=False,
-            alias="useMessageGenerator",
-        ),
-    ]
     retrieve_config: Annotated[
         WaldieRagUserRetrieveConfig,
         Field(

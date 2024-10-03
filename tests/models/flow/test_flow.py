@@ -166,7 +166,6 @@ def test_waldie_flow() -> None:
         updated_at="2021-01-01T00:00:00.000Z",
         data=WaldieRagUserData(
             system_message="Rag user message",
-            use_message_generator=False,
             human_input_mode="ALWAYS",
             max_tokens=100,
             max_consecutive_auto_reply=1,

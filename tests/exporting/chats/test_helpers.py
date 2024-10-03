@@ -456,10 +456,12 @@ def test_chat_with_rag_user() -> None:
     # Given
     agent1 = WaldieRagUser(  # type: ignore
         id="wa-1",
-        name="agent1",
+        name="agentA",
         agent_type="rag_user",
         data={  # type: ignore
-            "use_message_generator": True,
+            "retrieve_config": {
+                "n_results": "5",
+            }
         },
     )
     agent2 = WaldieAgent(  # type: ignore
@@ -480,9 +482,9 @@ def test_chat_with_rag_user() -> None:
             silent=False,
             max_turns=5,
             message=WaldieChatMessage(
-                type="string",
+                type="rag_message_generator",
                 content="Hello, wa-2!",
-                context={},
+                context={"problem": "Solve this problem."},
             ),
             summary=WaldieChatSummary(
                 method="reflection_with_llm",
@@ -522,6 +524,8 @@ def test_chat_with_rag_user() -> None:
     max_turns=5,
     clear_history=False,
     silent=False,
+    problem="Solve this problem.",
+    n_results=5,
     message=agent1.message_generator,
 )"""
     assert result == expected

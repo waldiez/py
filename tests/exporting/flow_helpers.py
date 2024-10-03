@@ -349,7 +349,6 @@ def get_rag_user(agent_id: str = "wa-4") -> WaldieRagUser:
         agent_type="rag_user",
         data=WaldieRagUserData(
             system_message=None,
-            use_message_generator=True,
             human_input_mode="ALWAYS",
             max_tokens=100,
             code_execution_config=False,

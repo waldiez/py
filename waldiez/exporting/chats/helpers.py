@@ -75,7 +75,7 @@ def export_single_chat_string(
     """
     tab = "    " * tabs
     chat, sender, recipient = flow
-    chat_args = chat.get_chat_args()
+    chat_args = chat.get_chat_args(sender=sender)
     if not chat_args:
         return _get_empty_simple_chat_string(
             tab,
@@ -262,7 +262,7 @@ def _get_chat_dict_string(
         The chat dictionary string and additional methods string if any.
     """
     tab = "    " * tabs
-    chat_args = chat.get_chat_args()
+    chat_args = chat.get_chat_args(sender=sender)
     chat_string = "{"
     chat_string += "\n" + f'{tab}    "sender": {agent_names[sender.id]},'
     chat_string += "\n" + f'{tab}    "recipient": {agent_names[recipient.id]},'
@@ -326,11 +326,13 @@ def _get_chat_message(
 ) -> Tuple[str, str]:
     additional_methods_string = ""
     method_content: Optional[str] = None
-    if sender.agent_type == "rag_user" and isinstance(sender, WaldieRagUser):
-        sender_data = sender.data
-        if sender_data.use_message_generator:
-            message = f"{sender_name}.message_generator"
-            return f"\n{tab}    message={message},", additional_methods_string
+    if (
+        sender.agent_type == "rag_user"
+        and isinstance(sender, WaldieRagUser)
+        and chat.message.type == "rag_message_generator"
+    ):
+        message = f"{sender_name}.message_generator"
+        return f"\n{tab}    message={message},", additional_methods_string
     message, method_content = _get_chat_message_string(
         chat=chat,
         chat_names=chat_names,
