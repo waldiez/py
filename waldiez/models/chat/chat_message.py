@@ -35,7 +35,9 @@ class WaldieChatMessage(WaldieBase):
         Field(
             "none",
             title="Type",
-            description="The type of the message: string, method, or none.",
+            description=(
+                "The type of the message: string, method, last_carryover, or none."
+            ),
         ),
     ]
     content: Annotated[
