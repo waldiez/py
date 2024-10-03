@@ -19,7 +19,7 @@ import shutil
 import subprocess
 import sys
 from pathlib import Path
-from typing import Dict, List, Union
+from typing import Dict, List, Optional, Union
 
 from .exporting import comment, export_flow, get_valid_instance_name
 from .models import WaldieAgent, WaldieChat, WaldieModel, WaldieSkill
@@ -261,7 +261,7 @@ class WaldieExporter:
 
 def run_command(
     cmd: List[str],
-    cwd: Path | None = None,
+    cwd: Optional[Path] = None,
     allow_error: bool = True,
     silent: bool = False,
 ) -> None:
