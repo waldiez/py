@@ -1,6 +1,6 @@
 """Test waldiez.models.chat.chat_message.*."""
 
-from typing import Dict
+from typing import Any, Dict, Optional, Union
 
 import pytest
 from typing_extensions import Literal
@@ -17,6 +17,7 @@ def test_waldie_chat_message() -> None:
     message = WaldieChatMessage(
         type="string",
         content="Hello there",
+        context={},
     )
     # Then
     assert message.type == "string"
@@ -26,6 +27,7 @@ def test_waldie_chat_message() -> None:
     message = WaldieChatMessage(
         type="method",
         content="Hello there",
+        context={},
     )
     # Then
     assert message.type == "method"
@@ -35,6 +37,7 @@ def test_waldie_chat_message() -> None:
     message = WaldieChatMessage(
         type="none",
         content=None,
+        context={},
     )
     # Then
     assert message.type == "none"
@@ -48,7 +51,10 @@ def test_validate_message_dict() -> None:
 def nested_chat_message(recipient, messages, sender, config):
     return "Hello there"
 """
-    message_dict: Dict[Literal["type", "content"], str | None] = {
+    message_dict: Dict[
+        Literal["type", "content", "context"],
+        Union[Optional[str], Optional[Dict[str, Any]]],
+    ] = {
         "type": "string",
         "content": message_content,
     }

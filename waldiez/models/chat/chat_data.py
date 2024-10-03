@@ -40,8 +40,6 @@ class WaldieChatData(WaldieBase):
         Whether to clear the chat history, by default None.
     message : Union[str, WaldieChatMessage]
         The message of the chat.
-    message_context: Dict[str, str]
-        Additional context to be sent with the message.
     nested_chat : WaldieChatNested
         The nested chat config.
     summary_method : Optional[WaldieChatSummaryMethod], optional
@@ -137,15 +135,6 @@ class WaldieChatData(WaldieBase):
             title="Message",
             description="The message of the chat.",
             default_factory=WaldieChatMessage,
-        ),
-    ]
-    message_context: Annotated[
-        Dict[str, Any],
-        Field(
-            alias="messageContext",
-            title="Message context",
-            description="Additional context to be sent with the message.",
-            default_factory=dict,
         ),
     ]
     nested_chat: Annotated[
@@ -268,26 +257,30 @@ class WaldieChatData(WaldieBase):
             If the validation fails.
         """
         if not value:
-            return WaldieChatMessage(type="none", content=None)
+            return WaldieChatMessage(type="none", content=None, context={})
         if isinstance(value, str):
-            return WaldieChatMessage(type="string", content=value)
+            return WaldieChatMessage(type="string", content=value, context={})
         if isinstance(value, dict):
             message = validate_message_dict(
                 value, function_name="callable_message"
             )
+            context = value.get("context", {})
             return WaldieChatMessage(
-                type=message.type, content=value.get("content")
+                type=message.type, content=value.get("content"), context=context
             )
         if isinstance(value, WaldieChatMessage):
             message = validate_message_dict(
                 value={
                     "type": value.type,
                     "content": value.content,
+                    "context": value.context,
                 },
                 function_name="callable_message",
             )
-            return WaldieChatMessage(type=message.type, content=value.content)
-        return WaldieChatMessage(type="none", content=None)
+            return WaldieChatMessage(
+                type=message.type, content=value.content, context=value.context
+            )
+        return WaldieChatMessage(type="none", content=None, context={})
 
     @field_validator("summary_method", mode="before")
     @classmethod
@@ -367,18 +360,19 @@ class WaldieChatData(WaldieBase):
             The dictionary to use for generating the kwargs.
         """
         extra_args: Dict[str, Any] = {}
-        for key, value in self.message_context.items():
-            if str(value).lower() in ("none", "null"):
-                extra_args[key] = None
-            elif str(value).isdigit():
-                extra_args[key] = int(value)
-            elif str(value).replace(".", "").isdigit():
-                try:
-                    extra_args[key] = float(value)
-                except ValueError:  # pragma: no cover
+        if isinstance(self.message, WaldieChatMessage):
+            for key, value in self.message.context.items():
+                if str(value).lower() in ("none", "null"):
+                    extra_args[key] = None
+                elif str(value).isdigit():
+                    extra_args[key] = int(value)
+                elif str(value).replace(".", "").isdigit():
+                    try:
+                        extra_args[key] = float(value)
+                    except ValueError:  # pragma: no cover
+                        extra_args[key] = value
+                else:
                     extra_args[key] = value
-            else:
-                extra_args[key] = value
         return extra_args
 
     def get_chat_args(self) -> Dict[str, Any]:

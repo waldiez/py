@@ -20,21 +20,23 @@ def test_waldie_chat_data() -> None:
         message={  # type: ignore
             "type": "string",
             "content": "Hello there",
-        },
-        message_context={
-            "problem": "Solve this task",
-            "solution": "4.2",
-            "alternative_solution": "42",
-            "not_a_solution": "null",
+            "context": {
+                "problem": "Solve this task",
+                "solution": "4.2",
+                "alternative_solution": "42",
+                "not_a_solution": "null",
+            },
         },
         nested_chat={  # type: ignore
             "message": {
                 "type": "string",
                 "content": "Hi",
+                "context": {},
             },
             "reply": {
                 "type": "string",
                 "content": "Hello",
+                "context": {},
             },
         },
         summary_method="reflectionWithLlm",
@@ -59,7 +61,7 @@ def test_waldie_chat_data() -> None:
     assert isinstance(chat_data.message, WaldieChatMessage)
     assert chat_data.message.type == "string"
     assert chat_data.message.content == "Hello there"
-    assert chat_data.message_context == {
+    assert chat_data.message.context == {
         "problem": "Solve this task",
         "solution": "4.2",
         "alternative_solution": "42",
@@ -152,6 +154,7 @@ def test_waldie_chat_data_message() -> None:
         message=WaldieChatMessage(
             type="string",
             content="Hello there",
+            context={},
         ),
     )
     # Then

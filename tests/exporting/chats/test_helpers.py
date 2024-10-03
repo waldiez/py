@@ -43,14 +43,15 @@ def test_export_empty_single_chat_string() -> None:
             message=WaldieChatMessage(
                 type="none",
                 content=None,
+                context={},
             ),
-            message_context={},
             summary_method=None,
             llm_summary_method_options=None,
             nested_chat=WaldieChatNested(
                 message=WaldieChatMessage(
                     type="none",
                     content=None,
+                    context={},
                 ),
                 reply=None,
             ),
@@ -103,10 +104,10 @@ def test_export_single_chat_string() -> None:
             message=WaldieChatMessage(
                 type="string",
                 content="Hello, wa-2!",
+                context={
+                    "problem": "Solve this problem.",
+                },
             ),
-            message_context={
-                "problem": "Solve this problem.",
-            },
             summary_method="reflection_with_llm",
             llm_summary_method_options=WaldieChatSummary(
                 prompt="Summarize the chat.",
@@ -116,6 +117,7 @@ def test_export_single_chat_string() -> None:
                 message=WaldieChatMessage(
                     type="none",
                     content=None,
+                    context={},
                 ),
                 reply=None,
             ),
@@ -165,8 +167,8 @@ def test_export_single_chat_string() -> None:
             message=WaldieChatMessage(
                 type="none",
                 content=None,
+                context={"temperature": "0.5", "max_tokens": "100"},
             ),
-            message_context={"temperature": "0.5", "max_tokens": "100"},
             summary_method="last_msg",
             llm_summary_method_options=None,
             nested_chat=WaldieChatNested(
@@ -217,8 +219,8 @@ def test_export_single_chat_string() -> None:
                     "def callable_message(sender, recipient, context):\n"
                     "    return 'Hello, wa-1!'"
                 ),
+                context={"temperature": "0.5", "max_tokens": "100"},
             ),
-            message_context={"temperature": "0.5", "max_tokens": "100"},
             summary_method="last_msg",
             llm_summary_method_options=None,
             nested_chat=WaldieChatNested(
@@ -294,10 +296,10 @@ def test_export_multiple_chats_string() -> None:
                     "def callable_message(sender, recipient, context):\n"
                     "    return 'Hello, wa-2!'"
                 ),
+                context={
+                    "problem": "Solve this problem.",
+                },
             ),
-            message_context={
-                "problem": "Solve this problem.",
-            },
             summary_method="reflection_with_llm",
             llm_summary_method_options=WaldieChatSummary(
                 prompt="Summarize the chat.",
@@ -307,6 +309,7 @@ def test_export_multiple_chats_string() -> None:
                 message=WaldieChatMessage(
                     type="none",
                     content=None,
+                    context={},
                 ),
                 reply=None,
             ),
@@ -329,14 +332,15 @@ def test_export_multiple_chats_string() -> None:
             message=WaldieChatMessage(
                 type="none",
                 content=None,
+                context={"temperature": "0.5", "max_tokens": "100"},
             ),
-            message_context={"temperature": "0.5", "max_tokens": "100"},
             summary_method="last_msg",
             llm_summary_method_options=None,
             nested_chat=WaldieChatNested(
                 message=WaldieChatMessage(
                     type="none",
                     content=None,
+                    context={},
                 ),
                 reply=None,
             ),
@@ -359,14 +363,13 @@ def test_export_multiple_chats_string() -> None:
             message=WaldieChatMessage(
                 type="string",
                 content="Hello, wa-3!",
+                context={},
             ),
-            message_context={},
             summary_method="last_msg",
             llm_summary_method_options=None,
             nested_chat=WaldieChatNested(
                 message=WaldieChatMessage(
-                    type="none",
-                    content=None,
+                    type="none", content=None, context={}
                 ),
                 reply=None,
             ),
@@ -464,8 +467,8 @@ def test_chat_with_rag_user() -> None:
             message=WaldieChatMessage(
                 type="string",
                 content="Hello, wa-2!",
+                context={},
             ),
-            message_context={},
             summary_method="reflection_with_llm",
             llm_summary_method_options=WaldieChatSummary(
                 prompt="Summarize the chat.",
@@ -475,6 +478,7 @@ def test_chat_with_rag_user() -> None:
                 message=WaldieChatMessage(
                     type="none",
                     content=None,
+                    context={},
                 ),
                 reply=None,
             ),

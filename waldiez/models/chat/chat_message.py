@@ -1,6 +1,6 @@
 """Waldie Message Model."""
 
-from typing import Dict, Optional
+from typing import Any, Dict, Optional, Union
 
 from pydantic import Field
 from typing_extensions import Annotated, Literal
@@ -24,6 +24,8 @@ class WaldieChatMessage(WaldieBase):
         The type of the message: string, method, or none.
     content : Optional[str]
         The content of the message (string or method).
+    context : Dict[str, Any]
+        Extra context of the message.
     """
 
     type: Annotated[
@@ -42,10 +44,21 @@ class WaldieChatMessage(WaldieBase):
             description="The content of the message (string or method).",
         ),
     ]
+    context: Annotated[
+        Dict[str, Any],
+        Field(
+            default_factory=dict,
+            title="Context",
+            description="Extra context of the message.",
+        ),
+    ]
 
 
 def validate_message_dict(
-    value: Dict[Literal["type", "content"], Optional[str]],
+    value: Dict[
+        Literal["type", "content", "context"],
+        Union[Optional[str], Optional[Dict[str, Any]]],
+    ],
     function_name: WaldieMethodName,
 ) -> WaldieChatMessage:
     """Validate a message dict.
@@ -72,15 +85,25 @@ def validate_message_dict(
         If the validation fails.
     """
     message_type = value.get("type")
-    content = value.get("content")
+    content = value.get("content", "")
+    if not isinstance(content, str):
+        content = ""
+    context: Dict[str, Any] = {}
+    context_value = value.get("context")
+    if isinstance(context_value, dict):
+        context = context_value
+    if not isinstance(context, dict):  # pragma: no cover
+        context = {}
     if message_type == "string":
         if not content:
             raise ValueError(
                 "The message content is required for the string type"
             )
-        return WaldieChatMessage(type="string", content=content)
+        return WaldieChatMessage(
+            type="string", content=content, context=context
+        )
     if message_type == "none":
-        return WaldieChatMessage(type="none", content=None)
+        return WaldieChatMessage(type="none", content=None, context=context)
     if message_type == "method":
         if not content:
             raise ValueError(
@@ -89,5 +112,7 @@ def validate_message_dict(
         valid, error_or_content = check_function(content, function_name)
         if not valid:
             raise ValueError(error_or_content)
-        return WaldieChatMessage(type="method", content=error_or_content)
+        return WaldieChatMessage(
+            type="method", content=error_or_content, context=context
+        )
     raise ValueError("Invalid message type")

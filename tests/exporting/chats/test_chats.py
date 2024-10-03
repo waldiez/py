@@ -46,8 +46,8 @@ def test_export_chats() -> None:
             message=WaldieChatMessage(
                 type="string",
                 content="Hello, world!",
+                context={},
             ),
-            message_context={},
             summary_method=None,
             llm_summary_method_options=None,
             max_turns=None,
@@ -73,8 +73,8 @@ def test_export_chats() -> None:
             message=WaldieChatMessage(
                 type="string",
                 content="Goodbye, world!",
+                context={},
             ),
-            message_context={},
             summary_method=None,
             llm_summary_method_options=None,
             max_turns=None,

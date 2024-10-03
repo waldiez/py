@@ -17,14 +17,17 @@ def test_waldie_chat() -> None:
             target="wa-2",
             position=0,
             clear_history=False,
-            message="Hello there",
             summary_method="last_msg",
             max_turns=1,
-            message_context={
-                "problem": "Solve this task",
-                "solution": "4.2",
-                "alternative_solution": "42",
-                "not_a_solution": "null",
+            message={  # type: ignore
+                "type": "string",
+                "content": "Hello there",
+                "context": {
+                    "problem": "Solve this task",
+                    "solution": "4.2",
+                    "alternative_solution": "42",
+                    "not_a_solution": "null",
+                },
             },
         ),
     )

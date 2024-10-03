@@ -33,8 +33,8 @@ def test_get_chat_nested_string() -> None:
             message=WaldieChatMessage(
                 type="string",
                 content="Hello, world!",
+                context={},
             ),
-            message_context={},
             summary_method=None,
             llm_summary_method_options=None,
             silent=False,
@@ -44,6 +44,7 @@ def test_get_chat_nested_string() -> None:
                 reply=WaldieChatMessage(
                     type="string",
                     content="Hi",
+                    context={},
                 ),
             ),
             real_source=None,
@@ -115,8 +116,8 @@ def test_export_nested_chat() -> None:
             message=WaldieChatMessage(
                 type="string",
                 content="Hello, world!",
+                context={},
             ),
-            message_context={},
             summary_method=None,
             llm_summary_method_options=None,
             silent=False,
@@ -139,8 +140,8 @@ def test_export_nested_chat() -> None:
             message=WaldieChatMessage(
                 type="string",
                 content="Hello, world!",
+                context={},
             ),
-            message_context={},
             summary_method=None,
             llm_summary_method_options=None,
             silent=False,
@@ -243,8 +244,8 @@ agent1.register_nested_chats(
             message=WaldieChatMessage(
                 type="string",
                 content="Hello, world!",
+                context={},
             ),
-            message_context={},
             summary_method=None,
             llm_summary_method_options=None,
             silent=False,
@@ -256,6 +257,7 @@ agent1.register_nested_chats(
                         "def nested_chat_message(recipient, messages, sender, config):\n"
                         '    return "Hello from agent1 to agent2!"'
                     ),
+                    context={},
                 ),
                 reply=WaldieChatMessage(
                     type="method",
@@ -263,6 +265,7 @@ agent1.register_nested_chats(
                         "def nested_chat_reply(recipient, messages, sender, config):\n"
                         '    return "Hello from agent2 to agent1!"'
                     ),
+                    context={},
                 ),
             ),
             real_source=None,
@@ -282,8 +285,8 @@ agent1.register_nested_chats(
             message=WaldieChatMessage(
                 type="string",
                 content="Hello, world!",
+                context={},
             ),
-            message_context={},
             summary_method=None,
             llm_summary_method_options=None,
             silent=False,
@@ -295,6 +298,7 @@ agent1.register_nested_chats(
                         "def nested_chat_message(recipient, messages, sender, config):\n"
                         '    return "Hello from agent2 to agent3!"'
                     ),
+                    context={},
                 ),
                 reply=WaldieChatMessage(
                     type="method",
@@ -302,6 +306,7 @@ agent1.register_nested_chats(
                         "def nested_chat_reply(recipient, messages, sender, config):\n"
                         '    return "Hello from agent3 to agent2!"'
                     ),
+                    context={},
                 ),
             ),
             real_source=None,
@@ -393,8 +398,8 @@ agent2.register_nested_chats(
             message=WaldieChatMessage(
                 type="string",
                 content="Hello, world!",
+                context={},
             ),
-            message_context={},
             summary_method=None,
             llm_summary_method_options=None,
             silent=False,
@@ -420,8 +425,8 @@ agent2.register_nested_chats(
             message=WaldieChatMessage(
                 type="string",
                 content="Hello, world!",
+                context={},
             ),
-            message_context={},
             summary_method=None,
             llm_summary_method_options=None,
             silent=False,
@@ -430,6 +435,7 @@ agent2.register_nested_chats(
                 message=WaldieChatMessage(
                     type="none",
                     content=None,
+                    context={},
                 ),
                 reply=None,
             ),

@@ -87,7 +87,9 @@ class WaldieChat(WaldieBase):
         if isinstance(
             self.data.message, str
         ):  # pragma: no cover (just for the lint)
-            return WaldieChatMessage(type="string", content=self.data.message)
+            return WaldieChatMessage(
+                type="string", content=self.data.message, context={}
+            )
         return self.data.message
 
     @property

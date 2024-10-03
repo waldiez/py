@@ -59,7 +59,7 @@ def get_model(model_id: str = "wm-1") -> WaldieModel:
         created_at="2021-01-01T00:00:00.000Z",
         updated_at="2021-01-01T00:00:00.000Z",
         data=WaldieModelData(
-            api_type="openai",
+            api_type="groq",  # to cover additional requirements
             api_key="api_key",
             api_version="2020-05-03",
             base_url="https://example.com/v1",
@@ -430,7 +430,7 @@ def get_chats(count: int = 3) -> List[WaldieChat]:
         '    return "hello!"'
     )
     for index in range(count):
-        message_context = {"problem": "Solve tha task."} if index == 0 else {}
+        context = {"problem": "Solve tha task."} if index == 0 else {}
         nested_chat = WaldieChatNested(
             message=None,
             reply=None,
@@ -456,8 +456,8 @@ def get_chats(count: int = 3) -> List[WaldieChat]:
                         if index != 2
                         else custom_message
                     ),
+                    context=context,
                 ),
-                message_context=message_context,
                 summary_method="reflection_with_llm",
                 llm_summary_method_options=WaldieChatSummary(
                     prompt="Summarize the chat.", args={"summary_role": "user"}
