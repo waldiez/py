@@ -125,6 +125,8 @@ class WaldieRagUserRetrieveConfig(WaldieBase):
         The token count function string (if use_custom_token_count is True).
     text_split_function_string : Optional[str]
         The text split function string (if use_custom_text_split is True).
+    n_results: Optional[int]
+        The number of results to return. Default is None, which will return all
 
     Functions
     ---------
@@ -449,6 +451,18 @@ class WaldieRagUserRetrieveConfig(WaldieBase):
             ),
         ),
     ]
+    n_results: Annotated[
+        Optional[int],
+        Field(
+            default=None,
+            title="Number of Results",
+            description=(
+                "The number of results to return. Default is None, "
+                "which will return all."
+                "Use None or <1 to return all results."
+            ),
+        ),
+    ]
     _embedding_function_string: Optional[str] = None
 
     _token_count_function_string: Optional[str] = None
@@ -573,4 +587,6 @@ class WaldieRagUserRetrieveConfig(WaldieBase):
         self.validate_custom_text_split_function()
         if not self.db_config.model:
             self.db_config.model = WaldieRagUserModels[self.vector_db]
+        if isinstance(self.n_results, int) and self.n_results < 1:
+            self.n_results = None
         return self

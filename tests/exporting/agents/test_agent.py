@@ -331,6 +331,7 @@ def test_export_rag_user() -> None:
                 overwrite=False,
                 recursive=True,
                 distance_threshold=-1,
+                n_results=None,
                 db_config=WaldieRagUserVectorDbConfig(
                     model=None,
                     use_local_storage=False,

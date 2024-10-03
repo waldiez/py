@@ -47,6 +47,7 @@ def test_waldie_rag_user_retrieve_config() -> None:
         custom_text_types=None,
         recursive=False,
         distance_threshold=-1.0,
+        n_results=-1,
     )
     assert retrieve_config.embedding_function_string is None
     assert retrieve_config.text_split_function_string is None

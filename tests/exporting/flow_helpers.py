@@ -398,6 +398,7 @@ def get_rag_user(agent_id: str = "wa-4") -> WaldieRagUser:
                 overwrite=True,
                 recursive=True,
                 distance_threshold=20,
+                n_results=10,
                 customized_prompt=None,
             ),
             teachability=WaldieAgentTeachability(

@@ -202,6 +202,7 @@ def test_waldie_flow() -> None:
                     model="all-MiniLM-L6-v2",
                 ),
                 distance_threshold=0.0,
+                n_results=1,
                 docs_path="",
                 chunk_mode="multi_lines",
                 chunk_token_size=100,
