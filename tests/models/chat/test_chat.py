@@ -17,7 +17,6 @@ def test_waldie_chat() -> None:
             target="wa-2",
             position=0,
             clear_history=False,
-            summary_method="last_msg",
             max_turns=1,
             message={  # type: ignore
                 "type": "string",

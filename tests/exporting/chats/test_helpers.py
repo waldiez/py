@@ -45,8 +45,11 @@ def test_export_empty_single_chat_string() -> None:
                 content=None,
                 context={},
             ),
-            summary_method=None,
-            llm_summary_method_options=None,
+            summary=WaldieChatSummary(
+                method=None,
+                prompt="",
+                args={},
+            ),
             nested_chat=WaldieChatNested(
                 message=WaldieChatMessage(
                     type="none",
@@ -108,8 +111,8 @@ def test_export_single_chat_string() -> None:
                     "problem": "Solve this problem.",
                 },
             ),
-            summary_method="reflection_with_llm",
-            llm_summary_method_options=WaldieChatSummary(
+            summary=WaldieChatSummary(
+                method="reflection_with_llm",
                 prompt="Summarize the chat.",
                 args={"temperature": "0.5", "max_tokens": "100"},
             ),
@@ -169,8 +172,11 @@ def test_export_single_chat_string() -> None:
                 content=None,
                 context={"temperature": "0.5", "max_tokens": "100"},
             ),
-            summary_method="last_msg",
-            llm_summary_method_options=None,
+            summary=WaldieChatSummary(
+                method="last_msg",
+                prompt="",
+                args={},
+            ),
             nested_chat=WaldieChatNested(
                 message=None,
                 reply=None,
@@ -221,8 +227,11 @@ def test_export_single_chat_string() -> None:
                 ),
                 context={"temperature": "0.5", "max_tokens": "100"},
             ),
-            summary_method="last_msg",
-            llm_summary_method_options=None,
+            summary=WaldieChatSummary(
+                method="last_msg",
+                prompt="",
+                args={},
+            ),
             nested_chat=WaldieChatNested(
                 message=None,
                 reply=None,
@@ -300,8 +309,8 @@ def test_export_multiple_chats_string() -> None:
                     "problem": "Solve this problem.",
                 },
             ),
-            summary_method="reflection_with_llm",
-            llm_summary_method_options=WaldieChatSummary(
+            summary=WaldieChatSummary(
+                method="reflection_with_llm",
                 prompt="Summarize the chat.",
                 args={"temperature": "0.5", "max_tokens": "100"},
             ),
@@ -334,8 +343,11 @@ def test_export_multiple_chats_string() -> None:
                 content=None,
                 context={"temperature": "0.5", "max_tokens": "100"},
             ),
-            summary_method="last_msg",
-            llm_summary_method_options=None,
+            summary=WaldieChatSummary(
+                method="last_msg",
+                prompt="",
+                args={},
+            ),
             nested_chat=WaldieChatNested(
                 message=WaldieChatMessage(
                     type="none",
@@ -365,8 +377,11 @@ def test_export_multiple_chats_string() -> None:
                 content="Hello, wa-3!",
                 context={},
             ),
-            summary_method="last_msg",
-            llm_summary_method_options=None,
+            summary=WaldieChatSummary(
+                method="last_msg",
+                prompt="",
+                args={},
+            ),
             nested_chat=WaldieChatNested(
                 message=WaldieChatMessage(
                     type="none", content=None, context={}
@@ -469,8 +484,8 @@ def test_chat_with_rag_user() -> None:
                 content="Hello, wa-2!",
                 context={},
             ),
-            summary_method="reflection_with_llm",
-            llm_summary_method_options=WaldieChatSummary(
+            summary=WaldieChatSummary(
+                method="reflection_with_llm",
                 prompt="Summarize the chat.",
                 args={"temperature": "0.5", "max_tokens": "100"},
             ),

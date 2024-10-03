@@ -7,6 +7,7 @@ from waldiez.models import (
     WaldieChatData,
     WaldieChatMessage,
     WaldieChatNested,
+    WaldieChatSummary,
 )
 
 
@@ -48,8 +49,11 @@ def test_export_chats() -> None:
                 content="Hello, world!",
                 context={},
             ),
-            summary_method=None,
-            llm_summary_method_options=None,
+            summary=WaldieChatSummary(
+                method=None,
+                prompt="",
+                args={},
+            ),
             max_turns=None,
             nested_chat=WaldieChatNested(
                 message=None,
@@ -75,8 +79,11 @@ def test_export_chats() -> None:
                 content="Goodbye, world!",
                 context={},
             ),
-            summary_method=None,
-            llm_summary_method_options=None,
+            summary=WaldieChatSummary(
+                method=None,
+                prompt="",
+                args={},
+            ),
             max_turns=None,
             nested_chat=WaldieChatNested(
                 message=None,

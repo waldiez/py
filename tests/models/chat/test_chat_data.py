@@ -39,8 +39,8 @@ def test_waldie_chat_data() -> None:
                 "context": {},
             },
         },
-        summary_method="reflectionWithLlm",
-        llm_summary_method_options={  # type: ignore
+        summary={  # type: ignore
+            "method": "reflectionWithLlm",
             "prompt": "Summarize this chat",
             "args": {
                 "summary_role": "system",
@@ -73,12 +73,9 @@ def test_waldie_chat_data() -> None:
     assert isinstance(chat_data.nested_chat.reply, WaldieChatMessage)
     assert chat_data.nested_chat.reply.type == "string"
     assert chat_data.nested_chat.reply.content == "Hello"
-    assert chat_data.summary_method == "reflection_with_llm"
-    assert chat_data.llm_summary_method_options
-    assert chat_data.llm_summary_method_options.prompt == "Summarize this chat"
-    assert chat_data.llm_summary_method_options.args == {
-        "summary_role": "system"
-    }
+    assert chat_data.summary.method == "reflection_with_llm"
+    assert chat_data.summary.prompt == "Summarize this chat"
+    assert chat_data.summary.args == {"summary_role": "system"}
     assert chat_data.max_turns == 5
     assert not chat_data.silent
     assert chat_data.summary_args == {
@@ -92,7 +89,7 @@ def test_waldie_chat_data() -> None:
     assert chat_args["not_a_solution"] is None
 
     model_dump = chat_data.model_dump(by_alias=True)
-    assert model_dump["summaryMethod"] == "reflectionWithLlm"
+    assert model_dump["summary"]["method"] == "reflectionWithLlm"
 
 
 def test_waldie_chat_data_message() -> None:
@@ -120,7 +117,6 @@ def test_waldie_chat_data_message() -> None:
         position=0,
         clear_history=False,
         message="",
-        summary_method=None,
     )
     # Then
     assert isinstance(chat_data.message, WaldieChatMessage)
@@ -136,7 +132,6 @@ def test_waldie_chat_data_message() -> None:
         position=0,
         clear_history=False,
         message=42,  # type: ignore
-        summary_method="lastMsg",
     )
     # Then
     assert isinstance(chat_data.message, WaldieChatMessage)
@@ -174,13 +169,12 @@ def test_waldie_chat_summary() -> None:
         position=0,
         clear_history=False,
         message="Hello there",
-        summary_method="lastMsg",
     )
     # Then
-    assert chat_data.summary_method == "last_msg"
+    assert chat_data.summary.method == "last_msg"
     assert chat_data.summary_args is None
     model_dump = chat_data.model_dump(by_alias=True)
-    assert model_dump["summaryMethod"] == "lastMsg"
+    assert model_dump["summary"]["method"] == "lastMsg"
     # Given
     chat_data = WaldieChatData(  # type: ignore
         name="chat_data",
@@ -190,11 +184,13 @@ def test_waldie_chat_summary() -> None:
         position=0,
         clear_history=False,
         message="Hello there",
-        summary_method="reflectionWithLlm",
+        summary={  # type: ignore
+            "method": "reflectionWithLlm",
+        },
     )
     # Then
     model_dump = chat_data.model_dump(by_alias=True)
-    assert model_dump["summaryMethod"] == "reflectionWithLlm"
+    assert model_dump["summary"]["method"] == "reflectionWithLlm"
     # Given
     chat_data = WaldieChatData(  # type: ignore
         name="chat_data",
@@ -204,10 +200,15 @@ def test_waldie_chat_summary() -> None:
         position=0,
         clear_history=False,
         message="Hello there",
-        summary_method="reflection_with_llm",
+        summary={  # type: ignore
+            "method": "reflectionWithLlm",
+            "args": {
+                "summary_role": "system",
+            },
+        },
     )
     # Then
     model_dump = chat_data.model_dump(by_alias=True)
-    assert model_dump["summaryMethod"] == "reflectionWithLlm"
+    assert model_dump["summary"]["method"] == "reflectionWithLlm"
     model_dump = chat_data.model_dump(by_alias=False)
-    assert model_dump["summary_method"] == "reflection_with_llm"
+    assert model_dump["summary"]["method"] == "reflection_with_llm"

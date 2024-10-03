@@ -1,8 +1,13 @@
 """Waldie chat summary options."""
 
-from typing import Dict
+from typing import Any, Dict, Optional
 
-from pydantic import Field
+from pydantic import (
+    Field,
+    FieldSerializationInfo,
+    field_serializer,
+    field_validator,
+)
 from typing_extensions import Annotated, Literal
 
 from ..common import WaldieBase
@@ -20,13 +25,30 @@ class WaldieChatSummary(WaldieBase):
 
     Attributes
     ----------
+    method : Optional[WaldieChatSummaryMethod]
+        The method to use for the LLM summary. Defaults to "last_msg".
     prompt : str
         The prompt for the LLM summary method.
     args : Optional[Dict[str, Any]]
         The additional arguments for the LLM summary method, by default None.
     """
 
-    prompt: str
+    method: Annotated[
+        Optional[WaldieChatSummaryMethod],
+        Field(
+            "last_msg",
+            title="Method",
+            description="The method to use for the LLM summary.",
+        ),
+    ]
+    prompt: Annotated[
+        str,
+        Field(
+            "",
+            title="Prompt",
+            description="The prompt for the LLM summary method.",
+        ),
+    ]
     args: Annotated[
         Dict[str, str],
         Field(
@@ -35,3 +57,54 @@ class WaldieChatSummary(WaldieBase):
             default_factory=dict,
         ),
     ]
+
+    @field_validator("method", mode="before")
+    @classmethod
+    def validate_summary_method(
+        cls, value: Optional[WaldieChatSummaryMethod]
+    ) -> Optional[WaldieChatSummaryMethod]:
+        """Validate the summary method.
+
+        Parameters
+        ----------
+        value : Optional[WaldieChatSummaryMethod]
+            The passed WaldieChatSummaryMethod
+
+        Returns
+        -------
+        Optional[WaldieChatSummaryMethod]
+            The validated message summary method
+        """
+        if str(value).lower() == "none":
+            return None
+        if value == "lastMsg":
+            return "last_msg"
+        if value == "reflectionWithLlm":
+            return "reflection_with_llm"
+        return value
+
+    @field_serializer("method")
+    @classmethod
+    def serialize_summary_method(
+        cls, value: Any, info: FieldSerializationInfo
+    ) -> Any:
+        """Serialize summary method.
+
+        Parameters
+        ----------
+        value : Any
+            The value to serialize.
+        info : FieldSerializationInfo
+            The serialization info.
+
+        Returns
+        -------
+        Any
+            The serialized value.
+        """
+        if info.by_alias is True:
+            if value == "reflection_with_llm":
+                return "reflectionWithLlm"
+            if value == "last_msg":
+                return "lastMsg"
+        return value

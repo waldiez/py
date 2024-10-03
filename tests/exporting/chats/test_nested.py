@@ -14,6 +14,7 @@ from waldiez.models import (
     WaldieChatData,
     WaldieChatMessage,
     WaldieChatNested,
+    WaldieChatSummary,
 )
 
 
@@ -35,8 +36,11 @@ def test_get_chat_nested_string() -> None:
                 content="Hello, world!",
                 context={},
             ),
-            summary_method=None,
-            llm_summary_method_options=None,
+            summary=WaldieChatSummary(
+                method=None,
+                prompt="",
+                args={},
+            ),
             silent=False,
             max_turns=None,
             nested_chat=WaldieChatNested(
@@ -118,8 +122,11 @@ def test_export_nested_chat() -> None:
                 content="Hello, world!",
                 context={},
             ),
-            summary_method=None,
-            llm_summary_method_options=None,
+            summary=WaldieChatSummary(
+                method=None,
+                prompt="",
+                args={},
+            ),
             silent=False,
             max_turns=None,
             nested_chat=WaldieChatNested(
@@ -142,8 +149,11 @@ def test_export_nested_chat() -> None:
                 content="Hello, world!",
                 context={},
             ),
-            summary_method=None,
-            llm_summary_method_options=None,
+            summary=WaldieChatSummary(
+                method=None,
+                prompt="",
+                args={},
+            ),
             silent=False,
             max_turns=None,
             nested_chat=WaldieChatNested(
@@ -246,8 +256,11 @@ agent1.register_nested_chats(
                 content="Hello, world!",
                 context={},
             ),
-            summary_method=None,
-            llm_summary_method_options=None,
+            summary=WaldieChatSummary(
+                method=None,
+                prompt="",
+                args={},
+            ),
             silent=False,
             max_turns=None,
             nested_chat=WaldieChatNested(
@@ -287,8 +300,11 @@ agent1.register_nested_chats(
                 content="Hello, world!",
                 context={},
             ),
-            summary_method=None,
-            llm_summary_method_options=None,
+            summary=WaldieChatSummary(
+                method=None,
+                prompt="",
+                args={},
+            ),
             silent=False,
             max_turns=None,
             nested_chat=WaldieChatNested(
@@ -400,8 +416,11 @@ agent2.register_nested_chats(
                 content="Hello, world!",
                 context={},
             ),
-            summary_method=None,
-            llm_summary_method_options=None,
+            summary=WaldieChatSummary(
+                method=None,
+                prompt="",
+                args={},
+            ),
             silent=False,
             max_turns=None,
             nested_chat=WaldieChatNested(
@@ -427,8 +446,11 @@ agent2.register_nested_chats(
                 content="Hello, world!",
                 context={},
             ),
-            summary_method=None,
-            llm_summary_method_options=None,
+            summary=WaldieChatSummary(
+                method=None,
+                prompt="",
+                args={},
+            ),
             silent=False,
             max_turns=None,
             nested_chat=WaldieChatNested(

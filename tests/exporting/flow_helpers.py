@@ -458,9 +458,10 @@ def get_chats(count: int = 3) -> List[WaldieChat]:
                     ),
                     context=context,
                 ),
-                summary_method="reflection_with_llm",
-                llm_summary_method_options=WaldieChatSummary(
-                    prompt="Summarize the chat.", args={"summary_role": "user"}
+                summary=WaldieChatSummary(
+                    method="reflection_with_llm",
+                    prompt="Summarize the chat.",
+                    args={"summary_role": "user"},
                 ),
                 nested_chat=nested_chat,
                 real_source=None,

@@ -2,21 +2,14 @@
 
 from typing import Any, Dict, Optional, Union
 
-from pydantic import (
-    ConfigDict,
-    Field,
-    FieldSerializationInfo,
-    field_serializer,
-    field_validator,
-    model_validator,
-)
+from pydantic import ConfigDict, Field, field_validator, model_validator
 from pydantic.alias_generators import to_camel
 from typing_extensions import Annotated, Self
 
 from ..common import WaldieBase
 from .chat_message import WaldieChatMessage, validate_message_dict
 from .chat_nested import WaldieChatNested
-from .chat_summary import WaldieChatSummary, WaldieChatSummaryMethod
+from .chat_summary import WaldieChatSummary
 
 
 class WaldieChatData(WaldieBase):
@@ -42,11 +35,8 @@ class WaldieChatData(WaldieBase):
         The message of the chat.
     nested_chat : WaldieChatNested
         The nested chat config.
-    summary_method : Optional[WaldieChatSummaryMethod], optional
-        The summary method for the chat, by default None.
-    llm_summary_method_options : Optional[WaldieChatSummary]
-        The LLM summary method options for the chat.
-        Only used if the summary method is `reflection_with_llm`
+    summary : WaldieChatSummary
+        The summary method and options for the chat.
     max_turns : Optional[int]
         The maximum number of turns for the chat, by default None (no limit).
     silent : Optional[bool], optional
@@ -146,22 +136,12 @@ class WaldieChatData(WaldieBase):
             default_factory=WaldieChatNested,
         ),
     ]
-    summary_method: Annotated[
-        Optional[WaldieChatSummaryMethod],
+    summary: Annotated[
+        WaldieChatSummary,
         Field(
-            None,
-            alias="summaryMethod",
-            title="Summary Method",
-            description="The summary method for the chat.",
-        ),
-    ]
-    llm_summary_method_options: Annotated[
-        Optional[WaldieChatSummary],
-        Field(
-            None,
-            alias="llmSummaryMethodOptions",
-            title="LLM Summary Method Options",
-            description="The LLM summary method options for the chat.",
+            default_factory=WaldieChatSummary,
+            title="Summary",
+            description="The summary method options for the chat.",
         ),
     ]
     max_turns: Annotated[
@@ -282,73 +262,19 @@ class WaldieChatData(WaldieBase):
             )
         return WaldieChatMessage(type="none", content=None, context={})
 
-    @field_validator("summary_method", mode="before")
-    @classmethod
-    def validate_summary_method(
-        cls, value: Optional[WaldieChatSummaryMethod]
-    ) -> Optional[WaldieChatSummaryMethod]:
-        """Validate the summary method.
-
-        Parameters
-        ----------
-        value : Optional[WaldieChatSummaryMethod]
-            The passed WaldieChatSummaryMethod
-
-        Returns
-        -------
-        Optional[WaldieChatSummaryMethod]
-            The validated message summary method
-        """
-        if str(value).lower() == "none":
-            return None
-        if value == "lastMsg":
-            return "last_msg"
-        if value == "reflectionWithLlm":
-            return "reflection_with_llm"
-        return value
-
-    @field_serializer("summary_method")
-    @classmethod
-    def serialize_summary_method(
-        cls, value: Any, info: FieldSerializationInfo
-    ) -> Any:
-        """Serialize summary method.
-
-        Parameters
-        ----------
-        value : Any
-            The value to serialize.
-        info : FieldSerializationInfo
-            The serialization info.
-
-        Returns
-        -------
-        Any
-            The serialized value.
-        """
-        if info.by_alias is True:
-            if value == "reflection_with_llm":
-                return "reflectionWithLlm"
-            if value == "last_msg":
-                return "lastMsg"
-        return value
-
     @property
     def summary_args(self) -> Optional[Dict[str, Any]]:
         """Get the summary args."""
-        if self.summary_method not in (
+        if self.summary.method not in (
             "reflection_with_llm",
             "reflectionWithLlm",
         ):
             return None
         args: Dict[str, Any] = {}
-        if self.llm_summary_method_options:
-            summary_prompt = self.llm_summary_method_options.prompt
-            if summary_prompt:
-                args["summary_prompt"] = summary_prompt
-            other_args = self.llm_summary_method_options.args
-            if other_args:
-                args.update(other_args)
+        if self.summary.prompt:
+            args["summary_prompt"] = self.summary.prompt
+        if self.summary.args:
+            args.update(self.summary.args)
         return args
 
     def _get_context_args(self) -> Dict[str, Any]:
@@ -384,8 +310,8 @@ class WaldieChatData(WaldieBase):
             The dictionary to pass as kwargs.
         """
         args: Dict[str, Any] = {}
-        if self.summary_method:
-            args["summary_method"] = self.summary_method
+        if self.summary.method:
+            args["summary_method"] = self.summary.method
         if self.summary_args:
             args["summary_args"] = self.summary_args
         if isinstance(self.max_turns, int) and self.max_turns > 0:
