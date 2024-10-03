@@ -111,3 +111,67 @@ def nested_chat_message(recipient, messages, sender, config):
     # Then
     with pytest.raises(ValueError):
         validate_message_dict(message_dict, "nested_chat_message")
+
+    # Given
+    message_dict = {
+        "type": 4,  # type: ignore
+        "content": "",
+        "context": {},
+    }
+    with pytest.raises(ValueError):
+        validate_message_dict(message_dict, "nested_chat_message")
+
+
+def test_last_carryover_message() -> None:
+    """Test last_carryover_message."""
+    # Given
+    message_dict: Dict[
+        Literal["type", "content", "context"],
+        Union[Optional[str], Optional[Dict[str, Any]]],
+    ] = {
+        "type": "last_carryover",
+        "content": "",
+        "context": {},
+    }
+    # When
+    message = validate_message_dict(message_dict, "callable_message")
+    # Then
+    assert message.type == "method"
+    assert message.content is not None
+    assert "def callable_message" in message.content
+    assert "carryover" in message.content
+    assert "final_message" not in message.content
+    assert message.context == {}
+
+    # Given
+    message_dict = {
+        "type": "last_carryover",
+        "content": "Hello there",
+        "context": {
+            "text": "Hello there.\nUse the carryover to complete the task.\n"
+        },
+    }
+    # When
+    message = validate_message_dict(message_dict, "callable_message")
+    # Then
+    assert message.type == "method"
+    assert message.content is not None
+    assert "def callable_message" in message.content
+    assert "carryover" in message.content
+    assert "final_message" in message.content
+
+    # Given
+    message_dict = {
+        "type": "last_carryover",
+        "content": "Hello there",
+        "context": {
+            "text": 42,
+        },
+    }
+    # Then
+    message = validate_message_dict(message_dict, "callable_message")
+    assert message.type == "method"
+    assert message.content is not None
+    assert "def callable_message" in message.content
+    assert "carryover" in message.content
+    assert "final_message" not in message.content
