@@ -21,7 +21,7 @@ import sys
 from pathlib import Path
 from typing import Dict, List, Optional, Union
 
-from autogen import __version__ as autogen_version  # type: ignore
+from autogen.version import __version__ as autogen_version  # type: ignore
 
 from .exporting import comment, export_flow, get_valid_instance_name
 from .models import WaldieAgent, WaldieChat, WaldieModel, WaldieSkill

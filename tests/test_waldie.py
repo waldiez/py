@@ -4,7 +4,7 @@ import os
 import tempfile
 
 import pytest
-from autogen import __version__ as autogen_version  # type: ignore
+from autogen.version import __version__ as autogen_version  # type: ignore
 
 from waldiez.waldie import Waldie
 

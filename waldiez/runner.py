@@ -22,7 +22,7 @@ from types import TracebackType
 from typing import Callable, Dict, Iterator, List, Optional, Type, Union
 
 from autogen import ChatResult  # type: ignore
-from autogen import __version__ as autogen_version
+from autogen.version import __version__ as autogen_version  # type: ignore
 
 from .exporter import WaldieExporter
 from .io_stream import WaldieIOStream

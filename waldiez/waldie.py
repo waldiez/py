@@ -11,7 +11,7 @@ from pathlib import Path
 from typing import Any, Dict, Iterator, List, Optional, Tuple, Union
 
 #  let's be strict with autogen version
-from autogen import __version__ as autogen_version  # type: ignore
+from autogen.version import __version__ as autogen_version  # type: ignore
 
 from .models import (
     WaldieAgent,
