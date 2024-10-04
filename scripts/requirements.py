@@ -67,6 +67,7 @@ def main() -> None:
                 f"requirements/{extra}.txt",
                 f"--extra={extra}",
                 "--no-deps",
+                "--no-strip-extras",
             ],
             check=True,
             cwd=str(ROOT_DIR),

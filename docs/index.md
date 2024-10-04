@@ -2,7 +2,7 @@
 
 [![Flow](./flow.png)](./flow.png)
 
-To a python script or a jupyter notebook with the corresponding [pyautogen](https://github.com/microsoft/autogen/) agents and chats.
+To a python script or a jupyter notebook with the corresponding [autogen](https://github.com/microsoft/autogen/) agents and chats.
 
 ## Features
 
@@ -30,7 +30,7 @@ waldiez /path/to/a/flow.waldiez --output /path/to/an/output[.py] [--force]
 
 ### Tools
 
-- [pyautogen](https://github.com/microsoft/autogen/)
+- [autogen](https://github.com/microsoft/autogen/)
 - [juptytext](https://github.com/mwouts/jupytext)
 - [twisted](https://github.com/twisted/twisted)
 - [pydantic](https://github.com/pydantic/pydantic)

@@ -2,7 +2,7 @@
 
 from typing import Dict, List, Set, Tuple
 
-from waldiez.models import WaldieAgent, WaldieSkill
+from waldiez.models import WaldieAgent, WaldieModel, WaldieSkill
 
 from ..utils import get_escaped_string
 from .agent_skills import get_agent_skill_registrations
@@ -93,6 +93,7 @@ def export_agent(
     agent_names: Dict[str, str],
     model_names: Dict[str, str],
     skill_names: Dict[str, str],
+    all_models: List[WaldieModel],
     all_skills: List[WaldieSkill],
     group_chat_members: List[WaldieAgent],
 ) -> Tuple[str, str, Set[str]]:
@@ -145,6 +146,8 @@ def export_agent(
         A mapping of model id to model name.
     skill_names : Dict[str, str]
         A mapping of skill id to skill name.
+    all_models : List[WaldieModel]
+        All the models in the flow.
     all_skills : List[WaldieSkill]
         All the skills in the flow.
     group_chat_members : List[WaldieAgent]
@@ -194,10 +197,17 @@ def export_agent(
         default_auto_reply = (
             f'"{get_escaped_string(agent.data.agent_default_auto_reply)}"'
         )
+    agent_llm_config_arg, llm_config_string = get_agent_llm_config(
+        agent=agent,
+        agent_name=agent_name,
+        all_models=all_models,
+        model_names=model_names,
+    )
+    before_agent_string += llm_config_string
     agent_str = f"""{agent_name} = {agent_class}(
     name="{agent_name}",
     description="{agent.description}",
-    llm_config={get_agent_llm_config(agent, model_names)},{(get_system_message_arg(agent))}
+    llm_config={agent_llm_config_arg},{(get_system_message_arg(agent))}
     human_input_mode="{agent.data.human_input_mode}",
     max_consecutive_auto_reply={agent.data.max_consecutive_auto_reply},
     default_auto_reply={default_auto_reply},

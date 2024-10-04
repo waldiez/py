@@ -12,14 +12,14 @@ def test_export_models() -> None:
         name="llama3.1",
         type="model",
         description="A model for llamas :P.",
-        tags=["llama", "llama3.1"],
+        tags=["llama3.1 8b"],
         requirements=[],
         data=WaldieModelData(
             base_url="https://example.com/v1",
             api_key="1234567890",
             api_type="openai",
             api_version=None,
-            temperature=0.5,
+            temperature=0.6,
             top_p=None,
             max_tokens=None,
             default_headers={},
@@ -36,15 +36,19 @@ def test_export_models() -> None:
     expected = """
 # ## Models
 
-llama3_1 = {
-    "model": "llama3.1",
-    "base_url": "https://example.com/v1",
-    "temperature": 0.5,
-    "api_type": "openai",
-    "api_key": "1234567890",
-    "price": [
-        0.0001,
-        0.0002
+llama3_1_llm_config = {
+    "config_list": [
+        {
+            "model": "llama3.1",
+            "base_url": "https://example.com/v1",
+            "temperature": 0.6,
+            "api_type": "openai",
+            "api_key": "1234567890",
+            "price": [
+                0.0001,
+                0.0002
+            ]
+        }
     ]
 }
 """
@@ -52,7 +56,7 @@ llama3_1 = {
     assert result == expected
 
     # Given
-    model = WaldieModel(
+    model2 = WaldieModel(
         id="wm-1",
         name="anthropic_model",
         type="model",
@@ -60,11 +64,11 @@ llama3_1 = {
         tags=[],
         requirements=[],
         data=WaldieModelData(
-            base_url="https://example.com/v1",
+            base_url="https://example.com/v2",
             api_key="1234567890",
             api_type="anthropic",
             api_version=None,
-            temperature=0.5,
+            temperature=0.7,
             top_p=None,
             max_tokens=None,
             default_headers={},
@@ -76,27 +80,31 @@ llama3_1 = {
     )
     model_names = {"wm-1": "anthropic_model"}
     # When
-    result = export_models([model], model_names, True)
+    result = export_models([model2], model_names, True)
     # Then
     expected_str = """
 # ## Models
 
-anthropic_model = {
-    "model": "anthropic_model",
-    "base_url": "https://example.com/v1",
-    "temperature": 0.5,
-    "api_type": "anthropic",
-    "api_key": "1234567890",
-    "price": [
-        0.0001,
-        0.0002
+anthropic_model_llm_config = {
+    "config_list": [
+        {
+            "model": "anthropic_model",
+            "base_url": "https://example.com/v2",
+            "temperature": 0.7,
+            "api_type": "anthropic",
+            "api_key": "1234567890",
+            "price": [
+                0.0001,
+                0.0002
+            ]
+        }
     ]
 }
 """
     assert result == expected_str
 
     # Given
-    model2 = WaldieModel(
+    model3 = WaldieModel(
         id="wm-2",
         name="groq_model",
         type="model",
@@ -104,47 +112,55 @@ anthropic_model = {
         tags=["groq"],
         requirements=[],
         data=WaldieModelData(
-            base_url="https://example.com/v2",
+            base_url="https://example.com/v4",
             api_key="1234567890",
             api_type="groq",
             api_version=None,
-            temperature=0.5,
+            temperature=0.8,
             top_p=None,
             max_tokens=None,
             default_headers={},
             price={  # type: ignore
-                "prompt_price_per_1k": 0.0001,
-                "completion_token_price_per_1k": 0.0002,
+                "prompt_price_per_1k": 0.0002,
+                "completion_token_price_per_1k": 0.0003,
             },
         ),
     )
     model_names = {"wm-1": "llama3_1", "wm-2": "groq_model"}
     # When
-    result = export_models([model1, model2], model_names, True)
+    result = export_models([model1, model3], model_names, True)
     # Then
     expected = """
 # ## Models
 
-llama3_1 = {
-    "model": "llama3.1",
-    "base_url": "https://example.com/v1",
-    "temperature": 0.5,
-    "api_type": "openai",
-    "api_key": "1234567890",
-    "price": [
-        0.0001,
-        0.0002
+llama3_1_llm_config = {
+    "config_list": [
+        {
+            "model": "llama3.1",
+            "base_url": "https://example.com/v1",
+            "temperature": 0.6,
+            "api_type": "openai",
+            "api_key": "1234567890",
+            "price": [
+                0.0001,
+                0.0002
+            ]
+        }
     ]
 }
-groq_model = {
-    "model": "groq_model",
-    "base_url": "https://example.com/v2",
-    "temperature": 0.5,
-    "api_type": "groq",
-    "api_key": "1234567890",
-    "price": [
-        0.0001,
-        0.0002
+groq_model_llm_config = {
+    "config_list": [
+        {
+            "model": "groq_model",
+            "base_url": "https://example.com/v4",
+            "temperature": 0.8,
+            "api_type": "groq",
+            "api_key": "1234567890",
+            "price": [
+                0.0002,
+                0.0003
+            ]
+        }
     ]
 }
 """

@@ -10,6 +10,9 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Dict, Iterator, List, Optional, Tuple, Union
 
+#  let's be strict with autogen version
+from autogen import __version__ as autogen_version  # type: ignore
+
 from .models import (
     WaldieAgent,
     WaldieChat,
@@ -17,6 +20,8 @@ from .models import (
     WaldieModel,
     WaldieSkill,
 )
+
+# fmt: on
 
 
 @dataclass(frozen=True, slots=True)
@@ -203,11 +208,10 @@ class Waldie:
     def requirements(self) -> List[str]:
         """Get the flow requirements."""
         requirements = set(self.flow.requirements)
-        if (
-            self.has_rag_agents
-            and "pyautogen[retrievechat]" not in requirements
-        ):
-            requirements.add("pyautogen[retrievechat]")
+        if self.has_rag_agents:
+            requirements.add(
+                f"autogen-agentchat[retrievechat]=={autogen_version}"
+            )
         # ref: https://github.com/microsoft/autogen/blob/main/setup.py
         models_with_additional_requirements = [
             "together",
@@ -220,7 +224,10 @@ class Waldie:
         ]
         for model in self.models:
             if model.data.api_type in models_with_additional_requirements:
-                requirements.add(f"pyautogen[{model.data.api_type}]")
+                requirements.add(
+                    f"autogen-agentchat[{model.data.api_type}]=="
+                    f"{autogen_version}"
+                )
         return list(requirements)
 
     def get_flow_env_vars(self) -> List[Tuple[str, str]]:

@@ -21,6 +21,8 @@ import sys
 from pathlib import Path
 from typing import Dict, List, Optional, Union
 
+from autogen import __version__ as autogen_version  # type: ignore
+
 from .exporting import comment, export_flow, get_valid_instance_name
 from .models import WaldieAgent, WaldieChat, WaldieModel, WaldieSkill
 from .waldie import Waldie
@@ -172,10 +174,11 @@ class WaldieExporter:
             If the notebook could not be generated.
         """
         include_retrieve_chat = self.waldie.has_rag_agents
+        to_install = f"autogen-agentchat=={autogen_version}"
+        if include_retrieve_chat:
+            to_install = f"autogen-agentchat[retrievechat]=={autogen_version}"
         pip_install_autogen = (
-            "# !{sys.executable} -m pip install -q 'pyautogen[retrievechat]'\n"
-            if include_retrieve_chat
-            else "# !{sys.executable} -m pip install -q pyautogen\n"
+            "!# {{sys.executable}} -m pip install -q '" f"{to_install}" "'\n"
         )
         content = f"{comment(True)}{self.waldie.name}" + "\n\n"
         content += f"{comment(True, 2)}Dependencies" + "\n\n"

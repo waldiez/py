@@ -27,7 +27,7 @@ There are three core modules in this project:
 
 - `waldiez.models`: Contains the pydantic models for the waldiez flow.
 - `waldiez.exporting`: Contains the logic to export a waldiez flow to a python script or a jupyter notebook.
-- `waldiez.stream`: Contains the logic to provide the WaldieIOStream (extends pyautogen.IOSream) to handle input and output.
+- `waldiez.stream`: Contains the logic to provide the WaldieIOStream (extends autogen.IOSream) to handle input and output.
 
 For each of the modules, there is a corresponding test module in the `tests` folder.
 

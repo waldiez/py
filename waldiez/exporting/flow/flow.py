@@ -94,6 +94,7 @@ def export_flow(
             agent_names=agent_names,
             model_names=model_names,
             skill_names=skill_names,
+            all_models=all_models,
             all_skills=all_skills,
             group_chat_members=waldie.flow.get_group_chat_members(agent.id),
         )

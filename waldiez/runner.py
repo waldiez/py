@@ -21,7 +21,8 @@ from pathlib import Path
 from types import TracebackType
 from typing import Callable, Dict, Iterator, List, Optional, Type, Union
 
-from autogen import ChatResult  # type: ignore[import-untyped]
+from autogen import ChatResult  # type: ignore
+from autogen import __version__ as autogen_version
 
 from .exporter import WaldieExporter
 from .io_stream import WaldieIOStream
@@ -149,7 +150,9 @@ class WaldieRunner:
 
     def _install_requirements(self) -> None:
         """Install the requirements for the flow."""
-        all_requirements = ["pyautogen"] + self.waldie.requirements
+        all_requirements = [
+            f"autogen-agentchat=={autogen_version}"
+        ] + self.waldie.requirements
         extra_requirements = [
             req for req in all_requirements if req not in sys.modules
         ]
