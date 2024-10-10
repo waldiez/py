@@ -14,6 +14,7 @@
   "autorefs",
   "BAAI",
   "baselevel",
+  "capsys",
   "chromadb",
   "codehilite",
   "commandline",
