@@ -280,11 +280,11 @@ python_files = [
 ]
 addopts = """
     -d \
-		-n auto \
-		--exitfirst \
-		--durations=10 \
-		--color=yes \
-		--timeout=30
+    -n auto \
+    --exitfirst \
+    --durations=10 \
+    --color=yes \
+    --timeout=30
 """
 
 

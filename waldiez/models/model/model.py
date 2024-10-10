@@ -99,15 +99,15 @@ class WaldieModel(WaldieBase):
 
         Either from the model's data or from the environment variables:
 
-          - openai: 'OPENAI_API_KEY',
-          - azure: 'AZURE_API_KEY',
-          - google: 'GOOGLE_GEMINI_API_KEY',
-          - anthropic: 'ANTHROPIC_API_KEY',
-          - mistral: 'MISTRAL_API_KEY',
-          - groq: 'GROQ_API_KEY',
-          - together: 'TOGETHER_API_KEY',
-          - nim: 'NIM_API_KEY',
-          - other: 'OPENAI_API_KEY'
+            - openai: 'OPENAI_API_KEY',
+            - azure: 'AZURE_API_KEY',
+            - google: 'GOOGLE_GEMINI_API_KEY',
+            - anthropic: 'ANTHROPIC_API_KEY',
+            - mistral: 'MISTRAL_API_KEY',
+            - groq: 'GROQ_API_KEY',
+            - together: 'TOGETHER_API_KEY',
+            - nim: 'NIM_API_KEY',
+            - other: 'OPENAI_API_KEY'
         """
         if self.data.api_key:
             return self.data.api_key
