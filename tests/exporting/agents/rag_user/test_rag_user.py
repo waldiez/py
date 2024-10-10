@@ -59,7 +59,13 @@ def test_get_rag_user_extras() -> None:
     before_agent_string, retrieve_arg, db_imports = get_rag_user_extras(
         agent=rag_user, agent_name=agent_name, model_names=model_names
     )
-    assert before_agent_string == ""
+    assert before_agent_string == (
+        "\nrag_user_client = chromadb.Client()\n"
+        "try:\n"
+        '    rag_user_client.get_collection("autogen-docs")\n'
+        "except ValueError:\n"
+        '    rag_user_client.create_collection("autogen-docs")\n'
+    )
     assert (
         retrieve_arg
         == """
@@ -104,6 +110,12 @@ def custom_embedding_function():
     assert (
         before_agent_string
         == """
+rag_user_client = chromadb.Client()
+try:
+    rag_user_client.get_collection("autogen-docs")
+except ValueError:
+    rag_user_client.create_collection("autogen-docs")
+
 
 def custom_embedding_function_rag_user():
     # type: () -> Callable[..., Any]
@@ -194,9 +206,16 @@ def custom_embedding_function():
         "chromadb",
         "from autogen.agentchat.contrib.vectordb.chromadb import ChromaVectorDB",
     }
+    local_path = os.path.join(os.getcwd(), "data")
     assert (
         rag_content_before_agent
-        == """
+        == f"""
+rag_user_client = chromadb.PersistentClient(path="{local_path}")
+try:
+    rag_user_client.get_collection("autogen-docs")
+except ValueError:
+    rag_user_client.create_collection("autogen-docs")
+
 
 def custom_embedding_function_rag_user():
     # type: () -> Callable[..., Any]

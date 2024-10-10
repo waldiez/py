@@ -4,6 +4,7 @@ import os
 import tempfile
 
 import pytest
+from autogen.version import __version__ as autogen_version  # type: ignore
 
 from waldiez.waldie import Waldie
 
@@ -31,7 +32,10 @@ def test_waldie() -> None:
     assert next(waldie2.models)
     assert waldie2.has_rag_agents
     skill = next(waldie2.skills)
-    assert "pyautogen[retrievechat]" in waldie2.requirements
+    assert (
+        f"autogen-agentchat[retrievechat]=={autogen_version}"
+        in waldie2.requirements
+    )
     assert "SKILL_KEY" in skill.secrets
     assert "SKILL_KEY" == waldie2.get_flow_env_vars()[0][0]
     for agent in waldie2.agents:

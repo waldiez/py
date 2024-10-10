@@ -14,6 +14,7 @@ from waldiez.models import (
     WaldieGroupManager,
     WaldieGroupManagerData,
     WaldieGroupManagerSpeakers,
+    WaldieModel,
     WaldieRagUser,
     WaldieRagUserData,
     WaldieRagUserRetrieveConfig,
@@ -69,6 +70,7 @@ def test_export_agent() -> None:
     model_names = {"wm-1": "model_1"}
     skill_names = {"ws-1": "skill_1"}
     all_skills: List[WaldieSkill] = []
+    all_models: List[WaldieModel] = []
     group_chat_members: List[WaldieAgent] = []
     # When
     (
@@ -80,6 +82,7 @@ def test_export_agent() -> None:
         agent_names=agent_names,
         model_names=model_names,
         skill_names=skill_names,
+        all_models=all_models,
         all_skills=all_skills,
         group_chat_members=group_chat_members,
     )
@@ -127,6 +130,7 @@ def test_export_agent_custom_termination() -> None:
     model_names = {"wm-1": "model_1"}
     skill_names = {"ws-1": "skill_1"}
     all_skills: List[WaldieSkill] = []
+    all_models: List[WaldieModel] = []
     group_chat_members: List[WaldieAgent] = []
     # When
     (
@@ -139,6 +143,7 @@ def test_export_agent_custom_termination() -> None:
         model_names=model_names,
         skill_names=skill_names,
         all_skills=all_skills,
+        all_models=all_models,
         group_chat_members=group_chat_members,
     )
     # Then
@@ -202,6 +207,7 @@ def test_export_group_manager() -> None:
     model_names = {"wm-1": "model_1"}
     skill_names = {"ws-1": "skill_1"}
     all_skills: List[WaldieSkill] = []
+    all_models: List[WaldieModel] = []
     group_chat_members: List[WaldieAgent] = [user, assistant]
     # When
     (
@@ -213,6 +219,7 @@ def test_export_group_manager() -> None:
         agent_names=agent_names,
         model_names=model_names,
         skill_names=skill_names,
+        all_models=all_models,
         all_skills=all_skills,
         group_chat_members=group_chat_members,
     )
@@ -330,6 +337,7 @@ def test_export_rag_user() -> None:
                 overwrite=False,
                 recursive=True,
                 distance_threshold=-1,
+                n_results=None,
                 db_config=WaldieRagUserVectorDbConfig(
                     model=None,
                     use_local_storage=False,
@@ -361,6 +369,7 @@ def test_export_rag_user() -> None:
             ),
         )
     ]
+    all_models: List[WaldieModel] = []
     group_chat_members: List[WaldieAgent] = [user, assistant]
     # When
     (
@@ -372,6 +381,7 @@ def test_export_rag_user() -> None:
         agent_names=agent_names,
         model_names=model_names,
         skill_names=skill_names,
+        all_models=all_models,
         all_skills=all_skills,
         group_chat_members=group_chat_members,
     )
@@ -465,6 +475,7 @@ def test_export_agent_with_skills_and_code_execution() -> None:
     model_names = {"wm-1": "model_1"}
     skill_names = {"ws-1": "skill_1"}
     all_skills: List[WaldieSkill] = [assistant_skill]
+    all_models: List[WaldieModel] = []
     group_chat_members: List[WaldieAgent] = [user, assistant]
     # When
     (
@@ -476,6 +487,7 @@ def test_export_agent_with_skills_and_code_execution() -> None:
         agent_names=agent_names,
         model_names=model_names,
         skill_names=skill_names,
+        all_models=all_models,
         all_skills=all_skills,
         group_chat_members=group_chat_members,
     )

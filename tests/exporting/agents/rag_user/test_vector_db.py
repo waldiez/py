@@ -47,7 +47,13 @@ def test_get_rag_user_vector_db_string_chroma() -> None:
     before, arg, imports = get_rag_user_vector_db_string(rag_user, agent_name)
     # Then
     local_path = os.path.join(os.getcwd(), "local_storage_path")
-    assert before == ""
+    assert before == (
+        f'\nrag_user_client = chromadb.PersistentClient(path="{local_path}")\n'
+        "try:\n"
+        '    rag_user_client.get_collection("collection_name")\n'
+        "except ValueError:\n"
+        '    rag_user_client.create_collection("collection_name")\n'
+    )
     assert arg == (
         "ChromaVectorDB(\n"
         f'            client=chromadb.PersistentClient(path="{local_path}"),\n'
@@ -234,13 +240,23 @@ def test_get_rag_user_vector_db_string_custom_embedding() -> None:
     before, arg, imports = get_rag_user_vector_db_string(rag_user, agent_name)
     # Then
     local_path = os.path.join(os.getcwd(), "local_storage_path")
-    assert before == (
-        "\n\n"
-        "def custom_embedding_function_rag_user():\n"
-        "    # type: () -> Callable[..., Any]\n"
-        "    # pylint: disable=import-outside-toplevel\n"
-        "    from sentence_transformers import SentenceTransformer\n"
-        '    return SentenceTransformer("model").encode\n\n'
+    assert (
+        before
+        == f"""
+rag_user_client = chromadb.PersistentClient(path="{local_path}")
+try:
+    rag_user_client.get_collection("collection_name")
+except ValueError:
+    rag_user_client.create_collection("collection_name")
+
+
+def custom_embedding_function_rag_user():
+    # type: () -> Callable[..., Any]
+    # pylint: disable=import-outside-toplevel
+    from sentence_transformers import SentenceTransformer
+    return SentenceTransformer("model").encode
+
+"""
     )
     assert arg == (
         "ChromaVectorDB(\n"
@@ -292,7 +308,16 @@ def test_get_rag_user_vector_db_string_with_metadata() -> None:
     before, arg, imports = get_rag_user_vector_db_string(rag_user, agent_name)
     # Then
     local_path = os.path.join(os.getcwd(), "local_storage_path")
-    assert before == ""
+    assert (
+        before
+        == f"""
+rag_user_client = chromadb.PersistentClient(path="{local_path}")
+try:
+    rag_user_client.get_collection("collection_name")
+except ValueError:
+    rag_user_client.create_collection("collection_name")
+"""
+    )
     assert arg == (
         "ChromaVectorDB(\n"
         f'            client=chromadb.PersistentClient(path="{local_path}"),\n'

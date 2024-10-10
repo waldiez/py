@@ -12,6 +12,7 @@ def test_waldie_chat_nested() -> None:
     reply = WaldieChatMessage(
         type="string",
         content="Hi",
+        context={},
     )
     # When
     chat_nested = WaldieChatNested(
@@ -34,6 +35,7 @@ def nested_chat_message(recipient, messages, sender, config):
     message = WaldieChatMessage(
         type="method",
         content=message_content,
+        context={},
     )
     # When
     chat_nested = WaldieChatNested(
@@ -84,6 +86,7 @@ def nested_chat_reply(recipient, messages, sender, config):
             message=WaldieChatMessage(
                 type="string",
                 content="Hello there",
+                context={},
             ),
             reply=45,  # type: ignore
         )

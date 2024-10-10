@@ -57,7 +57,7 @@ def comment(notebook: bool, hashtags: int = 1) -> str:
 
 
 def get_comment(
-    key: Literal["agents", "skills", "models", "nested", "run"],
+    key: Literal["agents", "skills", "models", "nested", "run", "logging"],
     for_notebook: bool,
 ) -> str:
     """Get a comment string for some common keys.
@@ -66,7 +66,7 @@ def get_comment(
 
     Parameters
     ----------
-    key : Literal["agents", "skills", "models", "nested", "run"]
+    key : Literal["agents", "skills", "models", "nested", "run", "logging"]
         The key.
     for_notebook : bool
         Whether the comment is for a notebook.
@@ -87,7 +87,7 @@ def get_comment(
     '# Skills'
     ```
     """
-    # mostly to make the caller a tiny bit more readable
+    # pylint: disable=too-many-return-statements
     if key == "agents":
         return "\n" + comment(for_notebook, 2) + "Agents\n"
     if key == "skills":
@@ -98,6 +98,8 @@ def get_comment(
         return "\n" + comment(for_notebook, 2) + "Nested Chats\n"
     if key == "run":
         return "\n" + comment(for_notebook, 2) + "Run the flow\n"
+    if key == "logging":
+        return "\n" + comment(for_notebook, 2) + "Start Logging\n"
     return comment(for_notebook)
 
 

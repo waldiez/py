@@ -48,6 +48,7 @@ lint:
 	yamllint -c .yamllint.yaml .
 	ruff check --config pyproject.toml .
 	pylint --rcfile=pyproject.toml .
+	python scripts/eclint.py
 
 .PHONY: forlint
 forlint: format lint
@@ -117,7 +118,7 @@ docs:
 .PHONY: docs-live
 docs-live:
 	python -m pip install -r requirements/docs.txt
-	python -m mkdocs serve --watch mkdocs.yml --watch docs --watch waldiez
+	python -m mkdocs serve --watch mkdocs.yml --watch docs --watch waldiez --dev-addr localhost:8400
 
 .PHONY: build
 build:

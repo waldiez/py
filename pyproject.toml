@@ -22,7 +22,7 @@ classifiers = [
 ]
 dependencies = [
     "jupytext",
-    "pyautogen==0.3.0",
+    "autogen-agentchat==0.2.36",
     "twisted==24.7.0",
 ]
 
@@ -51,17 +51,28 @@ dev = [
     'pydocstyle==6.3.0',
     'pylint==3.3.1',
     'python-dotenv==1.0.1',
-    'ruff==0.6.7',
+    'ruff==0.6.8',
     'types-PyYAML==6.0.12',
     'yamllint==1.35.1',
 ]
 autogen_extras =[
-    'chromadb==0.5.9',
+    'chromadb==0.5.11',
     'fastembed==0.3.6',
-    'pgvector==0.3.3',
+    'pgvector==0.3.4',
     'psycopg[binary]>=3.2.2',
-    'pyautogen[retrievechat]==0.3.0',
-    'pymongo==4.9.1',
+    'autogen-agentchat[retrievechat]==0.2.36',
+    'autogen-agentchat[retrievechat-pgvector]==0.2.36',
+    'autogen-agentchat[retrievechat-mongodb]==0.2.36',
+    'autogen-agentchat[retrievechat-qdrant]==0.2.36',
+    'autogen-agentchat[retrievechat-couchbase]==0.2.36',
+    'autogen-agentchat[gemini]==0.2.36',
+    'autogen-agentchat[together]==0.2.36',
+    'autogen-agentchat[anthropic]==0.2.36',
+    'autogen-agentchat[mistral]==0.2.36',
+    'autogen-agentchat[groq]==0.2.36',
+    'autogen-agentchat[bedrock]==0.2.36',
+    'autogen-agentchat[websurfer]==0.2.36',
+    'pymongo==4.10.1',
     'qdrant-client==1.11.3',
 ]
 test = [
@@ -78,7 +89,7 @@ docs = [
   'mkdocs==1.6.1',
   'mkdocs-jupyter==0.25.0',
   'mkdocs-macros-plugin==1.2.0',
-  'mkdocs-material==9.5.37',
+  'mkdocs-material==9.5.39',
   'mkdocs-minify-html-plugin==0.2.3',
   'mkdocstrings[crystal,python]==0.26.1',
   'mkdocstrings-python==1.11.1'
@@ -269,11 +280,11 @@ python_files = [
 ]
 addopts = """
     -d \
-		-n auto \
-		--exitfirst \
-		--durations=10 \
-		--color=yes \
-		--timeout=30
+    -n auto \
+    --exitfirst \
+    --durations=10 \
+    --color=yes \
+    --timeout=30
 """
 
 

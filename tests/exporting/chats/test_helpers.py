@@ -11,6 +11,7 @@ from waldiez.models import (
     WaldieChatMessage,
     WaldieChatNested,
     WaldieChatSummary,
+    WaldieRagUser,
 )
 
 
@@ -42,14 +43,18 @@ def test_export_empty_single_chat_string() -> None:
             message=WaldieChatMessage(
                 type="none",
                 content=None,
+                context={},
             ),
-            message_context={},
-            summary_method=None,
-            llm_summary_method_options=None,
+            summary=WaldieChatSummary(
+                method=None,
+                prompt="",
+                args={},
+            ),
             nested_chat=WaldieChatNested(
                 message=WaldieChatMessage(
                     type="none",
                     content=None,
+                    context={},
                 ),
                 reply=None,
             ),
@@ -102,12 +107,12 @@ def test_export_single_chat_string() -> None:
             message=WaldieChatMessage(
                 type="string",
                 content="Hello, wa-2!",
+                context={
+                    "problem": "Solve this problem.",
+                },
             ),
-            message_context={
-                "problem": "Solve this problem.",
-            },
-            summary_method="reflection_with_llm",
-            llm_summary_method_options=WaldieChatSummary(
+            summary=WaldieChatSummary(
+                method="reflection_with_llm",
                 prompt="Summarize the chat.",
                 args={"temperature": "0.5", "max_tokens": "100"},
             ),
@@ -115,6 +120,7 @@ def test_export_single_chat_string() -> None:
                 message=WaldieChatMessage(
                     type="none",
                     content=None,
+                    context={},
                 ),
                 reply=None,
             ),
@@ -164,10 +170,13 @@ def test_export_single_chat_string() -> None:
             message=WaldieChatMessage(
                 type="none",
                 content=None,
+                context={"temperature": "0.5", "max_tokens": "100"},
             ),
-            message_context={"temperature": "0.5", "max_tokens": "100"},
-            summary_method="last_msg",
-            llm_summary_method_options=None,
+            summary=WaldieChatSummary(
+                method="last_msg",
+                prompt="",
+                args={},
+            ),
             nested_chat=WaldieChatNested(
                 message=None,
                 reply=None,
@@ -194,7 +203,6 @@ def test_export_single_chat_string() -> None:
         silent=True,
         temperature=0.5,
         max_tokens=100,
-        message=None,
     )"""
     assert not result[1]
     assert result[0] == expected
@@ -217,10 +225,13 @@ def test_export_single_chat_string() -> None:
                     "def callable_message(sender, recipient, context):\n"
                     "    return 'Hello, wa-1!'"
                 ),
+                context={"temperature": "0.5", "max_tokens": "100"},
             ),
-            message_context={"temperature": "0.5", "max_tokens": "100"},
-            summary_method="last_msg",
-            llm_summary_method_options=None,
+            summary=WaldieChatSummary(
+                method="last_msg",
+                prompt="",
+                args={},
+            ),
             nested_chat=WaldieChatNested(
                 message=None,
                 reply=None,
@@ -294,12 +305,12 @@ def test_export_multiple_chats_string() -> None:
                     "def callable_message(sender, recipient, context):\n"
                     "    return 'Hello, wa-2!'"
                 ),
+                context={
+                    "problem": "Solve this problem.",
+                },
             ),
-            message_context={
-                "problem": "Solve this problem.",
-            },
-            summary_method="reflection_with_llm",
-            llm_summary_method_options=WaldieChatSummary(
+            summary=WaldieChatSummary(
+                method="reflection_with_llm",
                 prompt="Summarize the chat.",
                 args={"temperature": "0.5", "max_tokens": "100"},
             ),
@@ -307,6 +318,7 @@ def test_export_multiple_chats_string() -> None:
                 message=WaldieChatMessage(
                     type="none",
                     content=None,
+                    context={},
                 ),
                 reply=None,
             ),
@@ -329,14 +341,18 @@ def test_export_multiple_chats_string() -> None:
             message=WaldieChatMessage(
                 type="none",
                 content=None,
+                context={"temperature": "0.5", "max_tokens": "100"},
             ),
-            message_context={"temperature": "0.5", "max_tokens": "100"},
-            summary_method="last_msg",
-            llm_summary_method_options=None,
+            summary=WaldieChatSummary(
+                method="last_msg",
+                prompt="",
+                args={},
+            ),
             nested_chat=WaldieChatNested(
                 message=WaldieChatMessage(
                     type="none",
                     content=None,
+                    context={},
                 ),
                 reply=None,
             ),
@@ -359,14 +375,16 @@ def test_export_multiple_chats_string() -> None:
             message=WaldieChatMessage(
                 type="string",
                 content="Hello, wa-3!",
+                context={},
             ),
-            message_context={},
-            summary_method="last_msg",
-            llm_summary_method_options=None,
+            summary=WaldieChatSummary(
+                method="last_msg",
+                prompt="",
+                args={},
+            ),
             nested_chat=WaldieChatNested(
                 message=WaldieChatMessage(
-                    type="none",
-                    content=None,
+                    type="none", content=None, context={}
                 ),
                 reply=None,
             ),
@@ -413,7 +431,6 @@ def test_export_multiple_chats_string() -> None:
             "silent": False,
             "temperature": 0.5,
             "max_tokens": 100,
-            "message": None,
         },
         {
             "sender": agent2,
@@ -432,3 +449,83 @@ def callable_message_chat1(sender, recipient, context):
 """
     assert result[1] == expected_callable_message
     assert result[0] == expected_chats
+
+
+def test_chat_with_rag_user() -> None:
+    """Test chat with RAG user (message_generator)."""
+    # Given
+    agent1 = WaldieRagUser(  # type: ignore
+        id="wa-1",
+        name="agentA",
+        agent_type="rag_user",
+        data={  # type: ignore
+            "retrieve_config": {
+                "n_results": "5",
+            }
+        },
+    )
+    agent2 = WaldieAgent(  # type: ignore
+        id="wa-2",
+        name="agent2",
+        agent_type="assistant",
+    )
+    chat1 = WaldieChat(
+        id="wc-1",
+        data=WaldieChatData(
+            name="chat1",
+            description="A chat that does something.",
+            source="wa-1",
+            target="wa-2",
+            position=-1,
+            order=0,
+            clear_history=False,
+            silent=False,
+            max_turns=5,
+            message=WaldieChatMessage(
+                type="rag_message_generator",
+                content="Hello, wa-2!",
+                context={"problem": "Solve this problem."},
+            ),
+            summary=WaldieChatSummary(
+                method="reflection_with_llm",
+                prompt="Summarize the chat.",
+                args={"temperature": "0.5", "max_tokens": "100"},
+            ),
+            nested_chat=WaldieChatNested(
+                message=WaldieChatMessage(
+                    type="none",
+                    content=None,
+                    context={},
+                ),
+                reply=None,
+            ),
+            real_source=None,
+            real_target=None,
+        ),
+    )
+    chat_names = {"wc-1": "chat1"}
+    agent_names = {"wa-1": "agent1", "wa-2": "agent2"}
+    # When
+    result, _ = export_single_chat_string(
+        flow=(chat1, agent1, agent2),
+        chat_names=chat_names,
+        agent_names=agent_names,
+        tabs=0,
+    )
+    # Then
+    expected = """agent1.initiate_chat(
+    agent2,
+    summary_method="reflection_with_llm",
+    summary_args={
+        "summary_prompt": "Summarize the chat.",
+        "temperature": "0.5",
+        "max_tokens": "100"
+    },
+    max_turns=5,
+    clear_history=False,
+    silent=False,
+    problem="Solve this problem.",
+    n_results=5,
+    message=agent1.message_generator,
+)"""
+    assert result == expected

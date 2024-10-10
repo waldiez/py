@@ -18,6 +18,8 @@
   "codehilite",
   "commandline",
   "crossrefs",
+  "eclint",
+  "greut",
   "groq",
   "groupchat",
   "hnsw",

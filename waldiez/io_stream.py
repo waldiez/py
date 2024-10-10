@@ -11,7 +11,7 @@ We use:
 
 - one tcp server to handle messaging between the clients
 - one tcp client (provider) to set and forward the user's input
-  that we got elsewhere (e.g. from a websocket connection)
+    that we got elsewhere (e.g. from a websocket connection)
 - one tcp client (consumer) to ask and get the input from the provider
 """
 
@@ -78,9 +78,9 @@ class WaldieIOStream(IOStream):
         """Forward the user's input to the provider.
 
         When we have the input data
-          e.g. from 'input(..)' or from a websocket connection,
-          we can forward it to the provider (the tcp client)
-          to make it available to the consumer (the other tcp client).
+            e.g. from 'input(..)' or from a websocket connection,
+            we can forward it to the provider (the tcp client)
+            to make it available to the consumer (the other tcp client).
         Parameters
         ----------
         input_data : str

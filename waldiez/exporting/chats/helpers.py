@@ -10,7 +10,12 @@ export_multiple_chats_string
 
 from typing import Any, Dict, List, Optional, Tuple
 
-from waldiez.models import WaldieAgent, WaldieChat, WaldieChatMessage
+from waldiez.models import (
+    WaldieAgent,
+    WaldieChat,
+    WaldieChatMessage,
+    WaldieRagUser,
+)
 
 from ..utils import get_escaped_string, get_object_string
 
@@ -70,16 +75,21 @@ def export_single_chat_string(
     """
     tab = "    " * tabs
     chat, sender, recipient = flow
-    chat_args = chat.get_chat_args()
-    sender_name = agent_names[sender.id]
-    recipient_name = agent_names[recipient.id]
+    chat_args = chat.get_chat_args(sender=sender)
     if not chat_args:
-        return _get_empty_simple_chat_string(tab, sender_name, recipient_name)
+        return _get_empty_simple_chat_string(
+            tab,
+            chat=chat,
+            sender=sender,
+            recipient=recipient,
+            agent_names=agent_names,
+        )
     return _get_simple_chat_string(
         chat=chat,
         chat_args=chat_args,
-        sender_name=sender_name,
-        recipient_name=recipient_name,
+        sender=sender,
+        recipient=recipient,
+        agent_names=agent_names,
         chat_names=chat_names,
         tabs=tabs,
     )
@@ -252,7 +262,7 @@ def _get_chat_dict_string(
         The chat dictionary string and additional methods string if any.
     """
     tab = "    " * tabs
-    chat_args = chat.get_chat_args()
+    chat_args = chat.get_chat_args(sender=sender)
     chat_string = "{"
     chat_string += "\n" + f'{tab}    "sender": {agent_names[sender.id]},'
     chat_string += "\n" + f'{tab}    "recipient": {agent_names[recipient.id]},'
@@ -279,31 +289,79 @@ def _get_chat_dict_string(
             chat_string += "\n" + f'{tab}    "message": {message},'
         elif chat.data.message.type == "string" and chat.data.message.content:
             chat_string += "\n" + f'{tab}    "message": "{message}",'
-        else:
-            chat_string += "\n" + f'{tab}    "message": None,'
     chat_string += "\n" + tab + "},"
     return chat_string, additional_methods_string
 
 
 def _get_empty_simple_chat_string(
-    tab: str, sender_name: str, recipient_name: str
+    tab: str,
+    chat: WaldieChat,
+    sender: WaldieAgent,
+    recipient: WaldieAgent,
+    agent_names: Dict[str, str],
 ) -> Tuple[str, str]:
     content = tab
+    sender_name = agent_names[sender.id]
+    recipient_name = agent_names[recipient.id]
     content += f"{sender_name}.initiate_chat(\n"
     content += tab + f"    {recipient_name},\n"
+    message_arg, _ = _get_chat_message(
+        tab=tab,
+        chat=chat,
+        chat_names={},
+        sender=sender,
+        sender_name=sender_name,
+    )
+    content += message_arg
     content += tab + ")"
     return content, ""
 
 
+def _get_chat_message(
+    tab: str,
+    chat: WaldieChat,
+    chat_names: Dict[str, str],
+    sender: WaldieAgent,
+    sender_name: str,
+) -> Tuple[str, str]:
+    additional_methods_string = ""
+    method_content: Optional[str] = None
+    if (
+        sender.agent_type == "rag_user"
+        and isinstance(sender, WaldieRagUser)
+        and chat.message.type == "rag_message_generator"
+    ):
+        message = f"{sender_name}.message_generator"
+        return f"\n{tab}    message={message},", additional_methods_string
+    message, method_content = _get_chat_message_string(
+        chat=chat,
+        chat_names=chat_names,
+    )
+    if message and isinstance(chat.data.message, WaldieChatMessage):
+        message = get_escaped_string(message)
+        if chat.data.message.type == "method":
+            additional_methods_string += (
+                method_content if method_content else ""
+            )
+            return f"\n{tab}    message={message},", additional_methods_string
+        if chat.message.type == "string" and chat.data.message.content:
+            return f'\n{tab}    message="{message}",', additional_methods_string
+        return "", additional_methods_string
+    return "", additional_methods_string  # pragma: no cover
+
+
 def _get_simple_chat_string(
     chat: WaldieChat,
-    sender_name: str,
-    recipient_name: str,
+    sender: WaldieAgent,
+    recipient: WaldieAgent,
+    agent_names: Dict[str, str],
     chat_names: Dict[str, str],
     chat_args: Dict[str, Any],
     tabs: int,
 ) -> Tuple[str, str]:
     tab = "    " * tabs
+    sender_name = agent_names[sender.id]
+    recipient_name = agent_names[recipient.id]
     chat_string = f"{sender_name}.initiate_chat(\n"
     chat_string += f"{tab}    {recipient_name},"
     for key, value in chat_args.items():
@@ -315,21 +373,13 @@ def _get_simple_chat_string(
             )
         else:
             chat_string += f"\n{tab}    {key}={value},"
-    additional_methods_string = ""
-    message, method_content = _get_chat_message_string(
+    message_arg, additional_methods_string = _get_chat_message(
+        tab=tab,
         chat=chat,
         chat_names=chat_names,
+        sender=sender,
+        sender_name=sender_name,
     )
-    if message and isinstance(chat.data.message, WaldieChatMessage):
-        message = get_escaped_string(message)
-        if chat.data.message.type == "method":
-            additional_methods_string += (
-                method_content if method_content else ""
-            )
-            chat_string += f"\n{tab}    message={message},"
-        elif chat.message.type == "string" and chat.data.message.content:
-            chat_string += f'\n{tab}    message="{message}",'
-        else:
-            chat_string += f"\n{tab}    message=None,"
+    chat_string += message_arg
     chat_string += f"\n{tab})"
     return chat_string, additional_methods_string

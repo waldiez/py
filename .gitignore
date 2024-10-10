@@ -7,6 +7,8 @@ site/
 reports/
 waldie_out/
 **/logs/
+**/tmp/
+**/documents/
 *.log
 *.db
 *.sqlite3

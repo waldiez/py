@@ -99,15 +99,15 @@ class WaldieModel(WaldieBase):
 
         Either from the model's data or from the environment variables:
 
-          - openai: 'OPENAI_API_KEY',
-          - azure: 'AZURE_API_KEY',
-          - google: 'GOOGLE_GEMINI_API_KEY',
-          - anthropic: 'ANTHROPIC_API_KEY',
-          - mistral: 'MISTRAL_API_KEY',
-          - groq: 'GROQ_API_KEY',
-          - together: 'TOGETHER_API_KEY',
-          - nim: 'NIM_API_KEY',
-          - other: 'OPENAI_API_KEY'
+            - openai: 'OPENAI_API_KEY',
+            - azure: 'AZURE_API_KEY',
+            - google: 'GOOGLE_GEMINI_API_KEY',
+            - anthropic: 'ANTHROPIC_API_KEY',
+            - mistral: 'MISTRAL_API_KEY',
+            - groq: 'GROQ_API_KEY',
+            - together: 'TOGETHER_API_KEY',
+            - nim: 'NIM_API_KEY',
+            - other: 'OPENAI_API_KEY'
         """
         if self.data.api_key:
             return self.data.api_key
@@ -133,9 +133,19 @@ class WaldieModel(WaldieBase):
             ]
         return None
 
-    @property
-    def llm_config(self) -> Dict[str, Any]:
-        """Get the model's llm config to be used as an autogen argument."""
+    def get_llm_config(self, skip_price: bool = False) -> Dict[str, Any]:
+        """Get the model's llm config.
+
+        Parameters
+        ----------
+        skip_price : bool, optional
+            Whether to skip the price, by default False
+
+        Returns
+        -------
+        Dict[str, Any]
+            The model's llm config dictionary.
+        """
         _llm_config: Dict[str, Any] = {}
         _llm_config["model"] = self.name
         for attr, atr_type in [
@@ -151,7 +161,8 @@ class WaldieModel(WaldieBase):
                 _llm_config[attr] = value
         if self.data.api_type not in ["nim", "other"]:
             _llm_config["api_type"] = self.data.api_type
-        for attr in ["api_key", "price"]:
+        other_attrs = ["api_key"] if skip_price else ["api_key", "price"]
+        for attr in other_attrs:
             value = getattr(self, attr)
             if value:
                 _llm_config[attr] = value

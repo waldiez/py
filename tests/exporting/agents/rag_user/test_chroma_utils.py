@@ -28,6 +28,7 @@ def test_get_chroma_db_args() -> None:
             retrieve_config=WaldieRagUserRetrieveConfig(  # type: ignore
                 docs_path="docs_path",
                 collection_name="collection_name",
+                get_or_create=True,
                 vector_db="chroma",
                 db_config=WaldieRagUserVectorDbConfig(  # type: ignore
                     use_local_storage=True,
@@ -40,7 +41,9 @@ def test_get_chroma_db_args() -> None:
     )
     agent_name = "rag_user"
     # When
-    kwargs, imports, embeddings_func = get_chroma_db_args(rag_user, agent_name)
+    kwargs, imports, embeddings_func, before = get_chroma_db_args(
+        rag_user, agent_name
+    )
     # Then
     local_path = os.path.join(os.getcwd(), "local_storage_path")
     assert kwargs == (
@@ -52,6 +55,10 @@ def test_get_chroma_db_args() -> None:
         "chromadb",
         "from chromadb.utils.embedding_functions.sentence_transformer_embedding_function import SentenceTransformerEmbeddingFunction",
     }
+    assert before == (
+        f'rag_user_client = chromadb.PersistentClient(path="{local_path}")\n'
+        'rag_user_client.get_or_create_collection("collection_name")\n'
+    )
 
 
 def test_get_chroma_db_args_no_local() -> None:
@@ -81,7 +88,9 @@ def test_get_chroma_db_args_no_local() -> None:
     )
     agent_name = "rag_user"
     # When
-    kwargs, imports, embeddings_func = get_chroma_db_args(rag_user, agent_name)
+    kwargs, imports, embeddings_func, _ = get_chroma_db_args(
+        rag_user, agent_name
+    )
     # Then
     assert kwargs == (
         "            client=chromadb.Client(),\n"
@@ -126,7 +135,9 @@ def test_get_chroma_db_custom_embeddings() -> None:
     )
     agent_name = "rag_user"
     # When
-    kwargs, imports, embeddings_func = get_chroma_db_args(rag_user, agent_name)
+    kwargs, imports, embeddings_func, _ = get_chroma_db_args(
+        rag_user, agent_name
+    )
     # Then
     assert kwargs == (
         "            client=chromadb.Client(),\n"

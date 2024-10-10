@@ -5,6 +5,7 @@ from typing import Any, Dict, Optional
 from pydantic import Field
 from typing_extensions import Annotated
 
+from ..agents import WaldieAgent, WaldieRagUser
 from ..common import WaldieBase
 from .chat_data import WaldieChatData
 from .chat_message import WaldieChatMessage
@@ -87,7 +88,9 @@ class WaldieChat(WaldieBase):
         if isinstance(
             self.data.message, str
         ):  # pragma: no cover (just for the lint)
-            return WaldieChatMessage(type="string", content=self.data.message)
+            return WaldieChatMessage(
+                type="string", content=self.data.message, context={}
+            )
         return self.data.message
 
     @property
@@ -95,12 +98,29 @@ class WaldieChat(WaldieBase):
         """Get the message content."""
         return self.data.message_content
 
-    def get_chat_args(self) -> Dict[str, Any]:
+    def get_chat_args(
+        self,
+        sender: Optional[WaldieAgent] = None,
+    ) -> Dict[str, Any]:
         """Get the chat arguments to use in autogen.
 
+        Parameters
+        ----------
+        sender : WaldieAgent
+            The sender agent, to check if it's a RAG user.
         Returns
         -------
         dict
             The chat arguments.
         """
-        return self.data.get_chat_args()
+        args_dict = self.data.get_chat_args()
+        if (
+            isinstance(sender, WaldieRagUser)
+            and sender.agent_type == "rag_user"
+            and self.message.type == "rag_message_generator"
+        ):
+            # check for n_results in agent data, to add in context
+            n_results = sender.data.retrieve_config.n_results
+            if isinstance(n_results, int) and n_results > 0:
+                args_dict["n_results"] = n_results
+        return args_dict

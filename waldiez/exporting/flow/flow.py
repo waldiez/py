@@ -94,6 +94,7 @@ def export_flow(
             agent_names=agent_names,
             model_names=model_names,
             skill_names=skill_names,
+            all_models=all_models,
             all_skills=all_skills,
             group_chat_members=waldie.flow.get_group_chat_members(agent.id),
         )
@@ -113,6 +114,11 @@ def export_flow(
         if agent_nested_chats_string:
             nested_chats_strings += "\n" + agent_nested_chats_string
     agent_strings += skipped_agent_strings
+    models_string = export_models(
+        all_models=all_models,
+        model_names=model_names,
+        notebook=notebook,
+    )
     all_imports_string = get_imports_string(
         imports=other_imports,
         builtin_imports=builtin_imports,
@@ -123,9 +129,8 @@ def export_flow(
         imports_string=all_imports_string,
         agents_string=agent_strings,
         nested_chats_string=nested_chats_strings,
+        models_string=models_string,
         agent_names=agent_names,
-        all_models=all_models,
-        model_names=model_names,
         chat_names=chat_names,
         notebook=notebook,
     )
@@ -137,19 +142,15 @@ def _combine_strings(
     imports_string: str,
     agents_string: str,
     nested_chats_string: str,
+    models_string: str,
     agent_names: Dict[str, str],
-    all_models: List[WaldieModel],
-    model_names: Dict[str, str],
     chat_names: Dict[str, str],
     notebook: bool,
 ) -> str:
     content = get_pylint_ignore_comment(notebook)
     content += imports_string
-    models_string = export_models(
-        all_models=all_models,
-        model_names=model_names,
-        notebook=notebook,
-    )
+    # content += get_comment("logging", notebook) + "\n"
+    # content += get_logging_start_string(tabs=0) + "\n\n"
     content += models_string
     content += get_comment("agents", notebook) + "\n"
     content += agents_string

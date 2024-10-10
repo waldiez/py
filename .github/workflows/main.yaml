@@ -28,6 +28,22 @@ jobs:
           pip install -r requirements/main.txt -r requirements/dev.txt -r requirements/test.txt
       - name: pylint
         run: pylint --rcfile=pyproject.toml .
+      - name: isort
+        run: isort --check-only .
+      - name: black
+        run: black --check --config pyproject.toml .
+      - name: mypy
+        run: mypy --config pyproject.toml .
+      - name: flake8
+        run: flake8 --config=.flake8
+      - name: pydocstyle
+        run: pydocstyle --config pyproject.toml .
+      - name: bandit
+        run: bandit -r -c pyproject.toml .
+      - name: yamllint
+        run: yamllint -c .yamllint.yaml .
+      - name: ruff
+        run: ruff check --config pyproject.toml .
 
   test:
     runs-on: ubuntu-latest

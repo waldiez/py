@@ -23,6 +23,7 @@ def test_get_comment() -> None:
     assert get_comment("models", True) == "\n# ## Models\n"
     assert get_comment("nested", False) == "\n# Nested Chats\n"
     assert get_comment("run", True) == "\n# ## Run the flow\n"
+    assert get_comment("logging", False) == "\n# Start Logging\n"
     assert get_comment("invalid", False) == "# "  # type: ignore
 
 

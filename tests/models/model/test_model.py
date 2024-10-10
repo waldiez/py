@@ -66,7 +66,7 @@ def test_valid_waldie_model() -> None:
     assert model_dump["requirements"] == ["requirement1", "requirement2"]
     assert model_dump["data"]["apiKey"] == "api_key"
     # When
-    llm_config = model.llm_config
+    llm_config = model.get_llm_config()
     # # Then
     assert llm_config == {
         "model": name,
