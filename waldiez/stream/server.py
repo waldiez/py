@@ -11,6 +11,7 @@ from threading import Thread
 from types import TracebackType
 from typing import Dict, Optional, Type, cast
 
+from twisted.internet.error import ReactorNotRestartable
 from twisted.internet.interfaces import IReactorCore
 from twisted.internet.protocol import Factory, Protocol, connectionDone
 from twisted.internet.tcp import Port
@@ -243,7 +244,11 @@ class TCPServerThread(Thread):
         if self.reactor is None:  # pragma: no cover (just for the linter)
             raise RuntimeError("reactor is not running")
         if not self.reactor.running:
-            self.reactor.run(installSignalHandlers=False)  # type: ignore
+            try:
+                self.reactor.run(installSignalHandlers=False)  # type: ignore
+            except ReactorNotRestartable:  # pragma: no cover
+                self.reactor = get_reactor()
+                self.reactor.run(installSignalHandlers=False)  # type: ignore
 
 
 class ServerWrapper:
