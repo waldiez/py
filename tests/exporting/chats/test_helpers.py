@@ -529,3 +529,139 @@ def test_chat_with_rag_user() -> None:
     message=agent1.message_generator,
 )"""
     assert result == expected
+
+
+def test_rag_user_with_multiple_chats() -> None:
+    """Test RAG user with multiple chats."""
+    # Given
+    agent1 = WaldieRagUser(  # type: ignore
+        id="wa-1",
+        name="agentA",
+        agent_type="rag_user",
+        data={  # type: ignore
+            "retrieve_config": {
+                "n_results": "5",
+            }
+        },
+    )
+    agent2 = WaldieAgent(  # type: ignore
+        id="wa-2",
+        name="agent2",
+        agent_type="assistant",
+    )
+    agent3 = WaldieAgent(  # type: ignore
+        id="wa-3",
+        name="agent3",
+        agent_type="user",
+    )
+    chat1 = WaldieChat(
+        id="wc-1",
+        data=WaldieChatData(
+            name="chat1",
+            description="A chat that does something.",
+            source="wa-1",
+            target="wa-2",
+            position=-1,
+            order=0,
+            clear_history=False,
+            silent=False,
+            max_turns=5,
+            message=WaldieChatMessage(
+                type="rag_message_generator",
+                content="Hello, wa-2!",
+                context={"problem": "Solve this problem."},
+            ),
+            summary=WaldieChatSummary(
+                method="reflection_with_llm",
+                prompt="Summarize the chat.",
+                args={"temperature": "0.5", "max_tokens": "100"},
+            ),
+            nested_chat=WaldieChatNested(
+                message=WaldieChatMessage(
+                    type="none",
+                    content=None,
+                    context={},
+                ),
+                reply=None,
+            ),
+            real_source=None,
+            real_target=None,
+        ),
+    )
+    chat2 = WaldieChat(
+        id="wc-2",
+        data=WaldieChatData(
+            name="chat2",
+            description="A chat that does something else.",
+            source="wa-2",
+            target="wa-3",
+            position=-1,
+            order=1,
+            clear_history=False,
+            silent=False,
+            max_turns=5,
+            message=WaldieChatMessage(
+                type="none",
+                content=None,
+                context={"temperature": "0.5", "max_tokens": "100"},
+            ),
+            summary=WaldieChatSummary(
+                method="last_msg",
+                prompt="",
+                args={},
+            ),
+            nested_chat=WaldieChatNested(
+                message=WaldieChatMessage(
+                    type="none",
+                    content=None,
+                    context={},
+                ),
+                reply=None,
+            ),
+            real_source=None,
+            real_target=None,
+        ),
+    )
+
+    chat_names = {"wc-1": "chat1", "wc-2": "chat2"}
+    agent_names = {"wa-1": "agent1", "wa-2": "agent2", "wa-3": "agent3"}
+    # When
+    result, _ = export_multiple_chats_string(
+        main_chats=[
+            (chat1, agent1, agent2),
+            (chat2, agent2, agent3),
+        ],
+        chat_names=chat_names,
+        agent_names=agent_names,
+        tabs=1,
+    )
+    # Then
+    expected_chats = """initiate_chats([
+        {
+            "sender": agent1,
+            "recipient": agent2,
+            "summary_method": "reflection_with_llm",
+            "summary_args": {
+                "summary_prompt": "Summarize the chat.",
+                "temperature": "0.5",
+                "max_tokens": "100"
+            },
+            "max_turns": 5,
+            "clear_history": False,
+            "silent": False,
+            "problem": "Solve this problem.",
+            "n_results": 5,
+            "message": agent1.message_generator,
+        },
+        {
+            "sender": agent2,
+            "recipient": agent3,
+            "summary_method": "last_msg",
+            "max_turns": 5,
+            "clear_history": False,
+            "silent": False,
+            "temperature": 0.5,
+            "max_tokens": 100,
+        },
+    ])"""
+    assert result == expected_chats

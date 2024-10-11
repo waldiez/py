@@ -53,7 +53,7 @@ def test_get_chroma_db_args() -> None:
     assert embeddings_func == ""
     assert imports == {
         "chromadb",
-        "from chromadb.utils.embedding_functions.sentence_transformer_embedding_function import SentenceTransformerEmbeddingFunction",
+        "from chromadb.utils.embedding_functions import SentenceTransformerEmbeddingFunction",
     }
     assert before == (
         f'rag_user_client = chromadb.PersistentClient(path="{local_path}")\n'
@@ -99,7 +99,7 @@ def test_get_chroma_db_args_no_local() -> None:
     assert embeddings_func == ""
     assert imports == {
         "chromadb",
-        "from chromadb.utils.embedding_functions.sentence_transformer_embedding_function import SentenceTransformerEmbeddingFunction",
+        "from chromadb.utils.embedding_functions import SentenceTransformerEmbeddingFunction",
     }
 
 

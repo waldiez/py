@@ -192,7 +192,8 @@ def export_multiple_chats_string(
 
 
 def _get_chat_message_string(
-    chat: WaldieChat, chat_names: Dict[str, str]
+    chat: WaldieChat,
+    chat_names: Dict[str, str],
 ) -> Tuple[str, Optional[str]]:
     """Get the agent's message as a string.
 
@@ -277,6 +278,15 @@ def _get_chat_dict_string(
             )
         else:
             chat_string += "\n" + f'{tab}    "{key}": {value},'
+    if (
+        sender.agent_type == "rag_user"
+        and isinstance(sender, WaldieRagUser)
+        and chat.message.type == "rag_message_generator"
+    ):
+        message = f"{agent_names[sender.id]}.message_generator"
+        chat_string += "\n" + f'{tab}    "message": {message},'
+        chat_string += "\n" + tab + "},"
+        return chat_string, additional_methods_string
     message, method_content = _get_chat_message_string(
         chat=chat,
         chat_names=chat_names,

@@ -57,9 +57,8 @@ def _get_chroma_embedding_function_string(
     vector_db_model = agent.retrieve_config.db_config.model
     if not agent.retrieve_config.use_custom_embedding:
         to_import = (
-            "from chromadb.utils.embedding_functions."
-            "sentence_transformer_embedding_function import "
-            "SentenceTransformerEmbeddingFunction"
+            "from chromadb.utils.embedding_functions "
+            "import SentenceTransformerEmbeddingFunction"
         )
         embedding_function_arg = "SentenceTransformerEmbeddingFunction("
         embedding_function_arg += f'model_name="{vector_db_model}")'
