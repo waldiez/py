@@ -89,7 +89,7 @@ def test_get_rag_user_extras() -> None:
     },"""
     )
     assert db_imports == {
-        "from chromadb.utils.embedding_functions.sentence_transformer_embedding_function import SentenceTransformerEmbeddingFunction",
+        "from chromadb.utils.embedding_functions import SentenceTransformerEmbeddingFunction",
         "chromadb",
         "from autogen.agentchat.contrib.vectordb.chromadb import ChromaVectorDB",
     }

@@ -61,7 +61,7 @@ def test_get_rag_user_vector_db_string_chroma() -> None:
         "        )"
     )
     assert imports == {
-        "from chromadb.utils.embedding_functions.sentence_transformer_embedding_function import SentenceTransformerEmbeddingFunction",
+        "from chromadb.utils.embedding_functions import SentenceTransformerEmbeddingFunction",
         "from autogen.agentchat.contrib.vectordb.chromadb import ChromaVectorDB",
         "chromadb",
     }
@@ -333,5 +333,5 @@ except ValueError:
     assert imports == {
         "chromadb",
         "from autogen.agentchat.contrib.vectordb.chromadb import ChromaVectorDB",
-        "from chromadb.utils.embedding_functions.sentence_transformer_embedding_function import SentenceTransformerEmbeddingFunction",
+        "from chromadb.utils.embedding_functions import SentenceTransformerEmbeddingFunction",
     }
