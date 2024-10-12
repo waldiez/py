@@ -67,15 +67,20 @@ class WaldieChatNested(WaldieBase):
             else "nested_chat_reply"
         )
         if not value:
-            return WaldieChatMessage(type="none", content=None, context={})
+            return WaldieChatMessage(
+                type="none", use_carryover=False, content=None, context={}
+            )
         if isinstance(value, str):
-            return WaldieChatMessage(type="string", content=value, context={})
+            return WaldieChatMessage(
+                type="string", use_carryover=False, content=value, context={}
+            )
         if isinstance(value, dict):
             return validate_message_dict(value, function_name=function_name)
         if isinstance(value, WaldieChatMessage):
             return validate_message_dict(
                 {
                     "type": value.type,
+                    "use_carryover": False,
                     "content": value.content,
                     "context": value.context,
                 },

@@ -46,6 +46,7 @@ def test_export_chats() -> None:
             clear_history=False,
             message=WaldieChatMessage(
                 type="string",
+                use_carryover=False,
                 content="Hello, world!",
                 context={},
             ),
@@ -76,6 +77,7 @@ def test_export_chats() -> None:
             clear_history=False,
             message=WaldieChatMessage(
                 type="string",
+                use_carryover=False,
                 content="Goodbye, world!",
                 context={},
             ),

@@ -44,6 +44,7 @@ def test_export_empty_single_chat_string() -> None:
                 type="none",
                 content=None,
                 context={},
+                use_carryover=False,
             ),
             summary=WaldieChatSummary(
                 method=None,
@@ -53,6 +54,7 @@ def test_export_empty_single_chat_string() -> None:
             nested_chat=WaldieChatNested(
                 message=WaldieChatMessage(
                     type="none",
+                    use_carryover=False,
                     content=None,
                     context={},
                 ),
@@ -106,6 +108,7 @@ def test_export_single_chat_string() -> None:
             max_turns=5,
             message=WaldieChatMessage(
                 type="string",
+                use_carryover=False,
                 content="Hello, wa-2!",
                 context={
                     "problem": "Solve this problem.",
@@ -119,6 +122,7 @@ def test_export_single_chat_string() -> None:
             nested_chat=WaldieChatNested(
                 message=WaldieChatMessage(
                     type="none",
+                    use_carryover=False,
                     content=None,
                     context={},
                 ),
@@ -169,6 +173,7 @@ def test_export_single_chat_string() -> None:
             max_turns=10,
             message=WaldieChatMessage(
                 type="none",
+                use_carryover=False,
                 content=None,
                 context={"temperature": "0.5", "max_tokens": "100"},
             ),
@@ -221,6 +226,7 @@ def test_export_single_chat_string() -> None:
             max_turns=10,
             message=WaldieChatMessage(
                 type="method",
+                use_carryover=False,
                 content=(
                     "def callable_message(sender, recipient, context):\n"
                     "    return 'Hello, wa-1!'"
@@ -301,6 +307,7 @@ def test_export_multiple_chats_string() -> None:
             max_turns=5,
             message=WaldieChatMessage(
                 type="method",
+                use_carryover=False,
                 content=(
                     "def callable_message(sender, recipient, context):\n"
                     "    return 'Hello, wa-2!'"
@@ -317,6 +324,7 @@ def test_export_multiple_chats_string() -> None:
             nested_chat=WaldieChatNested(
                 message=WaldieChatMessage(
                     type="none",
+                    use_carryover=False,
                     content=None,
                     context={},
                 ),
@@ -340,6 +348,7 @@ def test_export_multiple_chats_string() -> None:
             max_turns=5,
             message=WaldieChatMessage(
                 type="none",
+                use_carryover=False,
                 content=None,
                 context={"temperature": "0.5", "max_tokens": "100"},
             ),
@@ -351,6 +360,7 @@ def test_export_multiple_chats_string() -> None:
             nested_chat=WaldieChatNested(
                 message=WaldieChatMessage(
                     type="none",
+                    use_carryover=False,
                     content=None,
                     context={},
                 ),
@@ -374,6 +384,7 @@ def test_export_multiple_chats_string() -> None:
             max_turns=5,
             message=WaldieChatMessage(
                 type="string",
+                use_carryover=False,
                 content="Hello, wa-3!",
                 context={},
             ),
@@ -384,7 +395,7 @@ def test_export_multiple_chats_string() -> None:
             ),
             nested_chat=WaldieChatNested(
                 message=WaldieChatMessage(
-                    type="none", content=None, context={}
+                    type="none", use_carryover=False, content=None, context={}
                 ),
                 reply=None,
             ),
@@ -483,6 +494,7 @@ def test_chat_with_rag_user() -> None:
             max_turns=5,
             message=WaldieChatMessage(
                 type="rag_message_generator",
+                use_carryover=False,
                 content="Hello, wa-2!",
                 context={"problem": "Solve this problem."},
             ),
@@ -494,6 +506,7 @@ def test_chat_with_rag_user() -> None:
             nested_chat=WaldieChatNested(
                 message=WaldieChatMessage(
                     type="none",
+                    use_carryover=False,
                     content=None,
                     context={},
                 ),
@@ -568,6 +581,7 @@ def test_rag_user_with_multiple_chats() -> None:
             max_turns=5,
             message=WaldieChatMessage(
                 type="rag_message_generator",
+                use_carryover=False,
                 content="Hello, wa-2!",
                 context={"problem": "Solve this problem."},
             ),
@@ -579,6 +593,7 @@ def test_rag_user_with_multiple_chats() -> None:
             nested_chat=WaldieChatNested(
                 message=WaldieChatMessage(
                     type="none",
+                    use_carryover=False,
                     content=None,
                     context={},
                 ),
@@ -602,6 +617,7 @@ def test_rag_user_with_multiple_chats() -> None:
             max_turns=5,
             message=WaldieChatMessage(
                 type="none",
+                use_carryover=False,
                 content=None,
                 context={"temperature": "0.5", "max_tokens": "100"},
             ),
@@ -613,6 +629,7 @@ def test_rag_user_with_multiple_chats() -> None:
             nested_chat=WaldieChatNested(
                 message=WaldieChatMessage(
                     type="none",
+                    use_carryover=False,
                     content=None,
                     context={},
                 ),

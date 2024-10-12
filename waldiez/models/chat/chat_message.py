@@ -8,7 +8,7 @@ from typing_extensions import Annotated, Literal
 from ..common import WaldieBase, WaldieMethodName, check_function
 
 WaldieChatMessageType = Literal[
-    "string", "method", "last_carryover", "rag_message_generator", "none"
+    "string", "method", "rag_message_generator", "none"
 ]
 
 
@@ -31,11 +31,8 @@ class WaldieChatMessage(WaldieBase):
         The type of the message:
         - string
         - method
-        - last_carryover
         - rag_message_generator
         - none
-        If last_carryover, a method to return the context's last carryover
-        will be used.
         If the sender is a RAG user agent,
         and the type is `rag_message_generator`,
         the `{sender}.message_generator` method will be used.
@@ -52,7 +49,7 @@ class WaldieChatMessage(WaldieBase):
             title="Type",
             description=(
                 "The type of the message: "
-                "`string`, `method`, `last_carryover`, "
+                "`string`, `method`, "
                 "`rag_message_generator` or `none`."
                 "If last_carryover, a method to return the context's"
                 "last carryover will be used."
@@ -60,6 +57,14 @@ class WaldieChatMessage(WaldieBase):
                 "and the type is `message_generator`,"
                 "the `sender.message_generator` method will be used."
             ),
+        ),
+    ]
+    use_carryover: Annotated[
+        bool,
+        Field(
+            False,
+            title="Use Carryover",
+            description="Use the carryover from the context.",
         ),
     ]
     content: Annotated[
@@ -82,8 +87,8 @@ class WaldieChatMessage(WaldieBase):
 
 def validate_message_dict(
     value: Dict[
-        Literal["type", "content", "context"],
-        Union[Optional[str], Optional[Dict[str, Any]]],
+        Literal["type", "use_carryover", "content", "context"],
+        Union[Optional[str], Optional[bool], Optional[Dict[str, Any]]],
     ],
     function_name: WaldieMethodName,
 ) -> WaldieChatMessage:
@@ -110,17 +115,33 @@ def validate_message_dict(
     ValueError
         If the validation fails.
     """
-    message_type, content, context = _get_message_args_from_dict(value)
+    message_type, use_carryover, content, context = _get_message_args_from_dict(
+        value
+    )
     if message_type == "string":
-        if not content:
-            raise ValueError(
-                "The message content is required for the string type"
+        if not content or not isinstance(content, str):
+            content = ""
+        if use_carryover:
+            method_content = _get_last_carryover_method_content(content)
+            return WaldieChatMessage(
+                type="method",
+                use_carryover=False,
+                content=method_content,
+                context=context,
             )
         return WaldieChatMessage(
-            type="string", content=content, context=context
+            type="string",
+            use_carryover=use_carryover,
+            content=content,
+            context=context,
         )
     if message_type == "none":
-        return WaldieChatMessage(type="none", content=None, context=context)
+        return WaldieChatMessage(
+            type="none",
+            use_carryover=use_carryover,
+            content=None,
+            context=context,
+        )
     if message_type == "method":
         if not content:
             raise ValueError(
@@ -130,28 +151,34 @@ def validate_message_dict(
         if not valid:
             raise ValueError(error_or_content)
         return WaldieChatMessage(
-            type="method", content=error_or_content, context=context
-        )
-    if message_type == "last_carryover":
-        before_carryover = context.get("text", "")
-        if not isinstance(before_carryover, str):
-            before_carryover = ""
-        return WaldieChatMessage(
             type="method",
-            content=_get_last_carryover_method_content(before_carryover),
-            context={},
+            use_carryover=False,
+            content=error_or_content,
+            context=context,
         )
-    return WaldieChatMessage(
-        type="rag_message_generator", content=None, context=context
-    )
+    if message_type == "rag_message_generator":
+        if use_carryover:
+            return WaldieChatMessage(
+                type="method",
+                use_carryover=False,
+                content=RAG_METHOD_WITH_CARRYOVER,
+                context=context,
+            )
+        return WaldieChatMessage(
+            type="rag_message_generator",
+            use_carryover=use_carryover,
+            content=None,
+            context=context,
+        )
+    raise ValueError("Invalid message type")  # pragma: no cover
 
 
 def _get_message_args_from_dict(
     value: Dict[
-        Literal["type", "content", "context"],
-        Union[Optional[str], Optional[Dict[str, Any]]],
+        Literal["type", "use_carryover", "content", "context"],
+        Union[Optional[str], Optional[bool], Optional[Dict[str, Any]]],
     ],
-) -> Tuple[str, Optional[str], Dict[str, Any]]:
+) -> Tuple[str, bool, Optional[str], Dict[str, Any]]:
     """Get the message args from a dict.
 
     Parameters
@@ -173,11 +200,13 @@ def _get_message_args_from_dict(
     if not isinstance(message_type, str) or message_type not in (
         "string",
         "method",
-        "last_carryover",
         "rag_message_generator",
         "none",
     ):
         raise ValueError("Invalid message type")
+    use_carryover = value.get("use_carryover", False)
+    if not isinstance(use_carryover, bool):
+        use_carryover = False
     content = value.get("content", "")
     if not isinstance(content, str):
         content = ""
@@ -187,31 +216,31 @@ def _get_message_args_from_dict(
         context = context_value
     if not isinstance(context, dict):  # pragma: no cover
         context = {}
-    return message_type, content, context
+    return message_type, use_carryover, content, context
 
 
-def _get_last_carryover_method_content(extra_text: str) -> str:
+def _get_last_carryover_method_content(text_content: str) -> str:
     """Get the last carryover method content.
 
     Parameters
     ----------
-    extra_text : str
-        Extra text to add to the method content before the carryover.
+    text_content : str
+        Text content before the carryover.
     Returns
     -------
     str
         The last carryover method content.
     """
     method_content = '''
-def callable_message(self, source, target, context):
+def callable_message(sender, recipient, context):
     # type: (ConversableAgent, ConversableAgent, dict) -> Union[dict, str]
-    """Return the last carryover from the context.
+    """Get the message to send using the last carryover.
 
     Parameters
     ----------
-    source : ConversableAgent
+    sender : ConversableAgent
         The source agent.
-    target : ConversableAgent
+    recipient : ConversableAgent
         The target agent.
     context : dict
         The context.
@@ -219,14 +248,16 @@ def callable_message(self, source, target, context):
     Returns
     -------
     Union[dict, str]
-        The last carryover.
+        The message to send using the last carryover.
     """
     carryover = context.get("carryover", "")
     if isinstance(carryover, list):
-        carryover = carryover[-1]'''
-    if extra_text:
+        carryover = carryover[-1]
+    if not isinstance(carryover, str):
+        carryover = ""'''
+    if text_content:
         method_content += f"""
-    final_message = f"{extra_text}" + carryover
+    final_message = "{text_content}" + carryover
     return final_message
 """
     else:
@@ -234,3 +265,33 @@ def callable_message(self, source, target, context):
     return carryover
 """
     return method_content
+
+
+RAG_METHOD_WITH_CARRYOVER = '''
+def callable_message(sender, recipient, context):
+    # type: (ConversableAgent, ConversableAgent, dict) -> Union[dict, str]
+    """Get the message using the RAG message generator method.
+
+    Parameters
+    ----------
+    sender : ConversableAgent
+        The source agent.
+    recipient : ConversableAgent
+        The target agent.
+    context : dict
+        The context.
+
+    Returns
+    -------
+    Union[dict, str]
+        The message to send using the last carryover.
+    """
+    carryover = context.get("carryover", "")
+    if isinstance(carryover, list):
+        carryover = carryover[-1]
+    if not isinstance(carryover, str):
+        carryover = ""
+    message = sender.message_generator(sender, recipient, context)
+    if carryover:
+        message += carryover
+'''

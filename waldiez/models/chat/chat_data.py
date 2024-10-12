@@ -236,31 +236,52 @@ class WaldieChatData(WaldieBase):
         ValueError
             If the validation fails.
         """
-        if not value:
-            return WaldieChatMessage(type="none", content=None, context={})
+        if value is None:
+            return WaldieChatMessage(
+                type="none", use_carryover=False, content=None, context={}
+            )
         if isinstance(value, str):
-            return WaldieChatMessage(type="string", content=value, context={})
+            return WaldieChatMessage(
+                type="string", use_carryover=False, content=value, context={}
+            )
         if isinstance(value, dict):
             message = validate_message_dict(
                 value, function_name="callable_message"
             )
             context = value.get("context", {})
+            if not isinstance(context, dict):
+                context = {}
+            use_carryover = value.get("use_carryover", False)
+            if not isinstance(use_carryover, bool):
+                use_carryover = False
+            content = value.get("content")
+            if not isinstance(content, str):
+                content = ""
             return WaldieChatMessage(
-                type=message.type, content=value.get("content"), context=context
+                type=message.type,
+                use_carryover=use_carryover,
+                content=content,
+                context=context,
             )
         if isinstance(value, WaldieChatMessage):
             message = validate_message_dict(
                 value={
                     "type": value.type,
+                    "use_carryover": value.use_carryover,
                     "content": value.content,
                     "context": value.context,
                 },
                 function_name="callable_message",
             )
             return WaldieChatMessage(
-                type=message.type, content=value.content, context=value.context
+                type=message.type,
+                use_carryover=value.use_carryover,
+                content=value.content,
+                context=value.context,
             )
-        return WaldieChatMessage(type="none", content=None, context={})
+        return WaldieChatMessage(
+            type="none", use_carryover=False, content=None, context={}
+        )
 
     @property
     def summary_args(self) -> Optional[Dict[str, Any]]:
