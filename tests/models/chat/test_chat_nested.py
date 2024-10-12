@@ -11,6 +11,7 @@ def test_waldie_chat_nested() -> None:
     # Given
     reply = WaldieChatMessage(
         type="string",
+        use_carryover=False,
         content="Hi",
         context={},
     )
@@ -34,6 +35,7 @@ def nested_chat_message(recipient, messages, sender, config):
 """
     message = WaldieChatMessage(
         type="method",
+        use_carryover=False,
         content=message_content,
         context={},
     )
@@ -85,6 +87,7 @@ def nested_chat_reply(recipient, messages, sender, config):
         chat_nested = WaldieChatNested(
             message=WaldieChatMessage(
                 type="string",
+                use_carryover=False,
                 content="Hello there",
                 context={},
             ),

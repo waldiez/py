@@ -34,6 +34,7 @@ def test_get_chat_nested_string() -> None:
             message=WaldieChatMessage(
                 type="string",
                 content="Hello, world!",
+                use_carryover=False,
                 context={},
             ),
             summary=WaldieChatSummary(
@@ -49,6 +50,7 @@ def test_get_chat_nested_string() -> None:
                     type="string",
                     content="Hi",
                     context={},
+                    use_carryover=False,
                 ),
             ),
             real_source=None,
@@ -119,6 +121,7 @@ def test_export_nested_chat() -> None:
             clear_history=False,
             message=WaldieChatMessage(
                 type="string",
+                use_carryover=False,
                 content="Hello, world!",
                 context={},
             ),
@@ -146,6 +149,7 @@ def test_export_nested_chat() -> None:
             clear_history=True,
             message=WaldieChatMessage(
                 type="string",
+                use_carryover=False,
                 content="Hello, world!",
                 context={},
             ),
@@ -253,6 +257,7 @@ agent1.register_nested_chats(
             clear_history=False,
             message=WaldieChatMessage(
                 type="string",
+                use_carryover=False,
                 content="Hello, world!",
                 context={},
             ),
@@ -266,6 +271,7 @@ agent1.register_nested_chats(
             nested_chat=WaldieChatNested(
                 message=WaldieChatMessage(
                     type="method",
+                    use_carryover=False,
                     content=(
                         "def nested_chat_message(recipient, messages, sender, config):\n"
                         '    return "Hello from agent1 to agent2!"'
@@ -274,6 +280,7 @@ agent1.register_nested_chats(
                 ),
                 reply=WaldieChatMessage(
                     type="method",
+                    use_carryover=False,
                     content=(
                         "def nested_chat_reply(recipient, messages, sender, config):\n"
                         '    return "Hello from agent2 to agent1!"'
@@ -297,6 +304,7 @@ agent1.register_nested_chats(
             clear_history=True,
             message=WaldieChatMessage(
                 type="string",
+                use_carryover=False,
                 content="Hello, world!",
                 context={},
             ),
@@ -310,6 +318,7 @@ agent1.register_nested_chats(
             nested_chat=WaldieChatNested(
                 message=WaldieChatMessage(
                     type="method",
+                    use_carryover=False,
                     content=(
                         "def nested_chat_message(recipient, messages, sender, config):\n"
                         '    return "Hello from agent2 to agent3!"'
@@ -318,6 +327,7 @@ agent1.register_nested_chats(
                 ),
                 reply=WaldieChatMessage(
                     type="method",
+                    use_carryover=False,
                     content=(
                         "def nested_chat_reply(recipient, messages, sender, config):\n"
                         '    return "Hello from agent3 to agent2!"'
@@ -413,6 +423,7 @@ agent2.register_nested_chats(
             clear_history=False,
             message=WaldieChatMessage(
                 type="string",
+                use_carryover=False,
                 content="Hello, world!",
                 context={},
             ),
@@ -443,6 +454,7 @@ agent2.register_nested_chats(
             clear_history=True,
             message=WaldieChatMessage(
                 type="string",
+                use_carryover=False,
                 content="Hello, world!",
                 context={},
             ),
@@ -456,6 +468,7 @@ agent2.register_nested_chats(
             nested_chat=WaldieChatNested(
                 message=WaldieChatMessage(
                     type="none",
+                    use_carryover=False,
                     content=None,
                     context={},
                 ),

@@ -31,12 +31,10 @@ def test_waldie_chat_data() -> None:
             "message": {
                 "type": "string",
                 "content": "Hi",
-                "context": {},
             },
             "reply": {
                 "type": "string",
                 "content": "Hello",
-                "context": {},
             },
         },
         summary={  # type: ignore
@@ -116,7 +114,7 @@ def test_waldie_chat_data_message() -> None:
         target="wa-2",
         position=0,
         clear_history=False,
-        message="",
+        message=None,  # type: ignore
     )
     # Then
     assert isinstance(chat_data.message, WaldieChatMessage)
@@ -148,6 +146,7 @@ def test_waldie_chat_data_message() -> None:
         clear_history=False,
         message=WaldieChatMessage(
             type="string",
+            use_carryover=False,
             content="Hello there",
             context={},
         ),
@@ -156,6 +155,29 @@ def test_waldie_chat_data_message() -> None:
     assert isinstance(chat_data.message, WaldieChatMessage)
     assert chat_data.message.type == "string"
     assert chat_data.message.content == "Hello there"
+
+    # Given
+    chat_data_dict = {
+        "name": "chat_data",
+        "description": "Chat data",
+        "source": "wa-1",
+        "target": "wa-2",
+        "position": 0,
+        "clear_history": False,
+        "message": {
+            "type": "string",
+            "content": 4,
+            "context": 5,
+            "use_carryover": 6,
+        },
+    }
+    # Then
+    chat_data = WaldieChatData(**chat_data_dict)  # type: ignore
+    assert isinstance(chat_data.message, WaldieChatMessage)
+    assert chat_data.message.type == "string"
+    assert chat_data.message.content == ""
+    assert chat_data.message.context == {}
+    assert chat_data.message.use_carryover is False
 
 
 def test_waldie_chat_summary() -> None:

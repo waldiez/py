@@ -89,7 +89,10 @@ class WaldieChat(WaldieBase):
             self.data.message, str
         ):  # pragma: no cover (just for the lint)
             return WaldieChatMessage(
-                type="string", content=self.data.message, context={}
+                type="string",
+                use_carryover=False,
+                content=self.data.message,
+                context={},
             )
         return self.data.message
 

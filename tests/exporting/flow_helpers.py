@@ -451,6 +451,7 @@ def get_chats(count: int = 3) -> List[WaldieChat]:
                 max_turns=5,
                 message=WaldieChatMessage(
                     type="string" if index != 2 else "method",
+                    use_carryover=False,
                     content=(
                         f"Hello wa-{source_index}"
                         if index != 2
