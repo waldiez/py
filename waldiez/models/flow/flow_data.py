@@ -58,7 +58,7 @@ class WaldieFlowData(WaldieBase):
         Field(
             description="The agents of the flow",
             title="Agents",
-            default_factory=list,
+            default_factory=WaldieAgents,
         ),
     ]
     models: Annotated[

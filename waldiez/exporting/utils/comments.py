@@ -14,11 +14,11 @@ from typing import List, Optional
 from typing_extensions import Literal
 
 PYLINT_RULES = [
+    "line-too-long",
     "unknown-option-value",
     "unused-argument",
     "unused-import",
     "invalid-name",
-    "line-too-long",
     "import-error",
     "inconsistent-quotes",
     "missing-function-docstring",
@@ -130,7 +130,7 @@ def get_pylint_ignore_comment(
     """
     if not rules:
         rules = PYLINT_RULES
-    line = "# pylint: disable=" + ", ".join(rules)
+    line = "# pylint: disable=" + ",".join(rules)
     if notebook is True:
         line = "\n" + line
     return line + "\n"
