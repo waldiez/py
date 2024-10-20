@@ -65,7 +65,7 @@ runner = WaldieRunner.load(flow_path)
 runner.run(output_path=output_path)
 ```
 
-#### Run a flow with a custom IOStream 
+#### Run a flow with a custom IOStream
 
 ```python
 # Run the flow with a custom IOStream
