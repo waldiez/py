@@ -2,102 +2,102 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://waldiez.github.io/py/</loc>
-         <lastmod>2024-10-12</lastmod>
+         <lastmod>2024-10-20</lastmod>
     </url>
     <url>
          <loc>https://waldiez.github.io/py/exporter/</loc>
-         <lastmod>2024-10-12</lastmod>
+         <lastmod>2024-10-20</lastmod>
     </url>
     <url>
          <loc>https://waldiez.github.io/py/io_stream/</loc>
-         <lastmod>2024-10-12</lastmod>
+         <lastmod>2024-10-20</lastmod>
     </url>
     <url>
          <loc>https://waldiez.github.io/py/runner/</loc>
-         <lastmod>2024-10-12</lastmod>
+         <lastmod>2024-10-20</lastmod>
     </url>
     <url>
          <loc>https://waldiez.github.io/py/waldie/</loc>
-         <lastmod>2024-10-12</lastmod>
+         <lastmod>2024-10-20</lastmod>
     </url>
     <url>
          <loc>https://waldiez.github.io/py/exporting/agents/</loc>
-         <lastmod>2024-10-12</lastmod>
+         <lastmod>2024-10-20</lastmod>
     </url>
     <url>
          <loc>https://waldiez.github.io/py/exporting/chats/</loc>
-         <lastmod>2024-10-12</lastmod>
+         <lastmod>2024-10-20</lastmod>
     </url>
     <url>
          <loc>https://waldiez.github.io/py/exporting/flow/</loc>
-         <lastmod>2024-10-12</lastmod>
+         <lastmod>2024-10-20</lastmod>
     </url>
     <url>
          <loc>https://waldiez.github.io/py/exporting/models/</loc>
-         <lastmod>2024-10-12</lastmod>
+         <lastmod>2024-10-20</lastmod>
     </url>
     <url>
          <loc>https://waldiez.github.io/py/exporting/skills/</loc>
-         <lastmod>2024-10-12</lastmod>
+         <lastmod>2024-10-20</lastmod>
     </url>
     <url>
          <loc>https://waldiez.github.io/py/exporting/utils/</loc>
-         <lastmod>2024-10-12</lastmod>
+         <lastmod>2024-10-20</lastmod>
     </url>
     <url>
          <loc>https://waldiez.github.io/py/models/chat/</loc>
-         <lastmod>2024-10-12</lastmod>
+         <lastmod>2024-10-20</lastmod>
     </url>
     <url>
          <loc>https://waldiez.github.io/py/models/common/</loc>
-         <lastmod>2024-10-12</lastmod>
+         <lastmod>2024-10-20</lastmod>
     </url>
     <url>
          <loc>https://waldiez.github.io/py/models/flow/</loc>
-         <lastmod>2024-10-12</lastmod>
+         <lastmod>2024-10-20</lastmod>
     </url>
     <url>
          <loc>https://waldiez.github.io/py/models/model/</loc>
-         <lastmod>2024-10-12</lastmod>
+         <lastmod>2024-10-20</lastmod>
     </url>
     <url>
          <loc>https://waldiez.github.io/py/models/skill/</loc>
-         <lastmod>2024-10-12</lastmod>
+         <lastmod>2024-10-20</lastmod>
     </url>
     <url>
          <loc>https://waldiez.github.io/py/models/agents/</loc>
-         <lastmod>2024-10-12</lastmod>
+         <lastmod>2024-10-20</lastmod>
     </url>
     <url>
          <loc>https://waldiez.github.io/py/models/agents/agent/</loc>
-         <lastmod>2024-10-12</lastmod>
+         <lastmod>2024-10-20</lastmod>
     </url>
     <url>
          <loc>https://waldiez.github.io/py/models/agents/assistant/</loc>
-         <lastmod>2024-10-12</lastmod>
+         <lastmod>2024-10-20</lastmod>
     </url>
     <url>
          <loc>https://waldiez.github.io/py/models/agents/group_manager/</loc>
-         <lastmod>2024-10-12</lastmod>
+         <lastmod>2024-10-20</lastmod>
     </url>
     <url>
          <loc>https://waldiez.github.io/py/models/agents/rag_user/</loc>
-         <lastmod>2024-10-12</lastmod>
+         <lastmod>2024-10-20</lastmod>
     </url>
     <url>
          <loc>https://waldiez.github.io/py/models/agents/user_proxy/</loc>
-         <lastmod>2024-10-12</lastmod>
+         <lastmod>2024-10-20</lastmod>
     </url>
     <url>
          <loc>https://waldiez.github.io/py/stream/consumer/</loc>
-         <lastmod>2024-10-12</lastmod>
+         <lastmod>2024-10-20</lastmod>
     </url>
     <url>
          <loc>https://waldiez.github.io/py/stream/provider/</loc>
-         <lastmod>2024-10-12</lastmod>
+         <lastmod>2024-10-20</lastmod>
     </url>
     <url>
          <loc>https://waldiez.github.io/py/stream/server/</loc>
-         <lastmod>2024-10-12</lastmod>
+         <lastmod>2024-10-20</lastmod>
     </url>
 </urlset>
