@@ -43,19 +43,53 @@ waldiez /path/to/a/flow.waldiez --output /path/to/an/output[.py] [--force]
 
 ### As a library
 
-```python
+#### Export a flow
 
+```python
 # Export a Waldiez flow to a python script or a jupyter notebook
 from waldiez import WaldieExporter
 flow_path = "/path/to/a/flow.waldiez"
-output_path = "/path/to/an/output.py"
+output_path = "/path/to/an/output.py"  # or .ipynb
 exporter = WaldieExporter.load(flow_path)
 exporter.export(output_path)
+```
+  
+#### Run a flow
 
-# Run the flow
+```python
+# Run a flow
 from waldiez import WaldieRunner
+flow_path = "/path/to/a/flow.waldiez"
+output_path = "/path/to/an/output.py"
 runner = WaldieRunner.load(flow_path)
 runner.run(output_path=output_path)
+```
+
+#### Run a flow with a custom IOStream
+
+```python
+# Run the flow with a custom IOStream
+from waldiez import WaldieIOStream, WaldieRunner
+
+flow_path = "/path/to/a/flow.waldiez"
+output_path = "/path/to/an/output.py"
+
+def print_function(*values, **args) -> None:
+    """A custom print function."""
+    print(values)
+
+def on_prompt_input(prompt: str) -> str:
+    """A custom input function."""
+    return input(prompt)
+
+io_stream = WaldieIOStream(
+    print_function=print_function,
+    on_prompt_input=on_prompt_input,
+    input_timeout=30,
+)
+with WaldieIOStream.set_default(io_stream):
+    runner = WaldieRunner.load(flow_path)
+    runner.run(stream=io_stream, output_path=output_path)
 
 ```
 

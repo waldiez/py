@@ -47,7 +47,8 @@ def nested_chat_message(recipient, messages, sender, config):
     # Then
     assert isinstance(chat_nested.message, WaldieChatMessage)
     assert chat_nested.message.type == "method"
-    assert chat_nested.message.content == (
+    assert chat_nested.message.content == message_content
+    assert chat_nested.message_content == (
         "    # type: (ConversableAgent, list[dict], ConversableAgent, dict) ->"
         ' Union[dict, str]\n    return "Hello there"'
     )
@@ -78,7 +79,8 @@ def nested_chat_reply(recipient, messages, sender, config):
     assert chat_nested.message.content == "Hello there"
     assert isinstance(chat_nested.reply, WaldieChatMessage)
     assert chat_nested.reply.type == "method"
-    assert chat_nested.reply.content == (
+    assert chat_nested.reply.content == reply_content
+    assert chat_nested.reply_content == (
         "    # type: (ConversableAgent, list[dict], ConversableAgent, dict) ->"
         ' Union[dict, str]\n    return "Hi"'
     )

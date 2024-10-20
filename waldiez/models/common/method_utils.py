@@ -73,6 +73,7 @@ def parse_code_string(
 def check_function(
     code_string: str,
     function_name: WaldieMethodName,
+    skip_type_hints: bool = False,
 ) -> Tuple[bool, str]:
     """Check the function.
 
@@ -82,6 +83,8 @@ def check_function(
         The code string.
     function_name : WaldieMethodName
         The expected function name.
+    skip_type_hints : bool, optional
+        Whether to skip type hints in the function body, by default False.
 
     Returns
     -------
@@ -96,7 +99,11 @@ def check_function(
         return False, f"Invalid function name: {function_name}"
     expected_method_args = METHOD_ARGS[function_name]
     return _get_function_body(
-        tree, code_string, function_name, expected_method_args
+        tree,
+        code_string,
+        function_name,
+        expected_method_args,
+        skip_type_hints=skip_type_hints,
     )
 
 
@@ -105,6 +112,7 @@ def _get_function_body(
     code_string: str,
     function_name: WaldieMethodName,
     method_args: List[str],
+    skip_type_hints: bool = False,
 ) -> Tuple[bool, str]:
     """Get the function body.
 
@@ -144,10 +152,11 @@ def _get_function_body(
                 node.lineno - 1 : node.end_lineno
             ]
             function_body = "\n".join(function_body_lines[1:])
-            # add type hints after the function definition
-            function_body = (
-                f"    {METHOD_TYPE_HINTS[function_name]}\n{function_body}"
-            )
+            if not skip_type_hints:
+                # add type hints after the function definition
+                function_body = (
+                    f"    {METHOD_TYPE_HINTS[function_name]}\n{function_body}"
+                )
             return True, function_body
     error_msg = (
         f"No function with name `{function_name}`"

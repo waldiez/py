@@ -21,8 +21,6 @@ import sys
 from pathlib import Path
 from typing import Dict, List, Optional, Union
 
-from autogen.version import __version__ as autogen_version  # type: ignore
-
 from .exporting import comment, export_flow, get_valid_instance_name
 from .models import WaldieAgent, WaldieChat, WaldieModel, WaldieSkill
 from .waldie import Waldie
@@ -173,22 +171,13 @@ class WaldieExporter:
         RuntimeError
             If the notebook could not be generated.
         """
-        include_retrieve_chat = self.waldie.has_rag_agents
-        to_install = f"autogen-agentchat=={autogen_version}"
-        if include_retrieve_chat:
-            to_install = f"autogen-agentchat[retrievechat]=={autogen_version}"
-        pip_install_autogen = (
-            "!# {{sys.executable}} -m pip install -q '" f"{to_install}" "'\n"
-        )
         content = f"{comment(True)}{self.waldie.name}" + "\n\n"
         content += f"{comment(True, 2)}Dependencies" + "\n\n"
         content += "import sys\n"
-        content += pip_install_autogen
-        extra_requirements = " ".join(self.waldie.requirements)
-        if extra_requirements:
+        requirements = " ".join(self.waldie.requirements)
+        if requirements:
             content += (
-                f"# !{{sys.executable}} -m pip install -q {extra_requirements}"
-                + "\n"
+                f"# !{{sys.executable}} -m pip install -q {requirements}" + "\n"
             )
         content += export_flow(
             waldie=self.waldie,
@@ -235,7 +224,8 @@ class WaldieExporter:
         content += f"Tags: {', '.join(self.waldie.tags)}\n\n"
         content += f"Requirements: {', '.join(self.waldie.requirements)}\n\n"
         content += '"""\n\n'
-        content += "# cspell: disable\n\n"
+        content += "# cspell: disable\n"
+        content += "# flake8: noqa\n\n"
         content += export_flow(
             waldie=self.waldie,
             agents=(self._agents, self._agent_names),

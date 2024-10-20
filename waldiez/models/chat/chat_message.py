@@ -91,6 +91,7 @@ def validate_message_dict(
         Union[Optional[str], Optional[bool], Optional[Dict[str, Any]]],
     ],
     function_name: WaldieMethodName,
+    skip_definition: bool = False,
 ) -> WaldieChatMessage:
     """Validate a message dict.
 
@@ -104,6 +105,8 @@ def validate_message_dict(
         The message dict.
     function_name : str (WaldieMethodName)
         The function name.
+    skip_definition : bool, optional
+        Skip the function definition in the content, by default False
 
     Returns
     -------
@@ -125,20 +128,20 @@ def validate_message_dict(
             method_content = _get_last_carryover_method_content(content)
             return WaldieChatMessage(
                 type="method",
-                use_carryover=False,
+                use_carryover=True,
                 content=method_content,
                 context=context,
             )
         return WaldieChatMessage(
             type="string",
-            use_carryover=use_carryover,
+            use_carryover=False,
             content=content,
             context=context,
         )
     if message_type == "none":
         return WaldieChatMessage(
             type="none",
-            use_carryover=use_carryover,
+            use_carryover=False,
             content=None,
             context=context,
         )
@@ -147,20 +150,23 @@ def validate_message_dict(
             raise ValueError(
                 "The message content is required for the method type"
             )
-        valid, error_or_content = check_function(content, function_name)
+        valid, error_or_content = check_function(
+            content, function_name, skip_type_hints=use_carryover
+        )
         if not valid:
             raise ValueError(error_or_content)
+        message_content = error_or_content if skip_definition else content
         return WaldieChatMessage(
             type="method",
-            use_carryover=False,
-            content=error_or_content,
+            use_carryover=use_carryover,
+            content=message_content,
             context=context,
         )
     if message_type == "rag_message_generator":
         if use_carryover:
             return WaldieChatMessage(
                 type="method",
-                use_carryover=False,
+                use_carryover=True,
                 content=RAG_METHOD_WITH_CARRYOVER,
                 context=context,
             )
@@ -269,12 +275,12 @@ def callable_message(sender, recipient, context):
 
 RAG_METHOD_WITH_CARRYOVER = '''
 def callable_message(sender, recipient, context):
-    # type: (ConversableAgent, ConversableAgent, dict) -> Union[dict, str]
+    # type: (RetrieveUserProxyAgent, ConversableAgent, dict) -> Union[dict, str]
     """Get the message using the RAG message generator method.
 
     Parameters
     ----------
-    sender : ConversableAgent
+    sender : RetrieveUserProxyAgent
         The source agent.
     recipient : ConversableAgent
         The target agent.
@@ -294,4 +300,5 @@ def callable_message(sender, recipient, context):
     message = sender.message_generator(sender, recipient, context)
     if carryover:
         message += carryover
+    return message
 '''

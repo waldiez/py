@@ -6,19 +6,17 @@ autogen-agentchat==0.2.36
     # via waldiez (pyproject.toml)
 bandit==1.7.10
     # via waldiez (pyproject.toml)
-black[jupyter]==24.8.0
+black[jupyter]==24.10.0
     # via waldiez (pyproject.toml)
 flake8==7.1.1
-    # via waldiez (pyproject.toml)
-honcho==1.1.0
     # via waldiez (pyproject.toml)
 isort==5.13.2
     # via waldiez (pyproject.toml)
 jupytext==1.16.4
     # via waldiez (pyproject.toml)
-mypy==1.11.2
+mypy==1.12.1
     # via waldiez (pyproject.toml)
-pre-commit==3.8.0
+pre-commit==4.0.1
     # via waldiez (pyproject.toml)
 pydocstyle==6.3.0
     # via waldiez (pyproject.toml)
@@ -26,7 +24,7 @@ pylint==3.3.1
     # via waldiez (pyproject.toml)
 python-dotenv==1.0.1
     # via waldiez (pyproject.toml)
-ruff==0.6.8
+ruff==0.7.0
     # via waldiez (pyproject.toml)
 twisted==24.7.0
     # via waldiez (pyproject.toml)
