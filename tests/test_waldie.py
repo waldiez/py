@@ -6,7 +6,7 @@ import tempfile
 import pytest
 from autogen.version import __version__ as autogen_version  # type: ignore
 
-from waldiez.waldie import Waldie
+from waldiez import Waldie
 
 from .exporting.flow_helpers import get_flow
 
@@ -33,7 +33,7 @@ def test_waldie() -> None:
     assert waldie2.has_rag_agents
     skill = next(waldie2.skills)
     assert (
-        f"'autogen-agentchat[retrievechat]=={autogen_version}'"
+        f"autogen-agentchat[retrievechat]=={autogen_version}"
         in waldie2.requirements
     )
     assert "SKILL_KEY" in skill.secrets
@@ -67,10 +67,10 @@ def test_waldie_without_rag() -> None:
     assert next(waldie.models)
     assert not waldie.has_rag_agents
     assert (
-        f"'autogen-agentchat[retrievechat]=={autogen_version}'"
+        f"autogen-agentchat[retrievechat]=={autogen_version}"
         not in waldie.requirements
     )
-    assert f"'autogen-agentchat=={autogen_version}'" in waldie.requirements
+    assert f"autogen-agentchat=={autogen_version}" in waldie.requirements
 
 
 def test_waldie_errors() -> None:

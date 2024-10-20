@@ -170,6 +170,9 @@ class WaldieRunner:
                 if proc.stdout:
                     for line in io.TextIOWrapper(proc.stdout, encoding="utf-8"):
                         print_function(line.strip())
+                if proc.stderr:
+                    for line in io.TextIOWrapper(proc.stderr, encoding="utf-8"):
+                        print_function(line.strip())
 
     def _after_run(
         self, temp_dir: Path, output_path: Optional[Union[str, Path]]

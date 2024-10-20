@@ -91,6 +91,8 @@ with WaldieIOStream.set_default(io_stream):
     runner = WaldieRunner.load(flow_path)
     runner.run(stream=io_stream, output_path=output_path)
 
+io_stream.close()
+
 ```
 
 ### Tools

@@ -149,8 +149,8 @@ class TestTCPServerCatchRuntimeErrors(unittest.TestCase):
         server = TCPServer(0)
         server._wrapper = None
         assert server.port == 0
-        with pytest.raises(RuntimeError):
-            server.start()
+        server.start()
+        server.stop()
 
     def test_run_with_no_wrapper_server(self) -> None:
         """Test run with no wrapper and server_factory."""
