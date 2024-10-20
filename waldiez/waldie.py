@@ -237,7 +237,7 @@ class Waldie:
                     f"autogen-agentchat[{model.data.api_type}]=="
                     f"{autogen_version}"
                 )
-        return [f"'{requirement}'" for requirement in requirements]
+        return list(requirements)
 
     def get_flow_env_vars(self) -> List[Tuple[str, str]]:
         """Get the flow environment variables.

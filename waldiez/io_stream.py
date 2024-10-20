@@ -62,17 +62,27 @@ class WaldieIOStream(IOStream):
         """Get the print function."""
         return self._print_function
 
-    def __del__(self) -> None:  # pragma: no cover
-        """Delete the instance."""
+    def open(self) -> None:
+        """Start the server."""
+        if not self._server.is_running():
+            self._server.start()
+
+    def close(self) -> None:
+        """Stop the server and the provider."""
         # pylint: disable=broad-except
-        try:
-            self._server.stop()
-        except BaseException:
-            pass
+        if self._server.is_running():
+            try:
+                self._server.stop()
+            except BaseException:  # pragma: no cover
+                pass
         try:
             self._provider.stop()
-        except BaseException:
+        except BaseException:  # pragma: no cover
             pass
+
+    def __del__(self) -> None:  # pragma: no cover
+        """Delete the instance."""
+        self.close()
 
     def forward_input(self, input_data: str) -> None:
         """Forward the user's input to the provider.

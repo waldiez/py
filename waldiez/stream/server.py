@@ -363,7 +363,9 @@ class TCPServer:
         if self._running:
             return
         if not self._wrapper:
-            raise RuntimeError("ServerWrapper not initialized")
+            self._init_wrapper()
+        if not self._wrapper:  # pragma: no cover (just for the linter)
+            raise RuntimeError("Server wrapper is not initialized")
         self._wrapper.start()
         self._port = self._wrapper.port
         self._running = True

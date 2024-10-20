@@ -39,6 +39,29 @@ def test_waldie_io_stream() -> None:
         assert users_input == "User's input"
         assert input_prompt == "Your input:"
 
+    waldie_io_stream.close()
+
+
+def test_reuse_waldie_io_stream() -> None:
+    """Test reusing WaldieIOStream."""
+    # Given
+    waldie_io_stream = WaldieIOStream(print_function=print, input_timeout=1.1)
+
+    # when
+    with WaldieIOStream.set_default(waldie_io_stream):
+        # then
+        waldie_io_stream.print("print")
+        users_input = waldie_io_stream.input(">")
+        assert users_input == "\n"
+    waldie_io_stream.close()
+    # re open
+    waldie_io_stream.open()
+    with WaldieIOStream.set_default(waldie_io_stream):
+        waldie_io_stream.print("print")
+        users_input = waldie_io_stream.input(">")
+        assert users_input == "\n"
+    waldie_io_stream.close()
+
 
 def test_waldie_io_stream_no_input() -> None:
     """Test WaldieIOStream without an input value."""
