@@ -22,7 +22,6 @@ from types import TracebackType
 from typing import Callable, Dict, Iterator, List, Optional, Type, Union
 
 from autogen import ChatResult  # type: ignore
-from autogen.version import __version__ as autogen_version  # type: ignore
 
 from .exporter import WaldieExporter
 from .io_stream import WaldieIOStream
@@ -150,12 +149,9 @@ class WaldieRunner:
 
     def _install_requirements(self) -> None:
         """Install the requirements for the flow."""
-        all_requirements = [
-            f"autogen-agentchat=={autogen_version}"
-        ] + self.waldie.requirements
-        extra_requirements = [
-            req for req in all_requirements if req not in sys.modules
-        ]
+        extra_requirements = set(
+            req for req in self.waldie.requirements if req not in sys.modules
+        )
         if extra_requirements:
             print_function = self._get_print_function()
             # pylint: disable=inconsistent-quotes
