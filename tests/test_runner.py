@@ -38,13 +38,9 @@ def get_runnable_flow() -> WaldieFlow:
     user = WaldieUserProxy(
         id="wa-1",
         name="user",
+        agent_type="user",
         description="User Agent",
         type="agent",
-        agent_type="user",
-        tags=["user"],
-        requirements=[],
-        created_at="2021-01-01T00:00:00.000Z",
-        updated_at="2021-01-01T00:00:00.000Z",
         data=WaldieUserProxyData(
             system_message=None,
             human_input_mode="ALWAYS",
@@ -69,6 +65,10 @@ def get_runnable_flow() -> WaldieFlow:
                 max_num_retrievals=10,
             ),
         ),
+        tags=["user"],
+        requirements=[],
+        created_at="2021-01-01T00:00:00.000Z",
+        updated_at="2021-01-01T00:00:00.000Z",
     )
     assistant = WaldieAssistant(
         id="wa-2",
@@ -76,10 +76,6 @@ def get_runnable_flow() -> WaldieFlow:
         description="Assistant Agent",
         type="agent",
         agent_type="assistant",
-        tags=["assistant"],
-        requirements=[],
-        created_at="2021-01-01T00:00:00.000Z",
-        updated_at="2021-01-01T00:00:00.000Z",
         data=WaldieAssistantData(
             system_message=None,
             human_input_mode="NEVER",
@@ -104,6 +100,10 @@ def get_runnable_flow() -> WaldieFlow:
                 max_num_retrievals=10,
             ),
         ),
+        tags=["assistant"],
+        requirements=[],
+        created_at="2021-01-01T00:00:00.000Z",
+        updated_at="2021-01-01T00:00:00.000Z",
     )
     chat = WaldieChat(
         id="wc-1",
@@ -147,11 +147,6 @@ def get_runnable_flow() -> WaldieFlow:
         name="flow_name",
         type="flow",
         description="Flow Description",
-        tags=["flow"],
-        requirements=[],
-        storage_id="flow-1",
-        created_at="2021-01-01T00:00:00.000Z",
-        updated_at="2021-01-01T00:00:00.000Z",
         data=WaldieFlowData(
             nodes=[],
             edges=[],
@@ -161,6 +156,11 @@ def get_runnable_flow() -> WaldieFlow:
             skills=[],
             chats=[chat],
         ),
+        tags=["flow"],
+        requirements=[],
+        storage_id="flow-1",
+        created_at="2021-01-01T00:00:00.000Z",
+        updated_at="2021-01-01T00:00:00.000Z",
     )
     return flow
 
