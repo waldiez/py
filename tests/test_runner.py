@@ -34,6 +34,7 @@ def test_runner(waldie_flow: WaldieFlow) -> None:
     stream = WaldieIOStream(
         on_prompt_input=on_prompt_input,
         print_function=print,
+        input_timeout=2,
     )
     with WaldieIOStream.set_default(stream):
         runner.run(stream)
