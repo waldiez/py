@@ -146,8 +146,7 @@ class WaldieExporter:
             if force is False:
                 raise FileExistsError(f"File already exists: {path}")
             path.unlink()
-        if not path.parent.exists():
-            path.parent.mkdir(parents=True, exist_ok=True)
+        path.parent.mkdir(parents=True, exist_ok=True)
         extension = path.suffix
         if extension == ".waldiez":
             self.to_waldie(path)
@@ -193,19 +192,17 @@ class WaldieExporter:
         py_path = path.with_suffix(".tmp.py")
         with open(py_path, "w", encoding="utf-8") as f:
             f.write(content)
-        if not shutil.which("jupytext"):
+        if not shutil.which("jupytext"):  # pragma: no cover
             run_command(
                 [sys.executable, "-m", "pip", "install", "jupytext"],
                 allow_error=False,
-                silent=True,
             )
         run_command(
             ["jupytext", "--to", "notebook", str(py_path)],
-            silent=True,
             allow_error=False,
         )
         ipynb_path = str(py_path).replace(".tmp.py", ".tmp.ipynb")
-        if not os.path.exists(ipynb_path):
+        if not os.path.exists(ipynb_path):  # pragma: no cover
             raise RuntimeError("Could not generate notebook")
         Path(ipynb_path).rename(ipynb_path.replace(".tmp.ipynb", ".ipynb"))
         py_path.unlink()
@@ -256,7 +253,6 @@ def run_command(
     cmd: List[str],
     cwd: Optional[Path] = None,
     allow_error: bool = True,
-    silent: bool = False,
 ) -> None:
     """Run a command.
 
@@ -268,8 +264,6 @@ def run_command(
         The working directory, by default None (current working directory).
     allow_error : bool, optional
         Whether to allow errors, by default True.
-    silent : bool, optional
-        Whether to print the command, by default False.
 
     Raises
     ------
@@ -278,19 +272,17 @@ def run_command(
     """
     if not cwd:
         cwd = Path.cwd()
-    if silent is False:
-        # pylint: disable=inconsistent-quotes
-        print(f"Running command: \n{' '.join(cmd)}\n")
+    # pylint: disable=broad-except
     try:
         subprocess.run(
             cmd,
             check=True,
             cwd=cwd,
             env=os.environ,
-            stdout=sys.stdout if silent is False else subprocess.DEVNULL,
-            stderr=sys.stderr if allow_error is False else subprocess.DEVNULL,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
         )  # nosemgrep # nosec
-    except BaseException as error:  # pylint: disable=broad-except
+    except BaseException as error:  # pragma: no cover
         if allow_error:
             return
         raise RuntimeError(f"Error running command: {error}") from error
