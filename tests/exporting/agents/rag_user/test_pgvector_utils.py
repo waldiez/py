@@ -4,10 +4,10 @@ from waldiez.exporting.agents.rag_user.pgvector_utils import (
     get_pgvector_db_args,
 )
 from waldiez.models import (
-    WaldieRagUser,
-    WaldieRagUserData,
-    WaldieRagUserRetrieveConfig,
-    WaldieRagUserVectorDbConfig,
+    WaldiezRagUser,
+    WaldiezRagUserData,
+    WaldiezRagUserRetrieveConfig,
+    WaldiezRagUserVectorDbConfig,
 )
 
 # pylint: disable=line-too-long
@@ -16,7 +16,7 @@ from waldiez.models import (
 def test_get_pgvector_db_args() -> None:
     """Test get_pgvector_db_args."""
     # Given
-    rag_user = WaldieRagUser(
+    rag_user = WaldiezRagUser(
         id="wa-1",
         type="agent",
         name="rag_user",
@@ -24,12 +24,12 @@ def test_get_pgvector_db_args() -> None:
         agent_type="rag_user",
         tags=["tag1", "tag2"],
         requirements=["requirement1", "requirement2"],
-        data=WaldieRagUserData(  # type: ignore
-            retrieve_config=WaldieRagUserRetrieveConfig(  # type: ignore
+        data=WaldiezRagUserData(  # type: ignore
+            retrieve_config=WaldiezRagUserRetrieveConfig(  # type: ignore
                 docs_path="docs_path",
                 collection_name="collection_name",
                 vector_db="pgvector",
-                db_config=WaldieRagUserVectorDbConfig(  # type: ignore
+                db_config=WaldiezRagUserVectorDbConfig(  # type: ignore
                     connection_url="http://localhost:5432",
                     use_local_storage=True,
                     local_storage_path="local_storage_path",
@@ -63,7 +63,7 @@ def test_get_pgvector_db_args_custom_embeddings() -> None:
         "def custom_embedding_function():\n"
         '    return SentenceTransformer("model").encode\n'
     )
-    rag_user = WaldieRagUser(
+    rag_user = WaldiezRagUser(
         id="wa-1",
         type="agent",
         name="rag_user",
@@ -71,12 +71,12 @@ def test_get_pgvector_db_args_custom_embeddings() -> None:
         agent_type="rag_user",
         tags=["tag1", "tag2"],
         requirements=["requirement1", "requirement2"],
-        data=WaldieRagUserData(  # type: ignore
-            retrieve_config=WaldieRagUserRetrieveConfig(  # type: ignore
+        data=WaldiezRagUserData(  # type: ignore
+            retrieve_config=WaldiezRagUserRetrieveConfig(  # type: ignore
                 docs_path="docs_path",
                 collection_name="collection_name",
                 vector_db="pgvector",
-                db_config=WaldieRagUserVectorDbConfig(  # type: ignore
+                db_config=WaldiezRagUserVectorDbConfig(  # type: ignore
                     connection_url="http://localhost:5432",
                     use_local_storage=True,
                     local_storage_path="local_storage_path",

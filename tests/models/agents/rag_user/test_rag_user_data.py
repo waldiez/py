@@ -1,11 +1,11 @@
 """Test waldiez.models.agents.rag_user.rag_user_data.*."""
 
-from waldiez.models.agents.rag_user.rag_user_data import WaldieRagUserData
+from waldiez.models.agents.rag_user.rag_user_data import WaldiezRagUserData
 
 
-def test_waldie_rag_user_data() -> None:
-    """Test WaldieRagUserData."""
-    rag_user_data = WaldieRagUserData()  # type: ignore
+def test_waldiez_rag_user_data() -> None:
+    """Test WaldiezRagUserData."""
+    rag_user_data = WaldiezRagUserData()  # type: ignore
     assert rag_user_data.retrieve_config
     # assert defaults
     assert rag_user_data.retrieve_config.task == "default"

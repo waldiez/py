@@ -12,18 +12,18 @@ from pydantic import (
 from pydantic.alias_generators import to_camel
 from typing_extensions import Annotated, Self
 
-from ..common import WaldieBase, WaldieMethodName
-from .chat_message import WaldieChatMessage, validate_message_dict
+from ..common import WaldiezBase, WaldiezMethodName
+from .chat_message import WaldiezChatMessage, validate_message_dict
 
 
-class WaldieChatNested(WaldieBase):
+class WaldiezChatNested(WaldiezBase):
     """Nested chat class.
 
     Attributes
     ----------
-    message : WaldieChatMessage
+    message : WaldiezChatMessage
         The message in a nested chat (sender -> recipient).
-    reply : WaldieChatMessage
+    reply : WaldiezChatMessage
         The reply in a nested chat (recipient -> sender).
     """
 
@@ -35,7 +35,7 @@ class WaldieChatNested(WaldieBase):
     )
 
     message: Annotated[
-        Optional[WaldieChatMessage],
+        Optional[WaldiezChatMessage],
         Field(
             None,
             title="Message",
@@ -43,7 +43,7 @@ class WaldieChatNested(WaldieBase):
         ),
     ]
     reply: Annotated[
-        Optional[WaldieChatMessage],
+        Optional[WaldiezChatMessage],
         Field(
             None,
             title="Reply",
@@ -68,7 +68,7 @@ class WaldieChatNested(WaldieBase):
     @classmethod
     def validate_message(
         cls, value: Any, info: ValidationInfo
-    ) -> WaldieChatMessage:
+    ) -> WaldiezChatMessage:
         """Validate the message.
 
         Parameters
@@ -80,7 +80,7 @@ class WaldieChatNested(WaldieBase):
 
         Returns
         -------
-        WaldieChatMessage
+        WaldiezChatMessage
             The validated message.
 
         Raises
@@ -88,22 +88,22 @@ class WaldieChatNested(WaldieBase):
         ValueError
             If the validation fails.
         """
-        function_name: WaldieMethodName = (
+        function_name: WaldiezMethodName = (
             "nested_chat_message"
             if info.field_name == "message"
             else "nested_chat_reply"
         )
         if not value:
-            return WaldieChatMessage(
+            return WaldiezChatMessage(
                 type="none", use_carryover=False, content=None, context={}
             )
         if isinstance(value, str):
-            return WaldieChatMessage(
+            return WaldiezChatMessage(
                 type="string", use_carryover=False, content=value, context={}
             )
         if isinstance(value, dict):
             return validate_message_dict(value, function_name=function_name)
-        if isinstance(value, WaldieChatMessage):
+        if isinstance(value, WaldiezChatMessage):
             return validate_message_dict(
                 {
                     "type": value.type,
@@ -121,7 +121,7 @@ class WaldieChatNested(WaldieBase):
 
         Returns
         -------
-        WaldieChatNested
+        WaldiezChatNested
             The validated nested chat.
 
         Raises

@@ -5,14 +5,14 @@ from typing import Any, Dict, List
 from pydantic import Field
 from typing_extensions import Annotated
 
-from ..agents import WaldieAgents
-from ..chat import WaldieChat
-from ..common import WaldieBase
-from ..model import WaldieModel
-from ..skill import WaldieSkill
+from ..agents import WaldiezAgents
+from ..chat import WaldiezChat
+from ..common import WaldiezBase
+from ..model import WaldiezModel
+from ..skill import WaldiezSkill
 
 
-class WaldieFlowData(WaldieBase):
+class WaldiezFlowData(WaldiezBase):
     """Flow data class.
 
     Attributes
@@ -23,19 +23,19 @@ class WaldieFlowData(WaldieBase):
         The edges of the flow. We ignore this (UI-related)
     viewport : Dict[str, Any]
         The viewport of the flow. We ignore this (UI-related)
-    agents : WaldieAgents
+    agents : WaldiezAgents
         The agents of the flow:
-        users: List[WaldieUserProxy]
-        assistants: List[WaldieAssistant]
-        managers: List[WaldieGroupManager]
-        rag_users : List[WaldieRagUser]
-        See `WaldieAgents` for more info.
-    models : List[WaldieModel]
-        The models of the flow. See `WaldieModel`.
-    skills : List[WaldieSkill]
-        The skills of the flow. See `WaldieSkill`.
-    chats : List[WaldieChat]
-        The chats of the flow. See `WaldieChat`.
+        users: List[WaldiezUserProxy]
+        assistants: List[WaldiezAssistant]
+        managers: List[WaldiezGroupManager]
+        rag_users : List[WaldiezRagUser]
+        See `WaldiezAgents` for more info.
+    models : List[WaldiezModel]
+        The models of the flow. See `WaldiezModel`.
+    skills : List[WaldiezSkill]
+        The skills of the flow. See `WaldiezSkill`.
+    chats : List[WaldiezChat]
+        The chats of the flow. See `WaldiezChat`.
     """
 
     # the ones below (nodes,edges, viewport) we ignore
@@ -54,15 +54,15 @@ class WaldieFlowData(WaldieBase):
     ]
     # these are the ones we use.
     agents: Annotated[
-        WaldieAgents,
+        WaldiezAgents,
         Field(
             description="The agents of the flow",
             title="Agents",
-            default_factory=WaldieAgents,
+            default_factory=WaldiezAgents,
         ),
     ]
     models: Annotated[
-        List[WaldieModel],
+        List[WaldiezModel],
         Field(
             description="The models of the flow",
             title="Models",
@@ -70,7 +70,7 @@ class WaldieFlowData(WaldieBase):
         ),
     ]
     skills: Annotated[
-        List[WaldieSkill],
+        List[WaldiezSkill],
         Field(
             description="The skills of the flow",
             title="Skills",
@@ -78,7 +78,7 @@ class WaldieFlowData(WaldieBase):
         ),
     ]
     chats: Annotated[
-        List[WaldieChat],
+        List[WaldiezChat],
         Field(
             description="The chats of the flow",
             title="Chats",

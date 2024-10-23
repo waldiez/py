@@ -5,23 +5,23 @@ from typing import List, Literal
 from pydantic import Field
 from typing_extensions import Annotated
 
-from ..agent import WaldieAgent
-from .group_manager_data import WaldieGroupManagerData
-from .speakers import WaldieGroupManagerSpeakers
+from ..agent import WaldiezAgent
+from .group_manager_data import WaldiezGroupManagerData
+from .speakers import WaldiezGroupManagerSpeakers
 
 
-class WaldieGroupManager(WaldieAgent):
+class WaldiezGroupManager(WaldiezAgent):
     """Group chat manager agent.
 
-    A `WaldieAgent` with agent_type `manager`, `human_input_mode`: `"NEVER"`
+    A `WaldiezAgent` with agent_type `manager`, `human_input_mode`: `"NEVER"`
     and chat group related config for the agent.
-    Also see `WaldieAgent`, `WaldieGroupManagerData`, `WaldieAgentData`
+    Also see `WaldiezAgent`, `WaldiezGroupManagerData`, `WaldiezAgentData`
 
     Attributes
     ----------
     agent_type : Literal["manager"]
         The agent type: 'manager' for a group manager agent
-    data : WaldieGroupManagerData
+    data : WaldiezGroupManagerData
         The group manager agent's data.
 
     Functions
@@ -40,11 +40,11 @@ class WaldieGroupManager(WaldieAgent):
         ),
     ]
     data: Annotated[
-        WaldieGroupManagerData,
+        WaldiezGroupManagerData,
         Field(
             title="Data",
             description="The group manager agent's data",
-            default_factory=WaldieGroupManagerData,
+            default_factory=WaldiezGroupManagerData,
         ),
     ]
 
@@ -68,7 +68,7 @@ class WaldieGroupManager(WaldieAgent):
         ValueError
             If the transitions are invalid.
         """
-        speakers: WaldieGroupManagerSpeakers = self.data.speakers
+        speakers: WaldiezGroupManagerSpeakers = self.data.speakers
         if speakers.selection_mode != "transition":
             return
         allow_repeat = speakers.allow_repeat

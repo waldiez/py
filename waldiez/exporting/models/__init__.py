@@ -8,13 +8,13 @@ export_models
 
 from typing import Dict, List
 
-from waldiez.models import WaldieModel
+from waldiez.models import WaldiezModel
 
 from ..utils import get_comment, get_object_string
 
 
 def export_models(
-    all_models: List[WaldieModel],
+    all_models: List[WaldiezModel],
     model_names: Dict[str, str],
     notebook: bool,
 ) -> str:
@@ -22,7 +22,7 @@ def export_models(
 
     Parameters
     ----------
-    all_models : List[WaldieModel]
+    all_models : List[WaldiezModel]
         The models.
     model_names : Dict[str, str]
         A mapping of model ids to model names.
@@ -37,14 +37,14 @@ def export_models(
     Example
     -------
     ```python
-    >>> from waldiez.models import WaldieModel, WaldieModelData
-    >>> model = WaldieModel(
+    >>> from waldiez.models import WaldiezModel, WaldiezModelData
+    >>> model = WaldiezModel(
     ...     id="wm-1",
     ...     name="llama3.1"  ,
     ...     description="A model for llamas :P.",
     ...     tags=["llama", "llama3.1"],
     ...     requirements=[],
-    ...     data=WaldieModelData(
+    ...     data=WaldiezModelData(
     ...         base_url="https://example.com/v1",
     ...         api_key="1234567890",
     ...         api_type="openai",
@@ -97,7 +97,7 @@ def export_models(
 
 def export_agent_models(
     agent_model_ids: List[str],
-    all_models: List[WaldieModel],
+    all_models: List[WaldiezModel],
     agent_name: str,
 ) -> str:
     """Get the string representations of the agent's registered models.
@@ -106,7 +106,7 @@ def export_agent_models(
     ----------
     agent_model_ids : List[str]
         The model ids registered to the agent.
-    all_models : List[WaldieModel]
+    all_models : List[WaldiezModel]
         All the models in the flow.
     agent_name : str
         The name of the agent.
@@ -119,14 +119,14 @@ def export_agent_models(
     Example
     -------
     ```python
-    >>> from waldiez.models import WaldieModel, WaldieModelData
-    >>> model1 = WaldieModel(
+    >>> from waldiez.models import WaldiezModel, WaldiezModelData
+    >>> model1 = WaldiezModel(
     ...     id="wm-1",
     ...     name="llama3.1"  ,
     ...     description="A model for llamas :P.",
     ...     tags=["llama", "llama3.1"],
     ...     requirements=[],
-    ...     data=WaldieModelData(
+    ...     data=WaldiezModelData(
     ...         base_url="https://example.com/v1",
     ...         api_key="1234567890",
     ...         api_type="openai",
@@ -137,13 +137,13 @@ def export_agent_models(
     ...         },
     ...     ),
     ... )
-    >>> model2 = WaldieModel(
+    >>> model2 = WaldiezModel(
     ...     id="wm-2",
     ...     name="llama3.2"  ,
     ...     description="A model for llamas :P.",
     ...     tags=["llama", "llama3.2"],
     ...     requirements=[],
-    ...     data=WaldieModelData(
+    ...     data=WaldiezModelData(
     ...         base_url="https://example.com/v1",
     ...        api_key="1234567890",
     ...         api_type="openai",

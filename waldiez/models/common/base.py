@@ -6,7 +6,7 @@ from pydantic import BaseModel, ConfigDict
 from pydantic.alias_generators import to_camel
 
 
-class WaldieBase(BaseModel):
+class WaldiezBase(BaseModel):
     """Base model class to inherit from.
 
     It contains the default configuration for all models.

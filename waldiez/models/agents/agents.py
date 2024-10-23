@@ -5,31 +5,31 @@ from typing import Iterator, List
 from pydantic import Field, model_validator
 from typing_extensions import Annotated, Self
 
-from ..common import WaldieBase
-from .agent import WaldieAgent
-from .assistant import WaldieAssistant
-from .group_manager.group_manager import WaldieGroupManager
-from .rag_user import WaldieRagUser
-from .user_proxy import WaldieUserProxy
+from ..common import WaldiezBase
+from .agent import WaldiezAgent
+from .assistant import WaldiezAssistant
+from .group_manager.group_manager import WaldiezGroupManager
+from .rag_user import WaldiezRagUser
+from .user_proxy import WaldiezUserProxy
 
 
-class WaldieAgents(WaldieBase):
+class WaldiezAgents(WaldiezBase):
     """Waldie agents model.
 
     Attributes
     ----------
-    users : List[WaldieUserProxy]
+    users : List[WaldiezUserProxy]
         User proxy agents.
-    assistants : List[WaldieAssistant]
+    assistants : List[WaldiezAssistant]
         Assistant agents.
-    managers : List[WaldieGroupManager]
+    managers : List[WaldiezGroupManager]
         Group chat mangers.
-    rag_users : List[WaldieRagUser]
+    rag_users : List[WaldiezRagUser]
         RAG user agents.
     """
 
     users: Annotated[
-        List[WaldieUserProxy],
+        List[WaldiezUserProxy],
         Field(
             title="Users.",
             description="User proxy agents",
@@ -37,7 +37,7 @@ class WaldieAgents(WaldieBase):
         ),
     ]
     assistants: Annotated[
-        List[WaldieAssistant],
+        List[WaldiezAssistant],
         Field(
             title="Assistants.",
             description="Assistant agents",
@@ -45,7 +45,7 @@ class WaldieAgents(WaldieBase):
         ),
     ]
     managers: Annotated[
-        List[WaldieGroupManager],
+        List[WaldiezGroupManager],
         Field(
             title="Managers.",
             description="Group chat mangers",
@@ -53,7 +53,7 @@ class WaldieAgents(WaldieBase):
         ),
     ]
     rag_users: Annotated[
-        List[WaldieRagUser],
+        List[WaldiezRagUser],
         Field(
             title="RAG Users.",
             description="RAG user agents",
@@ -62,12 +62,12 @@ class WaldieAgents(WaldieBase):
     ]
 
     @property
-    def members(self) -> Iterator[WaldieAgent]:
+    def members(self) -> Iterator[WaldiezAgent]:
         """Get all agents.
 
         Yields
         ------
-        WaldieAgent
+        WaldiezAgent
             The agents.
         """
         yield from self.users
@@ -84,7 +84,7 @@ class WaldieAgents(WaldieBase):
 
         Returns
         -------
-        WaldieAgents
+        WaldiezAgents
             The agents.
 
         Raises
@@ -124,6 +124,6 @@ class WaldieAgents(WaldieBase):
             agent.validate_linked_skills(skill_ids, agent_ids=all_agent_ids)
             agent.validate_code_execution(skill_ids=skill_ids)
             if agent.agent_type == "manager" and isinstance(
-                agent, WaldieGroupManager
+                agent, WaldiezGroupManager
             ):
                 agent.validate_transitions(agent_ids=all_agent_ids)

@@ -1,7 +1,7 @@
 """Test waldiez.exporting.flow.flow*."""
 
 from waldiez.exporting.flow.flow import export_flow
-from waldiez.waldie import Waldie
+from waldiez.models import Waldiez
 
 from ..flow_helpers import get_flow
 
@@ -34,7 +34,7 @@ def test_export_flow() -> None:
         chats.append(chat)
     for notebook in [True, False]:
         exported = export_flow(
-            waldie=Waldie(flow=flow),
+            waldiez=Waldiez(flow=flow),
             agents=(agents, agents_names),
             models=(models, model_names),
             skills=(skills, skill_names),

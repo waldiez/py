@@ -5,32 +5,32 @@ from typing import Any, Dict, Optional
 from pydantic import Field
 from typing_extensions import Annotated
 
-from ..agents import WaldieAgent, WaldieRagUser
-from ..common import WaldieBase
-from .chat_data import WaldieChatData
-from .chat_message import WaldieChatMessage
-from .chat_nested import WaldieChatNested
+from ..agents import WaldiezAgent, WaldiezRagUser
+from ..common import WaldiezBase
+from .chat_data import WaldiezChatData
+from .chat_message import WaldiezChatMessage
+from .chat_nested import WaldiezChatNested
 
 
-class WaldieChat(WaldieBase):
+class WaldiezChat(WaldiezBase):
     """Chat class.
 
     Attributes
     ----------
     id : str
         The chat ID.
-    data : WaldieChatData
+    data : WaldiezChatData
         The chat data.
-        See `waldiez.models.chat.WaldieChatData` for more information.
+        See `waldiez.models.chat.WaldiezChatData` for more information.
     name : str
         The chat name.
     source : str
         The chat source.
     target : str
         The chat target.
-    nested_chat : WaldieChatNested
+    nested_chat : WaldiezChatNested
         The nested chat message/reply if any.
-    message : WaldieChatMessage
+    message : WaldiezChatMessage
         The chat message.
     message_content : Optional[str]
         The chat message content if any. If method, the method's body.
@@ -50,7 +50,7 @@ class WaldieChat(WaldieBase):
         ),
     ]
     data: Annotated[
-        WaldieChatData,
+        WaldiezChatData,
         Field(
             ...,
             title="Data",
@@ -78,17 +78,17 @@ class WaldieChat(WaldieBase):
         return self.data.target
 
     @property
-    def nested_chat(self) -> WaldieChatNested:
+    def nested_chat(self) -> WaldiezChatNested:
         """Get the nested chat."""
         return self.data.nested_chat
 
     @property
-    def message(self) -> WaldieChatMessage:
+    def message(self) -> WaldiezChatMessage:
         """Get the message."""
         if isinstance(
             self.data.message, str
         ):  # pragma: no cover (just for the lint)
-            return WaldieChatMessage(
+            return WaldiezChatMessage(
                 type="string",
                 use_carryover=False,
                 content=self.data.message,
@@ -103,13 +103,13 @@ class WaldieChat(WaldieBase):
 
     def get_chat_args(
         self,
-        sender: Optional[WaldieAgent] = None,
+        sender: Optional[WaldiezAgent] = None,
     ) -> Dict[str, Any]:
         """Get the chat arguments to use in autogen.
 
         Parameters
         ----------
-        sender : WaldieAgent
+        sender : WaldiezAgent
             The sender agent, to check if it's a RAG user.
         Returns
         -------
@@ -118,7 +118,7 @@ class WaldieChat(WaldieBase):
         """
         args_dict = self.data.get_chat_args()
         if (
-            isinstance(sender, WaldieRagUser)
+            isinstance(sender, WaldiezRagUser)
             and sender.agent_type == "rag_user"
             and self.message.type == "rag_message_generator"
         ):

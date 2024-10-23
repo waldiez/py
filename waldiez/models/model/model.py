@@ -6,11 +6,11 @@ from typing import Any, Dict, List, Optional
 from pydantic import Field
 from typing_extensions import Annotated, Literal
 
-from ..common import WaldieBase, now
-from .model_data import WaldieModelData
+from ..common import WaldiezBase, now
+from .model_data import WaldiezModelData
 
 
-class WaldieModel(WaldieBase):
+class WaldiezModel(WaldiezBase):
     """Waldie Model class.
 
     Attributes
@@ -29,9 +29,9 @@ class WaldieModel(WaldieBase):
         The date and time when the model was created.
     updated_at : str
         The date and time when the model was last updated.
-    data : WaldieModelData
+    data : WaldiezModelData
         The data of the model.
-        See `waldie.models.model.WaldieModelData` for more information.
+        See `waldiez.models.model.WaldiezModelData` for more information.
     """
 
     id: Annotated[
@@ -89,7 +89,7 @@ class WaldieModel(WaldieBase):
         ),
     ]
     data: Annotated[
-        WaldieModelData,
+        WaldiezModelData,
         Field(..., title="Data", description="The data of the model."),
     ]
 

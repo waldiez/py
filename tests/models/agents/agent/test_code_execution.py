@@ -1,13 +1,13 @@
 """Test waldiez.models.agents.agent.code_execution.*."""
 
 from waldiez.models.agents.agent.code_execution import (
-    WaldieAgentCodeExecutionConfig,
+    WaldiezAgentCodeExecutionConfig,
 )
 
 
-def test_waldie_agent_code_execution() -> None:
-    """Test WaldieAgentCodeExecution."""
-    code_execution = WaldieAgentCodeExecutionConfig(
+def test_waldiez_agent_code_execution() -> None:
+    """Test WaldiezAgentCodeExecution."""
+    code_execution = WaldiezAgentCodeExecutionConfig(
         work_dir="work_dir",
         use_docker=True,
         timeout=60,

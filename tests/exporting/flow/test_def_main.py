@@ -5,7 +5,7 @@ from waldiez.exporting.flow.def_main import get_def_main
 
 def test_get_def_main() -> None:
     """Test get_def_main."""
-    waldie_chats = "waldie_chats"
+    waldiez_chats = "waldiez_chats"
     expected = """def main():
     # type: () -> Union[ChatResult, List[ChatResult]]
     \"\"\"Start chatting.\"\"\"
@@ -13,7 +13,7 @@ def test_get_def_main() -> None:
         logger_type="sqlite",
         config={"dbname": "flow.db"},
     )
-    results = waldie_chats
+    results = waldiez_chats
     runtime_logging.stop()
 
     if not os.path.exists("logs"):
@@ -32,4 +32,4 @@ def test_get_def_main() -> None:
 
     return results
 """
-    assert get_def_main(waldie_chats) == expected
+    assert get_def_main(waldiez_chats) == expected

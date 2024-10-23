@@ -5,10 +5,10 @@ from typing import List, Optional
 from pydantic import Field
 from typing_extensions import Annotated
 
-from ...common import WaldieBase
+from ...common import WaldiezBase
 
 
-class WaldieAgentCodeExecutionConfig(WaldieBase):
+class WaldiezAgentCodeExecutionConfig(WaldiezBase):
     """Waldie Agent Code Execution Configuration.
 
     Attributes

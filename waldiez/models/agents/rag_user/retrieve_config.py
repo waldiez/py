@@ -6,13 +6,13 @@ from pydantic import ConfigDict, Field, model_validator
 from pydantic.alias_generators import to_camel
 from typing_extensions import Annotated, Literal, Self
 
-from ...common import WaldieBase, WaldieMethodName, check_function
-from .vector_db_config import WaldieRagUserVectorDbConfig
+from ...common import WaldiezBase, WaldiezMethodName, check_function
+from .vector_db_config import WaldiezRagUserVectorDbConfig
 
-WaldieRagUserTask = Literal["code", "qa", "default"]
-WaldieRagUserVectorDb = Literal["chroma", "pgvector", "mongodb", "qdrant"]
-WaldieRagUserChunkMode = Literal["multi_lines", "one_line"]
-WaldieRagUserModels: Dict[WaldieRagUserVectorDb, str] = {
+WaldiezRagUserTask = Literal["code", "qa", "default"]
+WaldiezRagUserVectorDb = Literal["chroma", "pgvector", "mongodb", "qdrant"]
+WaldiezRagUserChunkMode = Literal["multi_lines", "one_line"]
+WaldiezRagUserModels: Dict[WaldiezRagUserVectorDb, str] = {
     "chroma": "all-MiniLM-L6-v2",
     "mongodb": "all-MiniLM-L6-v2",
     "pgvector": "all-MiniLM-L6-v2",
@@ -20,7 +20,7 @@ WaldieRagUserModels: Dict[WaldieRagUserVectorDb, str] = {
 }
 
 
-class WaldieRagUserRetrieveConfig(WaldieBase):
+class WaldiezRagUserRetrieveConfig(WaldiezBase):
     """RAG user agent.
 
     Attributes
@@ -33,7 +33,7 @@ class WaldieRagUserRetrieveConfig(WaldieBase):
         and provides source information in the end of the response.
     vector_db : Literal["chroma", "pgvector", "mongodb", "qdrant"]
         The vector db for the retrieve chat.
-    db_config : Annotated[WaldieVectorDbConfig, Field]
+    db_config : Annotated[WaldiezVectorDbConfig, Field]
         The config for the selected vector db.
     docs_path : Optional[Union[str, List[str]]]
         The path to the docs directory. It can also be the path to a single
@@ -148,7 +148,7 @@ class WaldieRagUserRetrieveConfig(WaldieBase):
     )
 
     task: Annotated[
-        WaldieRagUserTask,
+        WaldiezRagUserTask,
         Field(
             "default",
             title="Task",
@@ -163,7 +163,7 @@ class WaldieRagUserRetrieveConfig(WaldieBase):
         ),
     ]
     vector_db: Annotated[
-        WaldieRagUserVectorDb,
+        WaldiezRagUserVectorDb,
         Field(
             "chroma",
             title="Vector DB",
@@ -171,11 +171,11 @@ class WaldieRagUserRetrieveConfig(WaldieBase):
         ),
     ]
     db_config: Annotated[
-        WaldieRagUserVectorDbConfig,
+        WaldiezRagUserVectorDbConfig,
         Field(
             title="DB Config",
             description="The config for the selected vector db.",
-            default_factory=WaldieRagUserVectorDbConfig,
+            default_factory=WaldiezRagUserVectorDbConfig,
         ),
     ]
     docs_path: Annotated[
@@ -241,7 +241,7 @@ class WaldieRagUserRetrieveConfig(WaldieBase):
         ),
     ]
     chunk_mode: Annotated[
-        WaldieRagUserChunkMode,
+        WaldiezRagUserChunkMode,
         Field(
             default="multi_lines",
             title="Chunk Mode",
@@ -516,7 +516,7 @@ class WaldieRagUserRetrieveConfig(WaldieBase):
                     "The embedding_function is required "
                     "if use_custom_embedding is True."
                 )
-            function_name: WaldieMethodName = "custom_embedding_function"
+            function_name: WaldiezMethodName = "custom_embedding_function"
             valid, error_or_content = check_function(
                 self.embedding_function, function_name
             )
@@ -538,7 +538,7 @@ class WaldieRagUserRetrieveConfig(WaldieBase):
                     "The custom_token_count_function is required "
                     "if use_custom_token_count is True."
                 )
-            function_name: WaldieMethodName = "custom_token_count_function"
+            function_name: WaldiezMethodName = "custom_token_count_function"
             valid, error_or_content = check_function(
                 self.custom_token_count_function, function_name
             )
@@ -560,7 +560,7 @@ class WaldieRagUserRetrieveConfig(WaldieBase):
                     "The custom_text_split_function is required "
                     "if use_custom_text_split is True."
                 )
-            function_name: WaldieMethodName = "custom_text_split_function"
+            function_name: WaldiezMethodName = "custom_text_split_function"
             valid, error_or_content = check_function(
                 self.custom_text_split_function, function_name
             )
@@ -579,14 +579,14 @@ class WaldieRagUserRetrieveConfig(WaldieBase):
 
         Returns
         -------
-        WaldieRagUserData
+        WaldiezRagUserData
             The validated RAG user data.
         """
         self.validate_custom_embedding_function()
         self.validate_custom_token_count_function()
         self.validate_custom_text_split_function()
         if not self.db_config.model:
-            self.db_config.model = WaldieRagUserModels[self.vector_db]
+            self.db_config.model = WaldiezRagUserModels[self.vector_db]
         if isinstance(self.n_results, int) and self.n_results < 1:
             self.n_results = None
         return self

@@ -1,13 +1,17 @@
 """Test waldiez.models.agents."""
 
-from waldiez.models.agents import WaldieAgents, WaldieAssistant, WaldieUserProxy
-from waldiez.models.model import WaldieModel
-from waldiez.models.skill import WaldieSkill
+from waldiez.models.agents import (
+    WaldiezAgents,
+    WaldiezAssistant,
+    WaldiezUserProxy,
+)
+from waldiez.models.model import WaldiezModel
+from waldiez.models.skill import WaldiezSkill
 
 
-def test_waldie_agents() -> None:
-    """Test WaldieAgents."""
-    model = WaldieModel(
+def test_waldiez_agents() -> None:
+    """Test WaldiezAgents."""
+    model = WaldiezModel(
         id="wa-1",
         name="model",
         type="model",
@@ -16,7 +20,7 @@ def test_waldie_agents() -> None:
         requirements=[],
         data={},  # type: ignore
     )
-    skill = WaldieSkill(
+    skill = WaldiezSkill(
         id="wa-2",
         name="skill",
         type="skill",
@@ -27,7 +31,7 @@ def test_waldie_agents() -> None:
             "content": "def skill():\n    return 'skill'",
         },
     )
-    assistant = WaldieAssistant(
+    assistant = WaldiezAssistant(
         id="wa-1",
         name="assistant",
         type="agent",
@@ -42,7 +46,7 @@ def test_waldie_agents() -> None:
             ],
         },
     )
-    user = WaldieUserProxy(
+    user = WaldiezUserProxy(
         id="wa-2",
         name="user",
         type="agent",
@@ -52,7 +56,7 @@ def test_waldie_agents() -> None:
         requirements=[],
         data={},  # type: ignore
     )
-    agents = WaldieAgents(
+    agents = WaldiezAgents(
         assistants=[assistant],
         users=[user],
         managers=[],

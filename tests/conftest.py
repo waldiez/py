@@ -3,47 +3,47 @@
 import pytest
 
 from waldiez.models import (
-    WaldieAgents,
-    WaldieAgentTeachability,
-    WaldieAgentTerminationMessage,
-    WaldieAssistant,
-    WaldieAssistantData,
-    WaldieChat,
-    WaldieChatData,
-    WaldieChatMessage,
-    WaldieChatNested,
-    WaldieChatSummary,
-    WaldieFlow,
-    WaldieFlowData,
-    WaldieUserProxy,
-    WaldieUserProxyData,
+    WaldiezAgents,
+    WaldiezAgentTeachability,
+    WaldiezAgentTerminationMessage,
+    WaldiezAssistant,
+    WaldiezAssistantData,
+    WaldiezChat,
+    WaldiezChatData,
+    WaldiezChatMessage,
+    WaldiezChatNested,
+    WaldiezChatSummary,
+    WaldiezFlow,
+    WaldiezFlowData,
+    WaldiezUserProxy,
+    WaldiezUserProxyData,
 )
 
 
-def get_runnable_flow() -> WaldieFlow:
-    """Get a runnable WaldieFlow instance.
+def get_runnable_flow() -> WaldiezFlow:
+    """Get a runnable WaldiezFlow instance.
 
     without models and skills
 
     Returns
     -------
-    WaldieFlow
-        A WaldieFlow instance.
+    WaldiezFlow
+        A WaldiezFlow instance.
     """
-    user = WaldieUserProxy(
+    user = WaldiezUserProxy(
         id="wa-1",
         name="user",
         agent_type="user",
         description="User Agent",
         type="agent",
-        data=WaldieUserProxyData(
+        data=WaldiezUserProxyData(
             system_message=None,
             human_input_mode="ALWAYS",
             max_tokens=100,
             code_execution_config=False,
             agent_default_auto_reply="I am a user.",
             max_consecutive_auto_reply=5,
-            termination=WaldieAgentTerminationMessage(
+            termination=WaldiezAgentTerminationMessage(
                 type="keyword",
                 keywords=["bye", "goodbye"],
                 criterion="found",
@@ -52,7 +52,7 @@ def get_runnable_flow() -> WaldieFlow:
             model_ids=[],
             skills=[],
             nested_chats=[],
-            teachability=WaldieAgentTeachability(
+            teachability=WaldiezAgentTeachability(
                 enabled=False,
                 verbosity=0,
                 reset_db=False,
@@ -65,20 +65,20 @@ def get_runnable_flow() -> WaldieFlow:
         created_at="2021-01-01T00:00:00.000Z",
         updated_at="2021-01-01T00:00:00.000Z",
     )
-    assistant = WaldieAssistant(
+    assistant = WaldiezAssistant(
         id="wa-2",
         name="assistant",
         description="Assistant Agent",
         type="agent",
         agent_type="assistant",
-        data=WaldieAssistantData(
+        data=WaldiezAssistantData(
             system_message=None,
             human_input_mode="NEVER",
             max_tokens=100,
             code_execution_config=False,
             agent_default_auto_reply="I am an assistant.",
             max_consecutive_auto_reply=5,
-            termination=WaldieAgentTerminationMessage(
+            termination=WaldiezAgentTerminationMessage(
                 type="keyword",
                 keywords=["bye", "goodbye"],
                 criterion="found",
@@ -87,7 +87,7 @@ def get_runnable_flow() -> WaldieFlow:
             model_ids=[],
             skills=[],
             nested_chats=[],
-            teachability=WaldieAgentTeachability(
+            teachability=WaldiezAgentTeachability(
                 enabled=False,
                 verbosity=0,
                 reset_db=False,
@@ -100,9 +100,9 @@ def get_runnable_flow() -> WaldieFlow:
         created_at="2021-01-01T00:00:00.000Z",
         updated_at="2021-01-01T00:00:00.000Z",
     )
-    chat = WaldieChat(
+    chat = WaldiezChat(
         id="wc-1",
-        data=WaldieChatData(
+        data=WaldiezChatData(
             name="chat_1",
             description="Description of chat 1",
             source="wa-1",
@@ -112,18 +112,18 @@ def get_runnable_flow() -> WaldieFlow:
             clear_history=True,
             silent=False,
             max_turns=2,
-            message=WaldieChatMessage(
+            message=WaldiezChatMessage(
                 type="string",
                 use_carryover=False,
                 content="Hello wa-1",
                 context={},
             ),
-            summary=WaldieChatSummary(
+            summary=WaldiezChatSummary(
                 method="last_msg",
                 prompt="",
                 args={},
             ),
-            nested_chat=WaldieChatNested(
+            nested_chat=WaldiezChatNested(
                 message=None,
                 reply=None,
             ),
@@ -131,18 +131,18 @@ def get_runnable_flow() -> WaldieFlow:
             real_target=None,
         ),
     )
-    agents = WaldieAgents(
+    agents = WaldiezAgents(
         users=[user],
         assistants=[assistant],
         managers=[],
         rag_users=[],
     )
-    flow = WaldieFlow(
+    flow = WaldiezFlow(
         id="wf-1",
         name="flow_name",
         type="flow",
         description="Flow Description",
-        data=WaldieFlowData(
+        data=WaldiezFlowData(
             nodes=[],
             edges=[],
             viewport={},
@@ -161,14 +161,14 @@ def get_runnable_flow() -> WaldieFlow:
 
 
 @pytest.fixture(scope="function")
-def waldie_flow() -> WaldieFlow:
-    """Get a valid, runnable WaldieFlow instance.
+def waldiez_flow() -> WaldiezFlow:
+    """Get a valid, runnable WaldiezFlow instance.
 
     without models and skills
 
     Returns
     -------
-    WaldieFlow
-        A WaldieFlow instance.
+    WaldiezFlow
+        A WaldiezFlow instance.
     """
     return get_runnable_flow()

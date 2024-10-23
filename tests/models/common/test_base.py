@@ -1,18 +1,18 @@
 """Test waldiez.models.common.base."""
 
-from waldiez.models.common.base import WaldieBase
+from waldiez.models.common.base import WaldiezBase
 
 
-class WaldieTestModel(WaldieBase):
+class WaldiezTestModel(WaldiezBase):
     """Test model."""
 
     in_snake_case: str
 
 
-def test_waldie_base() -> None:
+def test_waldiez_base() -> None:
     """Test mode dumps."""
     # Given
-    test_model = WaldieTestModel(in_snake_case="test")
+    test_model = WaldiezTestModel(in_snake_case="test")
     # When
     model_dump = test_model.model_dump()
     model_dump_string = test_model.model_dump_json()

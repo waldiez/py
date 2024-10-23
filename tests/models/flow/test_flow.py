@@ -3,38 +3,38 @@
 import pytest
 
 from waldiez.models import (
-    WaldieAgents,
-    WaldieAgentTeachability,
-    WaldieAgentTerminationMessage,
-    WaldieAssistant,
-    WaldieAssistantData,
-    WaldieChat,
-    WaldieChatData,
-    WaldieChatNested,
-    WaldieChatSummary,
-    WaldieFlow,
-    WaldieFlowData,
-    WaldieGroupManager,
-    WaldieGroupManagerData,
-    WaldieGroupManagerSpeakers,
-    WaldieModel,
-    WaldieModelData,
-    WaldieModelPrice,
-    WaldieRagUser,
-    WaldieRagUserData,
-    WaldieRagUserRetrieveConfig,
-    WaldieRagUserVectorDbConfig,
-    WaldieSkill,
-    WaldieSkillData,
-    WaldieUserProxy,
-    WaldieUserProxyData,
+    WaldiezAgents,
+    WaldiezAgentTeachability,
+    WaldiezAgentTerminationMessage,
+    WaldiezAssistant,
+    WaldiezAssistantData,
+    WaldiezChat,
+    WaldiezChatData,
+    WaldiezChatNested,
+    WaldiezChatSummary,
+    WaldiezFlow,
+    WaldiezFlowData,
+    WaldiezGroupManager,
+    WaldiezGroupManagerData,
+    WaldiezGroupManagerSpeakers,
+    WaldiezModel,
+    WaldiezModelData,
+    WaldiezModelPrice,
+    WaldiezRagUser,
+    WaldiezRagUserData,
+    WaldiezRagUserRetrieveConfig,
+    WaldiezRagUserVectorDbConfig,
+    WaldiezSkill,
+    WaldiezSkillData,
+    WaldiezUserProxy,
+    WaldiezUserProxyData,
 )
 
 
-def test_waldie_flow() -> None:
-    """Test WaldieFlow."""
+def test_waldiez_flow() -> None:
+    """Test WaldiezFlow."""
     # Given
-    user = WaldieUserProxy(
+    user = WaldiezUserProxy(
         id="wa-1",
         name="user",
         type="agent",
@@ -44,21 +44,21 @@ def test_waldie_flow() -> None:
         requirements=["user"],
         created_at="2021-01-01T00:00:00.000Z",
         updated_at="2021-01-01T00:00:00.000Z",
-        data=WaldieUserProxyData(
+        data=WaldiezUserProxyData(
             system_message="User message",
             human_input_mode="ALWAYS",
             max_tokens=100,
             max_consecutive_auto_reply=1,
             code_execution_config=False,
             agent_default_auto_reply="User auto reply",
-            teachability=WaldieAgentTeachability(
+            teachability=WaldiezAgentTeachability(
                 enabled=False,
                 verbosity=0,
                 reset_db=False,
                 recall_threshold=0.0,
                 max_num_retrievals=0,
             ),
-            termination=WaldieAgentTerminationMessage(
+            termination=WaldiezAgentTerminationMessage(
                 type="keyword",
                 criterion="found",
                 keywords=["TERMINATE"],
@@ -69,7 +69,7 @@ def test_waldie_flow() -> None:
             nested_chats=[],
         ),
     )
-    assistant = WaldieAssistant(
+    assistant = WaldiezAssistant(
         id="wa-2",
         name="assistant",
         type="agent",
@@ -79,21 +79,21 @@ def test_waldie_flow() -> None:
         requirements=["assistant"],
         created_at="2021-01-01T00:00:00.000Z",
         updated_at="2021-01-01T00:00:00.000Z",
-        data=WaldieAssistantData(
+        data=WaldiezAssistantData(
             system_message="Assistant message",
             human_input_mode="ALWAYS",
             max_tokens=100,
             max_consecutive_auto_reply=1,
             code_execution_config=False,
             agent_default_auto_reply="Assistant auto reply",
-            teachability=WaldieAgentTeachability(
+            teachability=WaldiezAgentTeachability(
                 enabled=False,
                 verbosity=0,
                 reset_db=False,
                 recall_threshold=0.0,
                 max_num_retrievals=0,
             ),
-            termination=WaldieAgentTerminationMessage(
+            termination=WaldiezAgentTerminationMessage(
                 type="keyword",
                 criterion="found",
                 keywords=["TERMINATE"],
@@ -104,7 +104,7 @@ def test_waldie_flow() -> None:
             nested_chats=[],
         ),
     )
-    manager = WaldieGroupManager(
+    manager = WaldiezGroupManager(
         id="wa-3",
         name="manager",
         type="agent",
@@ -114,21 +114,21 @@ def test_waldie_flow() -> None:
         requirements=["manager"],
         created_at="2021-01-01T00:00:00.000Z",
         updated_at="2021-01-01T00:00:00.000Z",
-        data=WaldieGroupManagerData(
+        data=WaldiezGroupManagerData(
             system_message="Manager message",
             human_input_mode="ALWAYS",
             max_tokens=100,
             max_consecutive_auto_reply=1,
             code_execution_config=False,
             agent_default_auto_reply="Manager auto reply",
-            teachability=WaldieAgentTeachability(
+            teachability=WaldiezAgentTeachability(
                 enabled=False,
                 verbosity=0,
                 reset_db=False,
                 recall_threshold=0.0,
                 max_num_retrievals=0,
             ),
-            termination=WaldieAgentTerminationMessage(
+            termination=WaldiezAgentTerminationMessage(
                 type="keyword",
                 criterion="found",
                 keywords=["TERMINATE"],
@@ -141,7 +141,7 @@ def test_waldie_flow() -> None:
             enable_clear_history=False,
             admin_name="user",
             send_introductions=False,
-            speakers=WaldieGroupManagerSpeakers(
+            speakers=WaldiezGroupManagerSpeakers(
                 selection_method="round_robin",
                 selection_custom_method=None,
                 selection_mode="transition",
@@ -154,7 +154,7 @@ def test_waldie_flow() -> None:
             ),
         ),
     )
-    rag_user = WaldieRagUser(
+    rag_user = WaldiezRagUser(
         id="wa-4",
         name="rag_user",
         type="agent",
@@ -164,21 +164,21 @@ def test_waldie_flow() -> None:
         requirements=["rag_user"],
         created_at="2021-01-01T00:00:00.000Z",
         updated_at="2021-01-01T00:00:00.000Z",
-        data=WaldieRagUserData(
+        data=WaldiezRagUserData(
             system_message="Rag user message",
             human_input_mode="ALWAYS",
             max_tokens=100,
             max_consecutive_auto_reply=1,
             code_execution_config=False,
             agent_default_auto_reply="Rag user auto reply",
-            teachability=WaldieAgentTeachability(
+            teachability=WaldiezAgentTeachability(
                 enabled=False,
                 verbosity=0,
                 reset_db=False,
                 recall_threshold=0.0,
                 max_num_retrievals=0,
             ),
-            termination=WaldieAgentTerminationMessage(
+            termination=WaldiezAgentTerminationMessage(
                 type="keyword",
                 criterion="found",
                 keywords=["TERMINATE"],
@@ -187,10 +187,10 @@ def test_waldie_flow() -> None:
             model_ids=[],
             skills=[],
             nested_chats=[],
-            retrieve_config=WaldieRagUserRetrieveConfig(
+            retrieve_config=WaldiezRagUserRetrieveConfig(
                 task="code",
                 vector_db="chroma",
-                db_config=WaldieRagUserVectorDbConfig(
+                db_config=WaldiezRagUserVectorDbConfig(
                     local_storage_path="",
                     use_local_storage=False,
                     use_memory=False,
@@ -226,16 +226,16 @@ def test_waldie_flow() -> None:
             ),
         ),
     )
-    agents = WaldieAgents(
+    agents = WaldiezAgents(
         users=[user],
         assistants=[assistant],
         managers=[manager],
         rag_users=[rag_user],
     )
     chats = [
-        WaldieChat(
+        WaldiezChat(
             id="wc-1",
-            data=WaldieChatData(
+            data=WaldiezChatData(
                 name="chat_data",
                 description="Chat data",
                 source="wa-1",
@@ -245,8 +245,8 @@ def test_waldie_flow() -> None:
                 clear_history=False,
                 message="Hello there",
                 max_turns=1,
-                nested_chat=WaldieChatNested(message=None, reply=None),
-                summary=WaldieChatSummary(
+                nested_chat=WaldiezChatNested(message=None, reply=None),
+                summary=WaldiezChatSummary(
                     method="last_msg",
                     prompt="",
                     args={},
@@ -256,9 +256,9 @@ def test_waldie_flow() -> None:
                 real_target=None,
             ),
         ),
-        WaldieChat(
+        WaldiezChat(
             id="wc-2",
-            data=WaldieChatData(
+            data=WaldiezChatData(
                 name="chat_data",
                 description="Chat data",
                 source="wa-3",
@@ -268,8 +268,8 @@ def test_waldie_flow() -> None:
                 clear_history=False,
                 message="Hello there",
                 max_turns=2,
-                nested_chat=WaldieChatNested(message=None, reply=None),
-                summary=WaldieChatSummary(
+                nested_chat=WaldiezChatNested(message=None, reply=None),
+                summary=WaldiezChatSummary(
                     method="last_msg",
                     prompt="",
                     args={},
@@ -279,9 +279,9 @@ def test_waldie_flow() -> None:
                 real_target=None,
             ),
         ),
-        WaldieChat(
+        WaldiezChat(
             id="wc-3",
-            data=WaldieChatData(
+            data=WaldiezChatData(
                 name="chat_data",
                 description="Chat data",
                 source="wa-3",
@@ -290,20 +290,20 @@ def test_waldie_flow() -> None:
                 order=-1,
                 clear_history=False,
                 message="Hello there",
-                summary=WaldieChatSummary(
+                summary=WaldiezChatSummary(
                     method="last_msg",
                     prompt="",
                     args={},
                 ),
                 max_turns=3,
-                nested_chat=WaldieChatNested(message=None, reply=None),
+                nested_chat=WaldiezChatNested(message=None, reply=None),
                 silent=False,
                 real_source=None,
                 real_target=None,
             ),
         ),
     ]
-    skill = WaldieSkill(
+    skill = WaldiezSkill(
         id="ws-1",
         name="skill_name",
         type="skill",
@@ -312,12 +312,12 @@ def test_waldie_flow() -> None:
         requirements=["skill"],
         created_at="2021-01-01T00:00:00.000Z",
         updated_at="2021-01-01T00:00:00.000Z",
-        data=WaldieSkillData(
+        data=WaldiezSkillData(
             content="def skill_name():\n    return 'Skill name'",
             secrets={},
         ),
     )
-    model = WaldieModel(
+    model = WaldiezModel(
         id="wm-1",
         name="model_name",
         type="model",
@@ -326,7 +326,7 @@ def test_waldie_flow() -> None:
         requirements=["model"],
         created_at="2021-01-01T00:00:00.000Z",
         updated_at="2021-01-01T00:00:00.000Z",
-        data=WaldieModelData(
+        data=WaldiezModelData(
             api_key="-",
             api_type="openai",
             api_version="2020-05-03",
@@ -335,13 +335,13 @@ def test_waldie_flow() -> None:
             top_p=None,
             max_tokens=100,
             default_headers={},
-            price=WaldieModelPrice(
+            price=WaldiezModelPrice(
                 prompt_price_per_1k=0.06,
                 completion_token_price_per_1k=0.12,
             ),
         ),
     )
-    flow_data = WaldieFlowData(
+    flow_data = WaldiezFlowData(
         nodes=[],
         edges=[],
         viewport={},
@@ -351,7 +351,7 @@ def test_waldie_flow() -> None:
         chats=chats,
     )
     # When
-    flow1 = WaldieFlow(
+    flow1 = WaldiezFlow(
         id="wf-1",
         name="flow",
         type="flow",
@@ -379,7 +379,7 @@ def test_waldie_flow() -> None:
 
     with pytest.raises(ValueError):
         # no chats
-        WaldieFlow(
+        WaldiezFlow(
             id="wf-2",
             name="flow",
             type="flow",
@@ -389,7 +389,7 @@ def test_waldie_flow() -> None:
             storage_id="flow-1",
             created_at="2021-01-01T00:00:00.000Z",
             updated_at="2021-01-01T00:00:00.000Z",
-            data=WaldieFlowData(
+            data=WaldiezFlowData(
                 nodes=[],
                 edges=[],
                 viewport={},
@@ -401,7 +401,7 @@ def test_waldie_flow() -> None:
         )
     with pytest.raises(ValueError):
         # not unique skill IDs
-        WaldieFlow(
+        WaldiezFlow(
             id="wf-2",
             name="flow",
             type="flow",
@@ -411,7 +411,7 @@ def test_waldie_flow() -> None:
             storage_id="flow-1",
             created_at="2021-01-01T00:00:00.000Z",
             updated_at="2021-01-01T00:00:00.000Z",
-            data=WaldieFlowData(
+            data=WaldiezFlowData(
                 nodes=[],
                 edges=[],
                 viewport={},
@@ -424,7 +424,7 @@ def test_waldie_flow() -> None:
 
     with pytest.raises(ValueError):
         # not unique model IDs
-        WaldieFlow(
+        WaldiezFlow(
             id="wf-3",
             name="flow",
             type="flow",
@@ -434,7 +434,7 @@ def test_waldie_flow() -> None:
             storage_id="flow-1",
             created_at="2021-01-01T00:00:00.000Z",
             updated_at="2021-01-01T00:00:00.000Z",
-            data=WaldieFlowData(
+            data=WaldiezFlowData(
                 nodes=[],
                 edges=[],
                 viewport={},
@@ -444,7 +444,7 @@ def test_waldie_flow() -> None:
                 chats=chats,
             ),
         )
-    assistant2 = WaldieAssistant(
+    assistant2 = WaldiezAssistant(
         id="wa-5",
         name="assistant",
         type="agent",
@@ -454,21 +454,21 @@ def test_waldie_flow() -> None:
         requirements=["assistant"],
         created_at="2021-01-01T00:00:00.000Z",
         updated_at="2021-01-01T00:00:00.000Z",
-        data=WaldieAssistantData(
+        data=WaldiezAssistantData(
             system_message="Assistant message",
             human_input_mode="ALWAYS",
             max_tokens=100,
             max_consecutive_auto_reply=1,
             code_execution_config=False,
             agent_default_auto_reply="Assistant auto reply",
-            teachability=WaldieAgentTeachability(
+            teachability=WaldiezAgentTeachability(
                 enabled=False,
                 verbosity=0,
                 reset_db=False,
                 recall_threshold=0.0,
                 max_num_retrievals=0,
             ),
-            termination=WaldieAgentTerminationMessage(
+            termination=WaldiezAgentTerminationMessage(
                 type="keyword",
                 criterion="found",
                 keywords=["TERMINATE"],
@@ -479,7 +479,7 @@ def test_waldie_flow() -> None:
             nested_chats=[],
         ),
     )
-    agents2 = WaldieAgents(
+    agents2 = WaldiezAgents(
         users=[user],
         assistants=[assistant, assistant2],
         managers=[manager],
@@ -487,7 +487,7 @@ def test_waldie_flow() -> None:
     )
     with pytest.raises(ValueError):
         # agents do not connect to any other node
-        WaldieFlow(
+        WaldiezFlow(
             id="wf-4",
             name="flow",
             type="flow",
@@ -497,7 +497,7 @@ def test_waldie_flow() -> None:
             storage_id="flow-1",
             created_at="2021-01-01T00:00:00.000Z",
             updated_at="2021-01-01T00:00:00.000Z",
-            data=WaldieFlowData(
+            data=WaldiezFlowData(
                 nodes=[],
                 edges=[],
                 viewport={},
@@ -509,16 +509,16 @@ def test_waldie_flow() -> None:
         )
     # set positions < 0
     # and one chat in the flow
-    agents3 = WaldieAgents(
+    agents3 = WaldiezAgents(
         users=[user],
         assistants=[assistant],
         managers=[],
         rag_users=[],
     )
     chats2 = [
-        WaldieChat(
+        WaldiezChat(
             id="wc-1",
-            data=WaldieChatData(
+            data=WaldiezChatData(
                 name="chat_data",
                 description="Chat data",
                 source="wa-1",
@@ -526,21 +526,21 @@ def test_waldie_flow() -> None:
                 position=-1,
                 order=-1,
                 clear_history=False,
-                summary=WaldieChatSummary(
+                summary=WaldiezChatSummary(
                     method="last_msg",
                     prompt="",
                     args={},
                 ),
                 message="Hello there",
                 max_turns=1,
-                nested_chat=WaldieChatNested(message=None, reply=None),
+                nested_chat=WaldiezChatNested(message=None, reply=None),
                 silent=False,
                 real_source=None,
                 real_target=None,
             ),
         ),
     ]
-    flow = WaldieFlow(
+    flow = WaldiezFlow(
         id="wf-5",
         name="flow",
         type="flow",
@@ -550,7 +550,7 @@ def test_waldie_flow() -> None:
         storage_id="flow-1",
         created_at="2021-01-01T00:00:00.000Z",
         updated_at="2021-01-01T00:00:00.000Z",
-        data=WaldieFlowData(
+        data=WaldiezFlowData(
             nodes=[],
             edges=[],
             viewport={},

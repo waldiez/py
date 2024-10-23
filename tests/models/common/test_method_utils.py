@@ -3,7 +3,7 @@
 import ast
 
 from waldiez.models.common.method_utils import (
-    WaldieMethodName,
+    WaldiezMethodName,
     check_function,
     parse_code_string,
 )
@@ -36,7 +36,7 @@ def test_check_function() -> None:
 def callable_message(sender, recipient, context):
     return "Hello"
     """
-    function_name: WaldieMethodName = "callable_message"
+    function_name: WaldiezMethodName = "callable_message"
     # When
     valid, body = check_function(code_string, function_name)
     # Then

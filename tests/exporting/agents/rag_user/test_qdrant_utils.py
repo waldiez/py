@@ -4,10 +4,10 @@ import os
 
 from waldiez.exporting.agents.rag_user.qdrant_utils import get_qdrant_db_args
 from waldiez.models import (
-    WaldieRagUser,
-    WaldieRagUserData,
-    WaldieRagUserRetrieveConfig,
-    WaldieRagUserVectorDbConfig,
+    WaldiezRagUser,
+    WaldiezRagUserData,
+    WaldiezRagUserRetrieveConfig,
+    WaldiezRagUserVectorDbConfig,
 )
 
 # pylint: disable=line-too-long
@@ -16,7 +16,7 @@ from waldiez.models import (
 def test_get_qdrant_db_args() -> None:
     """Test get_qdrant_db_args."""
     # Given
-    rag_user = WaldieRagUser(
+    rag_user = WaldiezRagUser(
         id="wa-1",
         name="rag_user",
         type="agent",
@@ -24,12 +24,12 @@ def test_get_qdrant_db_args() -> None:
         description="the description of rag_user",
         tags=[],
         requirements=["requirement101", "requirement212"],
-        data=WaldieRagUserData(  # type: ignore
-            retrieve_config=WaldieRagUserRetrieveConfig(  # type: ignore
+        data=WaldiezRagUserData(  # type: ignore
+            retrieve_config=WaldiezRagUserRetrieveConfig(  # type: ignore
                 docs_path="docs_path",
                 collection_name="collection_name",
                 vector_db="qdrant",
-                db_config=WaldieRagUserVectorDbConfig(  # type: ignore
+                db_config=WaldiezRagUserVectorDbConfig(  # type: ignore
                     local_storage_path="local_storage_path",
                     model="model",
                     connection_url=None,
@@ -58,7 +58,7 @@ def test_get_qdrant_db_args() -> None:
 def test_get_qdrant_db_args_local_storage() -> None:
     """Test get_qdrant_db_args with local storage."""
     # Given
-    rag_user = WaldieRagUser(
+    rag_user = WaldiezRagUser(
         id="wa-1",
         name="rag_user",
         type="agent",
@@ -66,12 +66,12 @@ def test_get_qdrant_db_args_local_storage() -> None:
         description="description",
         tags=["tag2"],
         requirements=["requirement2"],
-        data=WaldieRagUserData(  # type: ignore
-            retrieve_config=WaldieRagUserRetrieveConfig(  # type: ignore
+        data=WaldiezRagUserData(  # type: ignore
+            retrieve_config=WaldiezRagUserRetrieveConfig(  # type: ignore
                 docs_path="docs_path",
                 collection_name="collection_name",
                 vector_db="qdrant",
-                db_config=WaldieRagUserVectorDbConfig(  # type: ignore
+                db_config=WaldiezRagUserVectorDbConfig(  # type: ignore
                     connection_url=None,
                     use_memory=False,
                     use_local_storage=True,
@@ -101,7 +101,7 @@ def test_get_qdrant_db_args_local_storage() -> None:
 def test_get_qdrant_db_args_with_connection_url() -> None:
     """Test get_qdrant_db_args with connection url."""
     # Given
-    rag_user = WaldieRagUser(
+    rag_user = WaldiezRagUser(
         id="wa-1",
         name="rag_user",
         type="agent",
@@ -109,12 +109,12 @@ def test_get_qdrant_db_args_with_connection_url() -> None:
         description="user description",
         tags=["tag12"],
         requirements=["requirement"],
-        data=WaldieRagUserData(  # type: ignore
-            retrieve_config=WaldieRagUserRetrieveConfig(  # type: ignore
+        data=WaldiezRagUserData(  # type: ignore
+            retrieve_config=WaldiezRagUserRetrieveConfig(  # type: ignore
                 docs_path="docs_path",
                 collection_name="collection_name",
                 vector_db="qdrant",
-                db_config=WaldieRagUserVectorDbConfig(  # type: ignore
+                db_config=WaldiezRagUserVectorDbConfig(  # type: ignore
                     connection_url="http://localhost:6333",
                     use_memory=False,
                     use_local_storage=False,
@@ -149,7 +149,7 @@ def test_get_qdrant_db_args_custom_embeddings() -> None:
         "    from sentence_transformers import SentenceTransformer\n"
         '    return SentenceTransformer("model").encode\n'
     )
-    rag_user = WaldieRagUser(
+    rag_user = WaldiezRagUser(
         id="wa-1",
         name="rag_user",
         type="agent",
@@ -157,12 +157,12 @@ def test_get_qdrant_db_args_custom_embeddings() -> None:
         description="description of rag_user",
         tags=["tag"],
         requirements=["requirement25"],
-        data=WaldieRagUserData(  # type: ignore
-            retrieve_config=WaldieRagUserRetrieveConfig(  # type: ignore
+        data=WaldiezRagUserData(  # type: ignore
+            retrieve_config=WaldiezRagUserRetrieveConfig(  # type: ignore
                 docs_path="docs_path",
                 collection_name="collection_name",
                 vector_db="qdrant",
-                db_config=WaldieRagUserVectorDbConfig(  # type: ignore
+                db_config=WaldiezRagUserVectorDbConfig(  # type: ignore
                     connection_url=None,
                     use_memory=False,
                     use_local_storage=False,

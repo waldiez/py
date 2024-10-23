@@ -2,41 +2,41 @@
 
 from waldiez.exporting.chats.chats import export_chats
 from waldiez.models import (
-    WaldieAgent,
-    WaldieChat,
-    WaldieChatData,
-    WaldieChatMessage,
-    WaldieChatNested,
-    WaldieChatSummary,
+    WaldiezAgent,
+    WaldiezChat,
+    WaldiezChatData,
+    WaldiezChatMessage,
+    WaldiezChatNested,
+    WaldiezChatSummary,
 )
 
 
 def test_export_chats() -> None:
     """Test export_chats()."""
     # Given
-    agent1 = WaldieAgent(  # type: ignore
+    agent1 = WaldiezAgent(  # type: ignore
         id="wa-1",
         name="agent1",
         agent_type="assistant",
     )
-    agent2 = WaldieAgent(  # type: ignore
+    agent2 = WaldiezAgent(  # type: ignore
         id="wa-2",
         name="agent2",
         agent_type="assistant",
     )
-    agent3 = WaldieAgent(  # type: ignore
+    agent3 = WaldiezAgent(  # type: ignore
         id="wa-3",
         name="agent3",
         agent_type="assistant",
     )
-    agent4 = WaldieAgent(  # type: ignore
+    agent4 = WaldiezAgent(  # type: ignore
         id="wa-4",
         name="agent4",
         agent_type="assistant",
     )
-    chat1 = WaldieChat(
+    chat1 = WaldiezChat(
         id="wc-1",
-        data=WaldieChatData(
+        data=WaldiezChatData(
             name="chat1",
             description="A chat.",
             source="wa-1",
@@ -44,19 +44,19 @@ def test_export_chats() -> None:
             position=1,
             order=1,
             clear_history=False,
-            message=WaldieChatMessage(
+            message=WaldiezChatMessage(
                 type="string",
                 use_carryover=False,
                 content="Hello, world!",
                 context={},
             ),
-            summary=WaldieChatSummary(
+            summary=WaldiezChatSummary(
                 method=None,
                 prompt="",
                 args={},
             ),
             max_turns=None,
-            nested_chat=WaldieChatNested(
+            nested_chat=WaldiezChatNested(
                 message=None,
                 reply=None,
             ),
@@ -65,9 +65,9 @@ def test_export_chats() -> None:
             real_target=None,
         ),
     )
-    chat2 = WaldieChat(
+    chat2 = WaldiezChat(
         id="wc-2",
-        data=WaldieChatData(
+        data=WaldiezChatData(
             name="chat2",
             description="Another chat.",
             source="wa-2",
@@ -75,19 +75,19 @@ def test_export_chats() -> None:
             position=1,
             order=1,
             clear_history=False,
-            message=WaldieChatMessage(
+            message=WaldiezChatMessage(
                 type="string",
                 use_carryover=False,
                 content="Goodbye, world!",
                 context={},
             ),
-            summary=WaldieChatSummary(
+            summary=WaldiezChatSummary(
                 method=None,
                 prompt="",
                 args={},
             ),
             max_turns=None,
-            nested_chat=WaldieChatNested(
+            nested_chat=WaldiezChatNested(
                 message=None,
                 reply=None,
             ),

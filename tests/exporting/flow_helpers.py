@@ -3,41 +3,41 @@
 from typing import List
 
 from waldiez.models import (
-    WaldieAgentCodeExecutionConfig,
-    WaldieAgentLinkedSkill,
-    WaldieAgentNestedChat,
-    WaldieAgentNestedChatMessage,
-    WaldieAgents,
-    WaldieAgentTeachability,
-    WaldieAgentTerminationMessage,
-    WaldieAssistant,
-    WaldieAssistantData,
-    WaldieChat,
-    WaldieChatData,
-    WaldieChatMessage,
-    WaldieChatNested,
-    WaldieChatSummary,
-    WaldieFlow,
-    WaldieFlowData,
-    WaldieGroupManager,
-    WaldieGroupManagerData,
-    WaldieGroupManagerSpeakers,
-    WaldieModel,
-    WaldieModelData,
-    WaldieModelPrice,
-    WaldieRagUser,
-    WaldieRagUserData,
-    WaldieRagUserRetrieveConfig,
-    WaldieRagUserVectorDbConfig,
-    WaldieSkill,
-    WaldieSkillData,
-    WaldieUserProxy,
-    WaldieUserProxyData,
+    WaldiezAgentCodeExecutionConfig,
+    WaldiezAgentLinkedSkill,
+    WaldiezAgentNestedChat,
+    WaldiezAgentNestedChatMessage,
+    WaldiezAgents,
+    WaldiezAgentTeachability,
+    WaldiezAgentTerminationMessage,
+    WaldiezAssistant,
+    WaldiezAssistantData,
+    WaldiezChat,
+    WaldiezChatData,
+    WaldiezChatMessage,
+    WaldiezChatNested,
+    WaldiezChatSummary,
+    WaldiezFlow,
+    WaldiezFlowData,
+    WaldiezGroupManager,
+    WaldiezGroupManagerData,
+    WaldiezGroupManagerSpeakers,
+    WaldiezModel,
+    WaldiezModelData,
+    WaldiezModelPrice,
+    WaldiezRagUser,
+    WaldiezRagUserData,
+    WaldiezRagUserRetrieveConfig,
+    WaldiezRagUserVectorDbConfig,
+    WaldiezSkill,
+    WaldiezSkillData,
+    WaldiezUserProxy,
+    WaldiezUserProxyData,
 )
 
 
-def get_model(model_id: str = "wm-1") -> WaldieModel:
-    """Get a WaldieModel.
+def get_model(model_id: str = "wm-1") -> WaldiezModel:
+    """Get a WaldiezModel.
 
     Parameters
     ----------
@@ -46,10 +46,10 @@ def get_model(model_id: str = "wm-1") -> WaldieModel:
 
     Returns
     -------
-    WaldieModel
-        A WaldieModel instance
+    WaldiezModel
+        A WaldiezModel instance
     """
-    return WaldieModel(
+    return WaldiezModel(
         id=model_id,
         name="model_name",
         description="Model Description",
@@ -58,12 +58,12 @@ def get_model(model_id: str = "wm-1") -> WaldieModel:
         type="model",
         created_at="2021-01-01T00:00:00.000Z",
         updated_at="2021-01-01T00:00:00.000Z",
-        data=WaldieModelData(
+        data=WaldiezModelData(
             api_type="groq",  # to cover additional requirements
             api_key="api_key",
             api_version="2020-05-03",
             base_url="https://example.com/v1",
-            price=WaldieModelPrice(
+            price=WaldiezModelPrice(
                 prompt_price_per_1k=0.06,
                 completion_token_price_per_1k=0.12,
             ),
@@ -75,8 +75,8 @@ def get_model(model_id: str = "wm-1") -> WaldieModel:
     )
 
 
-def get_skill(skill_id: str = "ws-1") -> WaldieSkill:
-    """Get a WaldieSkill.
+def get_skill(skill_id: str = "ws-1") -> WaldiezSkill:
+    """Get a WaldiezSkill.
 
     Parameters
     ----------
@@ -85,10 +85,10 @@ def get_skill(skill_id: str = "ws-1") -> WaldieSkill:
 
     Returns
     -------
-    WaldieSkill
-        A WaldieSkill instance.
+    WaldiezSkill
+        A WaldiezSkill instance.
     """
-    return WaldieSkill(
+    return WaldiezSkill(
         id=skill_id,
         name="skill_name",
         description="Skill Description",
@@ -97,7 +97,7 @@ def get_skill(skill_id: str = "ws-1") -> WaldieSkill:
         type="skill",
         created_at="2021-01-01T00:00:00.000Z",
         updated_at="2021-01-01T00:00:00.000Z",
-        data=WaldieSkillData(
+        data=WaldiezSkillData(
             content=(
                 "def skill_name():\n"
                 '    """Skill Description."""\n'
@@ -110,8 +110,8 @@ def get_skill(skill_id: str = "ws-1") -> WaldieSkill:
     )
 
 
-def get_user_proxy(agent_id: str = "wa-1") -> WaldieUserProxy:
-    """Get a WaldieUserProxy.
+def get_user_proxy(agent_id: str = "wa-1") -> WaldiezUserProxy:
+    """Get a WaldiezUserProxy.
 
     Parameters
     ----------
@@ -120,10 +120,10 @@ def get_user_proxy(agent_id: str = "wa-1") -> WaldieUserProxy:
 
     Returns
     -------
-    WaldieUserProxy
-        A WaldieUserProxy instance.
+    WaldiezUserProxy
+        A WaldiezUserProxy instance.
     """
-    return WaldieUserProxy(
+    return WaldiezUserProxy(
         id=agent_id,
         name="user",
         description="User Agent",
@@ -133,11 +133,11 @@ def get_user_proxy(agent_id: str = "wa-1") -> WaldieUserProxy:
         requirements=[],
         created_at="2021-01-01T00:00:00.000Z",
         updated_at="2021-01-01T00:00:00.000Z",
-        data=WaldieUserProxyData(
+        data=WaldiezUserProxyData(
             system_message=None,
             human_input_mode="ALWAYS",
             max_tokens=100,
-            code_execution_config=WaldieAgentCodeExecutionConfig(
+            code_execution_config=WaldiezAgentCodeExecutionConfig(
                 work_dir="coding",
                 use_docker=None,
                 last_n_messages=3,
@@ -146,7 +146,7 @@ def get_user_proxy(agent_id: str = "wa-1") -> WaldieUserProxy:
             ),
             agent_default_auto_reply="I am a user.",
             max_consecutive_auto_reply=5,
-            termination=WaldieAgentTerminationMessage(
+            termination=WaldiezAgentTerminationMessage(
                 type="keyword",
                 keywords=["bye", "goodbye"],
                 criterion="found",
@@ -154,32 +154,32 @@ def get_user_proxy(agent_id: str = "wa-1") -> WaldieUserProxy:
             ),
             model_ids=[],
             skills=[
-                WaldieAgentLinkedSkill(
+                WaldiezAgentLinkedSkill(
                     id="ws-1",
                     executor_id="wa-2",
                 )
             ],
             nested_chats=[
-                WaldieAgentNestedChat(
+                WaldiezAgentNestedChat(
                     triggered_by=[
-                        WaldieAgentNestedChatMessage(
+                        WaldiezAgentNestedChatMessage(
                             id="wc-1",
                             is_reply=False,
                         ),
                     ],
                     messages=[
-                        WaldieAgentNestedChatMessage(
+                        WaldiezAgentNestedChatMessage(
                             id="wc-2",
                             is_reply=True,
                         ),
-                        WaldieAgentNestedChatMessage(
+                        WaldiezAgentNestedChatMessage(
                             id="wc-3",
                             is_reply=False,
                         ),
                     ],
                 ),
             ],
-            teachability=WaldieAgentTeachability(
+            teachability=WaldiezAgentTeachability(
                 enabled=False,
                 verbosity=0,
                 reset_db=False,
@@ -190,8 +190,8 @@ def get_user_proxy(agent_id: str = "wa-1") -> WaldieUserProxy:
     )
 
 
-def get_assistant(agent_id: str = "wa-2") -> WaldieAssistant:
-    """Get a WaldieAssistant.
+def get_assistant(agent_id: str = "wa-2") -> WaldiezAssistant:
+    """Get a WaldiezAssistant.
 
     Parameters
     ----------
@@ -200,8 +200,8 @@ def get_assistant(agent_id: str = "wa-2") -> WaldieAssistant:
 
     Returns
     -------
-    WaldieAssistant
-        A WaldieAssistant instance.
+    WaldiezAssistant
+        A WaldiezAssistant instance.
     """
     assistant_termination = (
         "def is_termination_message(message):\n"
@@ -211,7 +211,7 @@ def get_assistant(agent_id: str = "wa-2") -> WaldieAssistant:
         '        for keyword in ["bye", "goodbye"]\n'
         "    )"
     )
-    return WaldieAssistant(
+    return WaldiezAssistant(
         id=agent_id,
         name="assistant",
         description="Assistant Agent",
@@ -221,14 +221,14 @@ def get_assistant(agent_id: str = "wa-2") -> WaldieAssistant:
         requirements=[],
         created_at="2021-01-01T00:00:00.000Z",
         updated_at="2021-01-01T00:00:00.000Z",
-        data=WaldieAssistantData(
+        data=WaldiezAssistantData(
             system_message=None,
             human_input_mode="NEVER",
             max_tokens=100,
             code_execution_config=False,
             agent_default_auto_reply="I am an assistant.",
             max_consecutive_auto_reply=5,
-            termination=WaldieAgentTerminationMessage(
+            termination=WaldiezAgentTerminationMessage(
                 type="method",
                 keywords=[],
                 criterion="found",
@@ -236,13 +236,13 @@ def get_assistant(agent_id: str = "wa-2") -> WaldieAssistant:
             ),
             model_ids=["wm-1"],
             skills=[
-                WaldieAgentLinkedSkill(
+                WaldiezAgentLinkedSkill(
                     id="ws-1",
                     executor_id="wa-2",
                 ),
             ],
             nested_chats=[],
-            teachability=WaldieAgentTeachability(
+            teachability=WaldiezAgentTeachability(
                 enabled=False,
                 verbosity=0,
                 reset_db=False,
@@ -253,8 +253,8 @@ def get_assistant(agent_id: str = "wa-2") -> WaldieAssistant:
     )
 
 
-def get_group_manager(agent_id: str = "wa-3") -> WaldieGroupManager:
-    """Get a WaldieGroupManager.
+def get_group_manager(agent_id: str = "wa-3") -> WaldiezGroupManager:
+    """Get a WaldiezGroupManager.
 
     Parameters
     ----------
@@ -263,14 +263,14 @@ def get_group_manager(agent_id: str = "wa-3") -> WaldieGroupManager:
 
     Returns
     -------
-    WaldieGroupManager
-        A WaldieGroupManager instance.
+    WaldiezGroupManager
+        A WaldiezGroupManager instance.
     """
     custom_speaker_selection = (
         "def custom_speaker_selection(last_speaker, groupchat):\n"
         "    return last_speaker"
     )
-    return WaldieGroupManager(
+    return WaldiezGroupManager(
         id=agent_id,
         name="group_manager",
         description="Group Manager Agent",
@@ -280,7 +280,7 @@ def get_group_manager(agent_id: str = "wa-3") -> WaldieGroupManager:
         requirements=[],
         created_at="2021-01-01T00:00:00.000Z",
         updated_at="2021-01-01T00:00:00.000Z",
-        data=WaldieGroupManagerData(
+        data=WaldiezGroupManagerData(
             max_round=10,
             admin_name="user",
             enable_clear_history=True,
@@ -291,7 +291,7 @@ def get_group_manager(agent_id: str = "wa-3") -> WaldieGroupManager:
             code_execution_config=False,
             agent_default_auto_reply="I am a group manager.",
             max_consecutive_auto_reply=5,
-            termination=WaldieAgentTerminationMessage(
+            termination=WaldiezAgentTerminationMessage(
                 type="keyword",
                 keywords=["TERMINATE"],
                 criterion="exact",
@@ -300,7 +300,7 @@ def get_group_manager(agent_id: str = "wa-3") -> WaldieGroupManager:
             model_ids=[],
             skills=[],
             nested_chats=[],
-            speakers=WaldieGroupManagerSpeakers(
+            speakers=WaldiezGroupManagerSpeakers(
                 selection_mode="transition",
                 selection_method="custom",
                 selection_custom_method=custom_speaker_selection,
@@ -312,7 +312,7 @@ def get_group_manager(agent_id: str = "wa-3") -> WaldieGroupManager:
                 },
                 transitions_type="allowed",
             ),
-            teachability=WaldieAgentTeachability(
+            teachability=WaldiezAgentTeachability(
                 enabled=False,
                 verbosity=0,
                 reset_db=False,
@@ -323,8 +323,8 @@ def get_group_manager(agent_id: str = "wa-3") -> WaldieGroupManager:
     )
 
 
-def get_rag_user(agent_id: str = "wa-4") -> WaldieRagUser:
-    """Get a WaldieRagUser.
+def get_rag_user(agent_id: str = "wa-4") -> WaldiezRagUser:
+    """Get a WaldiezRagUser.
 
     Parameters
     ----------
@@ -333,11 +333,11 @@ def get_rag_user(agent_id: str = "wa-4") -> WaldieRagUser:
 
     Returns
     -------
-    WaldieRagUser
-        A WaldieRagUser instance.
+    WaldiezRagUser
+        A WaldiezRagUser instance.
     """
     custom_embedding = "def custom_embedding_function():\n    return list"
-    return WaldieRagUser(
+    return WaldiezRagUser(
         id=agent_id,
         name="rag_user",
         description="RAG User",
@@ -347,14 +347,14 @@ def get_rag_user(agent_id: str = "wa-4") -> WaldieRagUser:
         updated_at="2021-01-01T00:00:00.000Z",
         type="agent",
         agent_type="rag_user",
-        data=WaldieRagUserData(
+        data=WaldiezRagUserData(
             system_message=None,
             human_input_mode="ALWAYS",
             max_tokens=100,
             code_execution_config=False,
             agent_default_auto_reply="I am a group manager.",
             max_consecutive_auto_reply=5,
-            termination=WaldieAgentTerminationMessage(
+            termination=WaldiezAgentTerminationMessage(
                 type="keyword",
                 criterion="ending",
                 keywords=["bye", "goodbye"],
@@ -363,10 +363,10 @@ def get_rag_user(agent_id: str = "wa-4") -> WaldieRagUser:
             model_ids=[],
             skills=[],
             nested_chats=[],
-            retrieve_config=WaldieRagUserRetrieveConfig(
+            retrieve_config=WaldiezRagUserRetrieveConfig(
                 task="default",
                 vector_db="chroma",
-                db_config=WaldieRagUserVectorDbConfig(
+                db_config=WaldiezRagUserVectorDbConfig(
                     model=None,
                     use_memory=False,
                     use_local_storage=True,
@@ -400,7 +400,7 @@ def get_rag_user(agent_id: str = "wa-4") -> WaldieRagUser:
                 n_results=10,
                 customized_prompt=None,
             ),
-            teachability=WaldieAgentTeachability(
+            teachability=WaldiezAgentTeachability(
                 enabled=False,
                 verbosity=0,
                 reset_db=False,
@@ -411,8 +411,8 @@ def get_rag_user(agent_id: str = "wa-4") -> WaldieRagUser:
     )
 
 
-def get_chats(count: int = 3) -> List[WaldieChat]:
-    """Get a list of WaldieChat instances.
+def get_chats(count: int = 3) -> List[WaldiezChat]:
+    """Get a list of WaldiezChat instances.
 
     Parameters
     ----------
@@ -421,8 +421,8 @@ def get_chats(count: int = 3) -> List[WaldieChat]:
 
     Returns
     -------
-    List[WaldieChat]
-        A list of WaldieChat instances
+    List[WaldiezChat]
+        A list of WaldiezChat instances
     """
     chats = []
     custom_message = (
@@ -431,15 +431,15 @@ def get_chats(count: int = 3) -> List[WaldieChat]:
     )
     for index in range(count):
         context = {"problem": "Solve tha task."} if index == 0 else {}
-        nested_chat = WaldieChatNested(
+        nested_chat = WaldiezChatNested(
             message=None,
             reply=None,
         )
         source_index = index + 1
         target_index = index + 2
-        chat = WaldieChat(
+        chat = WaldiezChat(
             id=f"wc-{index + 1}",
-            data=WaldieChatData(
+            data=WaldiezChatData(
                 name=f"chat_{index + 1}",
                 description=f"Description of chat {index + 1}",
                 source=f"wa-{source_index}",
@@ -449,7 +449,7 @@ def get_chats(count: int = 3) -> List[WaldieChat]:
                 clear_history=True,
                 silent=False,
                 max_turns=5,
-                message=WaldieChatMessage(
+                message=WaldiezChatMessage(
                     type="string" if index != 2 else "method",
                     use_carryover=False,
                     content=(
@@ -459,7 +459,7 @@ def get_chats(count: int = 3) -> List[WaldieChat]:
                     ),
                     context=context,
                 ),
-                summary=WaldieChatSummary(
+                summary=WaldiezChatSummary(
                     method="reflection_with_llm",
                     prompt="Summarize the chat.",
                     args={"summary_role": "user"},
@@ -473,13 +473,13 @@ def get_chats(count: int = 3) -> List[WaldieChat]:
     return chats
 
 
-def get_flow() -> WaldieFlow:
-    """Get a WaldieFlow instance.
+def get_flow() -> WaldiezFlow:
+    """Get a WaldiezFlow instance.
 
     Returns
     -------
-    WaldieFlow
-        A WaldieFlow instance.
+    WaldiezFlow
+        A WaldiezFlow instance.
     """
     model = get_model()
     skill = get_skill()
@@ -488,13 +488,13 @@ def get_flow() -> WaldieFlow:
     manager = get_group_manager()
     rag_user = get_rag_user()
     chats = get_chats()
-    agents = WaldieAgents(
+    agents = WaldiezAgents(
         users=[user],
         assistants=[assistant],
         managers=[manager],
         rag_users=[rag_user],
     )
-    flow = WaldieFlow(
+    flow = WaldiezFlow(
         id="wf-1",
         name="flow_name",
         type="flow",
@@ -504,7 +504,7 @@ def get_flow() -> WaldieFlow:
         storage_id="flow-1",
         created_at="2021-01-01T00:00:00.000Z",
         updated_at="2021-01-01T00:00:00.000Z",
-        data=WaldieFlowData(
+        data=WaldiezFlowData(
             nodes=[],
             edges=[],
             viewport={},

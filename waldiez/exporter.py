@@ -1,4 +1,4 @@
-"""Waldie exporter.
+"""Waldiez exporter.
 
 The role of the exporter is to export the model's data
 to an autogen's flow with one or more chats.
@@ -22,38 +22,43 @@ from pathlib import Path
 from typing import Dict, List, Optional, Union
 
 from .exporting import comment, export_flow, get_valid_instance_name
-from .models import WaldieAgent, WaldieChat, WaldieModel, WaldieSkill
-from .waldie import Waldie
+from .models import (
+    Waldiez,
+    WaldiezAgent,
+    WaldiezChat,
+    WaldiezModel,
+    WaldiezSkill,
+)
 
 
-class WaldieExporter:
-    """Waldie exporter.
+class WaldiezExporter:
+    """Waldiez exporter.
 
     Attributes:
-        waldie (Waldie): The Waldie instance.
+        waldiez (Waldiez): The Waldiez instance.
     """
 
     _agent_names: Dict[str, str]
     _model_names: Dict[str, str]
     _skill_names: Dict[str, str]
     _chat_names: Dict[str, str]
-    _chats: List[WaldieChat]
-    _skills: List[WaldieSkill]
-    _models: List[WaldieModel]
-    _agents: List[WaldieAgent]
+    _chats: List[WaldiezChat]
+    _skills: List[WaldiezSkill]
+    _models: List[WaldiezModel]
+    _agents: List[WaldiezAgent]
 
-    def __init__(self, waldie: Waldie) -> None:
-        """Initialize the Waldie exporter.
+    def __init__(self, waldiez: Waldiez) -> None:
+        """Initialize the Waldiez exporter.
 
         Parameters:
-            waldie (Waldie): The Waldie instance.
+            waldiez (Waldiez): The Waldiez instance.
         """
-        self.waldie = waldie
+        self.waldiez = waldiez
         self._initialize()
 
     @classmethod
-    def load(cls, file_path: Path) -> "WaldieExporter":
-        """Load the Waldie instance from a file.
+    def load(cls, file_path: Path) -> "WaldiezExporter":
+        """Load the Waldiez instance from a file.
 
         Parameters
         ----------
@@ -62,11 +67,11 @@ class WaldieExporter:
 
         Returns
         -------
-        WaldieExporter
-            The Waldie exporter.
+        WaldiezExporter
+            The Waldiez exporter.
         """
-        waldie = Waldie.load(file_path)
-        return cls(waldie)
+        waldiez = Waldiez.load(file_path)
+        return cls(waldiez)
 
     def _initialize(
         self,
@@ -81,29 +86,29 @@ class WaldieExporter:
         model_names: Dict[str, str] = {}
         skill_names: Dict[str, str] = {}
         chat_names: Dict[str, str] = {}
-        chats: List[WaldieChat] = []
-        skills: List[WaldieSkill] = []
-        models: List[WaldieModel] = []
-        agents: List[WaldieAgent] = []
-        for agent in self.waldie.agents:
+        chats: List[WaldiezChat] = []
+        skills: List[WaldiezSkill] = []
+        models: List[WaldiezModel] = []
+        agents: List[WaldiezAgent] = []
+        for agent in self.waldiez.agents:
             all_names = get_valid_instance_name(
                 (agent.id, agent.name), all_names, prefix="wa"
             )
             agent_names[agent.id] = all_names[agent.id]
             agents.append(agent)
-        for model in self.waldie.models:
+        for model in self.waldiez.models:
             all_names = get_valid_instance_name(
                 (model.id, model.name), all_names, prefix="wm"
             )
             model_names[model.id] = all_names[model.id]
             models.append(model)
-        for skill in self.waldie.skills:
+        for skill in self.waldiez.skills:
             all_names = get_valid_instance_name(
                 (skill.id, skill.name), all_names, prefix="ws"
             )
             skill_names[skill.id] = all_names[skill.id]
             skills.append(skill)
-        for chat in self.waldie.flow.data.chats:
+        for chat in self.waldiez.flow.data.chats:
             all_names = get_valid_instance_name(
                 (chat.id, chat.name), all_names, prefix="wc"
             )
@@ -119,7 +124,7 @@ class WaldieExporter:
         self._agents = agents
 
     def export(self, path: Union[str, Path], force: bool = False) -> None:
-        """Export the Waldie instance.
+        """Export the Waldiez instance.
 
         Parameters
         ----------
@@ -170,16 +175,16 @@ class WaldieExporter:
         RuntimeError
             If the notebook could not be generated.
         """
-        content = f"{comment(True)}{self.waldie.name}" + "\n\n"
+        content = f"{comment(True)}{self.waldiez.name}" + "\n\n"
         content += f"{comment(True, 2)}Dependencies" + "\n\n"
         content += "import sys\n"
-        requirements = " ".join(self.waldie.requirements)
+        requirements = " ".join(self.waldiez.requirements)
         if requirements:
             content += (
                 f"# !{{sys.executable}} -m pip install -q {requirements}" + "\n"
             )
         content += export_flow(
-            waldie=self.waldie,
+            waldiez=self.waldiez,
             agents=(self._agents, self._agent_names),
             chats=(self._chats, self._chat_names),
             models=(self._models, self._model_names),
@@ -208,7 +213,7 @@ class WaldieExporter:
         py_path.unlink()
 
     def to_py(self, path: Path) -> None:
-        """Export waldie flow to python script.
+        """Export waldiez flow to python script.
 
         Parameters
         ----------
@@ -216,15 +221,15 @@ class WaldieExporter:
             The path to export to.
         """
         content = "#!/usr/bin/env python\n"
-        content += f'"""{self.waldie.name}\n\n'
-        content += f"{self.waldie.description}\n\n"
-        content += f"Tags: {', '.join(self.waldie.tags)}\n\n"
-        content += f"Requirements: {', '.join(self.waldie.requirements)}\n\n"
+        content += f'"""{self.waldiez.name}\n\n'
+        content += f"{self.waldiez.description}\n\n"
+        content += f"Tags: {', '.join(self.waldiez.tags)}\n\n"
+        content += f"Requirements: {', '.join(self.waldiez.requirements)}\n\n"
         content += '"""\n\n'
         content += "# cspell: disable\n"
         content += "# flake8: noqa\n\n"
         content += export_flow(
-            waldie=self.waldie,
+            waldiez=self.waldiez,
             agents=(self._agents, self._agent_names),
             chats=(self._chats, self._chat_names),
             models=(self._models, self._model_names),
@@ -246,7 +251,7 @@ class WaldieExporter:
             The file path.
         """
         with open(file_path, "w", encoding="utf-8") as file:
-            file.write(self.waldie.model_dump_json())
+            file.write(self.waldiez.model_dump_json())
 
 
 def run_command(

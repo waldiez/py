@@ -2,14 +2,14 @@
 
 # import pytest
 
-from waldiez.models.chat.chat_data import WaldieChatData
-from waldiez.models.chat.chat_message import WaldieChatMessage
+from waldiez.models.chat.chat_data import WaldiezChatData
+from waldiez.models.chat.chat_message import WaldiezChatMessage
 
 
-def test_waldie_chat_data() -> None:
-    """Test WaldieChatData."""
+def test_waldiez_chat_data() -> None:
+    """Test WaldiezChatData."""
     # Given
-    chat_data = WaldieChatData(
+    chat_data = WaldiezChatData(
         name="chat_data",
         description="Chat data",
         source="wa-1",
@@ -56,7 +56,7 @@ def test_waldie_chat_data() -> None:
     assert chat_data.position == -1
     assert chat_data.order == 1
     assert not chat_data.clear_history
-    assert isinstance(chat_data.message, WaldieChatMessage)
+    assert isinstance(chat_data.message, WaldiezChatMessage)
     assert chat_data.message.type == "string"
     assert chat_data.message.content == "Hello there"
     assert chat_data.message.context == {
@@ -65,10 +65,10 @@ def test_waldie_chat_data() -> None:
         "alternative_solution": "42",
         "not_a_solution": "null",
     }
-    assert isinstance(chat_data.nested_chat.message, WaldieChatMessage)
+    assert isinstance(chat_data.nested_chat.message, WaldiezChatMessage)
     assert chat_data.nested_chat.message.type == "string"
     assert chat_data.nested_chat.message.content == "Hi"
-    assert isinstance(chat_data.nested_chat.reply, WaldieChatMessage)
+    assert isinstance(chat_data.nested_chat.reply, WaldiezChatMessage)
     assert chat_data.nested_chat.reply.type == "string"
     assert chat_data.nested_chat.reply.content == "Hello"
     assert chat_data.summary.method == "reflection_with_llm"
@@ -90,10 +90,10 @@ def test_waldie_chat_data() -> None:
     assert model_dump["summary"]["method"] == "reflectionWithLlm"
 
 
-def test_waldie_chat_data_message() -> None:
-    """Test WaldieChatData message."""
+def test_waldiez_chat_data_message() -> None:
+    """Test WaldiezChatData message."""
     # Given
-    chat_data = WaldieChatData(  # type: ignore
+    chat_data = WaldiezChatData(  # type: ignore
         name="chat_data",
         description="Chat data",
         source="wa-1",
@@ -103,11 +103,11 @@ def test_waldie_chat_data_message() -> None:
         message="Hello there",
     )
     # Then
-    assert isinstance(chat_data.message, WaldieChatMessage)
+    assert isinstance(chat_data.message, WaldiezChatMessage)
     assert chat_data.message.type == "string"
     assert chat_data.message.content == "Hello there"
     # Given
-    chat_data = WaldieChatData(  # type: ignore
+    chat_data = WaldiezChatData(  # type: ignore
         name="chat_data",
         description="Chat data",
         source="wa-1",
@@ -117,12 +117,12 @@ def test_waldie_chat_data_message() -> None:
         message=None,  # type: ignore
     )
     # Then
-    assert isinstance(chat_data.message, WaldieChatMessage)
+    assert isinstance(chat_data.message, WaldiezChatMessage)
     assert chat_data.message.type == "none"
     assert chat_data.message.content is None
 
     # Given
-    chat_data = WaldieChatData(  # type: ignore
+    chat_data = WaldiezChatData(  # type: ignore
         name="chat_data",
         description="Chat data",
         source="wa-1",
@@ -132,19 +132,19 @@ def test_waldie_chat_data_message() -> None:
         message=42,  # type: ignore
     )
     # Then
-    assert isinstance(chat_data.message, WaldieChatMessage)
+    assert isinstance(chat_data.message, WaldiezChatMessage)
     assert chat_data.message.type == "none"
     assert chat_data.message.content is None
 
     # Given
-    chat_data = WaldieChatData(  # type: ignore
+    chat_data = WaldiezChatData(  # type: ignore
         name="chat_data",
         description="Chat data",
         source="wa-1",
         target="wa-2",
         position=0,
         clear_history=False,
-        message=WaldieChatMessage(
+        message=WaldiezChatMessage(
             type="string",
             use_carryover=False,
             content="Hello there",
@@ -152,7 +152,7 @@ def test_waldie_chat_data_message() -> None:
         ),
     )
     # Then
-    assert isinstance(chat_data.message, WaldieChatMessage)
+    assert isinstance(chat_data.message, WaldiezChatMessage)
     assert chat_data.message.type == "string"
     assert chat_data.message.content == "Hello there"
 
@@ -172,18 +172,18 @@ def test_waldie_chat_data_message() -> None:
         },
     }
     # Then
-    chat_data = WaldieChatData(**chat_data_dict)  # type: ignore
-    assert isinstance(chat_data.message, WaldieChatMessage)
+    chat_data = WaldiezChatData(**chat_data_dict)  # type: ignore
+    assert isinstance(chat_data.message, WaldiezChatMessage)
     assert chat_data.message.type == "string"
     assert chat_data.message.content == ""
     assert chat_data.message.context == {}
     assert chat_data.message.use_carryover is False
 
 
-def test_waldie_chat_summary() -> None:
-    """Test WaldieChatData summary."""
+def test_waldiez_chat_summary() -> None:
+    """Test WaldiezChatData summary."""
     # Given
-    chat_data = WaldieChatData(  # type: ignore
+    chat_data = WaldiezChatData(  # type: ignore
         name="chat_data",
         description="Chat data",
         source="wa-1",
@@ -198,7 +198,7 @@ def test_waldie_chat_summary() -> None:
     model_dump = chat_data.model_dump(by_alias=True)
     assert model_dump["summary"]["method"] == "lastMsg"
     # Given
-    chat_data = WaldieChatData(  # type: ignore
+    chat_data = WaldiezChatData(  # type: ignore
         name="chat_data",
         description="Chat data",
         source="wa-1",
@@ -214,7 +214,7 @@ def test_waldie_chat_summary() -> None:
     model_dump = chat_data.model_dump(by_alias=True)
     assert model_dump["summary"]["method"] == "reflectionWithLlm"
     # Given
-    chat_data = WaldieChatData(  # type: ignore
+    chat_data = WaldiezChatData(  # type: ignore
         name="chat_data",
         description="Chat data",
         source="wa-1",

@@ -8,10 +8,10 @@ from waldiez.exporting.agents.rag_user.rag_user import (
     get_rag_user_retrieve_config_str,
 )
 from waldiez.models import (
-    WaldieRagUser,
-    WaldieRagUserData,
-    WaldieRagUserRetrieveConfig,
-    WaldieRagUserVectorDbConfig,
+    WaldiezRagUser,
+    WaldiezRagUserData,
+    WaldiezRagUserRetrieveConfig,
+    WaldiezRagUserVectorDbConfig,
 )
 
 # pylint: disable=line-too-long
@@ -22,9 +22,9 @@ def _get_rag_user(
     custom_embedding: Optional[str] = None,
     custom_token_count: Optional[str] = None,
     custom_text_split: Optional[str] = None,
-) -> WaldieRagUser:
+) -> WaldiezRagUser:
     """Get a RAG user agent."""
-    return WaldieRagUser(
+    return WaldiezRagUser(
         id="wa-1",
         name="rag_user",
         description="A RAG user agent.",
@@ -32,11 +32,11 @@ def _get_rag_user(
         agent_type="rag_user",
         tags=[],
         requirements=[],
-        data=WaldieRagUserData(  # type: ignore
+        data=WaldiezRagUserData(  # type: ignore
             model_ids=["wm-1"],
-            retrieve_config=WaldieRagUserRetrieveConfig(  # type: ignore
+            retrieve_config=WaldiezRagUserRetrieveConfig(  # type: ignore
                 vector_db="chroma",
-                db_config=WaldieRagUserVectorDbConfig(  # type: ignore
+                db_config=WaldiezRagUserVectorDbConfig(  # type: ignore
                     use_local_storage=local_path is not None,
                     local_storage_path=local_path,
                 ),

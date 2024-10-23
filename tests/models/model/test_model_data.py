@@ -4,19 +4,19 @@
 import pytest
 
 from waldiez.models.model import (
-    WaldieModelAPIType,
-    WaldieModelData,
-    WaldieModelPrice,
+    WaldiezModelAPIType,
+    WaldiezModelData,
+    WaldiezModelPrice,
 )
 
 
-def test_waldie_model_price() -> None:
-    """Test WaldieModelPrice."""
+def test_waldiez_model_price() -> None:
+    """Test WaldiezModelPrice."""
     # Given
     prompt_price_per_1k = 0.1
     completion_token_price_per_1k = 0.2
     # When
-    model_price = WaldieModelPrice(
+    model_price = WaldiezModelPrice(
         prompt_price_per_1k=prompt_price_per_1k,
         completion_token_price_per_1k=completion_token_price_per_1k,
     )
@@ -31,7 +31,7 @@ def test_waldie_model_price() -> None:
     prompt_price_per_1k = None  # type: ignore[assignment]
     completion_token_price_per_1k = None  # type: ignore[assignment]
     # When
-    model_price = WaldieModelPrice(
+    model_price = WaldiezModelPrice(
         prompt_price_per_1k=prompt_price_per_1k,
         completion_token_price_per_1k=completion_token_price_per_1k,
     )
@@ -47,29 +47,29 @@ def test_waldie_model_price() -> None:
     completion_token_price_per_1k = 0.2
     # When
     with pytest.raises(ValueError):
-        WaldieModelPrice(
+        WaldiezModelPrice(
             prompt_price_per_1k=prompt_price_per_1k,
             completion_token_price_per_1k=completion_token_price_per_1k,
         )
 
 
-def test_waldie_model_data() -> None:
-    """Test WaldieModelData."""
+def test_waldiez_model_data() -> None:
+    """Test WaldiezModelData."""
     # Given
     base_url = "https://example.com"
     api_key = "api_key"
-    api_type: WaldieModelAPIType = "openai"
+    api_type: WaldiezModelAPIType = "openai"
     api_version = "v1"
     temperature = 0.1
     top_p = 0.2
     max_tokens = 100
     default_headers = {"Content-Type": "application/json"}
-    price = WaldieModelPrice(
+    price = WaldiezModelPrice(
         prompt_price_per_1k=0.1,
         completion_token_price_per_1k=0.2,
     )
     # When
-    model_data = WaldieModelData(
+    model_data = WaldiezModelData(
         base_url=base_url,
         api_key=api_key,
         api_type=api_type,

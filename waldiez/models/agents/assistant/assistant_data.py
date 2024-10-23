@@ -3,14 +3,14 @@
 from pydantic import Field
 from typing_extensions import Annotated, Literal
 
-from ..agent import WaldieAgentData
+from ..agent import WaldiezAgentData
 
 
-class WaldieAssistantData(WaldieAgentData):
+class WaldiezAssistantData(WaldiezAgentData):
     """Assistant agent data class.
 
     The data for an agent with `human_input_mode` set to `"ALWAYS"` as default.
-    See the parent's docs (`WaldieAgentData`) for the rest of the properties.
+    See the parent's docs (`WaldiezAgentData`) for the rest of the properties.
 
     Attributes
     ----------

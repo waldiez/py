@@ -4,21 +4,21 @@ from waldiez.exporting.agents.code_execution import (
     get_agent_code_execution_config,
 )
 from waldiez.models import (
-    WaldieAgent,
-    WaldieAgentCodeExecutionConfig,
-    WaldieAgentData,
+    WaldiezAgent,
+    WaldiezAgentCodeExecutionConfig,
+    WaldiezAgentData,
 )
 
 
 def test_get_agent_code_execution_config() -> None:
     """Test get_agent_code_execution_config."""
     # Given
-    agent = WaldieAgent(  # type: ignore
+    agent = WaldiezAgent(  # type: ignore
         id="wa-1",
         name="agent1",
         agent_type="assistant",
-        data=WaldieAgentData(  # type: ignore
-            code_execution_config=WaldieAgentCodeExecutionConfig(
+        data=WaldiezAgentData(  # type: ignore
+            code_execution_config=WaldiezAgentCodeExecutionConfig(
                 use_docker=None,
                 work_dir="work_dir",
                 timeout=10,
@@ -49,11 +49,11 @@ def test_get_agent_code_execution_config() -> None:
 def test_get_agent_code_execution_config_no_code_execution() -> None:
     """Test get_agent_code_execution_config with no code execution."""
     # Given
-    agent = WaldieAgent(  # type: ignore
+    agent = WaldiezAgent(  # type: ignore
         id="wa-1",
         name="agent1",
         agent_type="assistant",
-        data=WaldieAgentData(),  # type: ignore
+        data=WaldiezAgentData(),  # type: ignore
     )
     expected_executor = ""
     expected_arg = "False"

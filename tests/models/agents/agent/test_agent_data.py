@@ -1,29 +1,29 @@
 """Test waldiez.models.agents.agent.agent_data.*."""
 
-from waldiez.models.agents.agent.agent_data import WaldieAgentData
-from waldiez.models.agents.agent.teachability import WaldieAgentTeachability
+from waldiez.models.agents.agent.agent_data import WaldiezAgentData
+from waldiez.models.agents.agent.teachability import WaldiezAgentTeachability
 from waldiez.models.agents.agent.termination_message import (
-    WaldieAgentTerminationMessage,
+    WaldiezAgentTerminationMessage,
 )
 
 
-def test_waldie_agent_data() -> None:
-    """Test WaldieAgentData."""
-    agent_data = WaldieAgentData(
+def test_waldiez_agent_data() -> None:
+    """Test WaldiezAgentData."""
+    agent_data = WaldiezAgentData(
         system_message="system_message",
         human_input_mode="NEVER",
         max_tokens=100,
         code_execution_config=False,
         agent_default_auto_reply="auto_reply",
         max_consecutive_auto_reply=5,
-        teachability=WaldieAgentTeachability(
+        teachability=WaldiezAgentTeachability(
             enabled=False,
             verbosity=0,
             reset_db=False,
             recall_threshold=0.0,
             max_num_retrievals=0,
         ),
-        termination=WaldieAgentTerminationMessage(
+        termination=WaldiezAgentTerminationMessage(
             type="none",
             keywords=[],
             criterion=None,

@@ -6,15 +6,15 @@ from pydantic import ConfigDict, Field
 from pydantic.alias_generators import to_camel
 from typing_extensions import Annotated, Literal
 
-from ...common import WaldieBase
-from .code_execution import WaldieAgentCodeExecutionConfig
-from .linked_skill import WaldieAgentLinkedSkill
-from .nested_chat import WaldieAgentNestedChat
-from .teachability import WaldieAgentTeachability
-from .termination_message import WaldieAgentTerminationMessage
+from ...common import WaldiezBase
+from .code_execution import WaldiezAgentCodeExecutionConfig
+from .linked_skill import WaldiezAgentLinkedSkill
+from .nested_chat import WaldiezAgentNestedChat
+from .teachability import WaldiezAgentTeachability
+from .termination_message import WaldiezAgentTerminationMessage
 
 
-class WaldieAgentData(WaldieBase):
+class WaldiezAgentData(WaldiezBase):
     """Waldie Agent Data.
 
     Attributes
@@ -23,7 +23,7 @@ class WaldieAgentData(WaldieBase):
         The agent's system message. Default: None (depends on the agent's type)
     human_input_mode : Literal["ALWAYS", "NEVER", "TERMINATE"]
         The human input mode to use for the agent.
-    code_execution_config : Union[WaldieAgentCodeExecutionConfig, False]
+    code_execution_config : Union[WaldiezAgentCodeExecutionConfig, False]
         The code execution config. Either False (no execution) or a dict
     max_tokens : Optional[int]
         The maximum tokens to use. Default: None (no limit).
@@ -32,15 +32,15 @@ class WaldieAgentData(WaldieBase):
     max_consecutive_auto_reply : Optional[int]
         The maximum number or consecutive auto replies to use
         before ending the chat. Default: None (no limit).
-    termination : WaldieAgentTerminationMessage
+    termination : WaldiezAgentTerminationMessage
         The message termination check to use (keyword, method, none)
-    teachability : WaldieAgentTeachability
+    teachability : WaldiezAgentTeachability
         The agent teachability configuration.
     model_ids: List[str]
         A list of models (their ids) to link with the agent.
-    skills : List[WaldieAgentLinkedSkill]
+    skills : List[WaldiezAgentLinkedSkill]
         A list of skills (id and executor) to register.
-    nested_chats : List[WaldieAgentNestedChat]
+    nested_chats : List[WaldiezAgentNestedChat]
         A list of nested chats (triggered_by, messages), to register.
     """
 
@@ -81,13 +81,13 @@ class WaldieAgentData(WaldieBase):
         ),
     ]
     code_execution_config: Annotated[
-        Union[WaldieAgentCodeExecutionConfig, Literal[False]],
+        Union[WaldiezAgentCodeExecutionConfig, Literal[False]],
         Field(
             False,
             title="Code execution config",
             description=(
                 "The code execution config. Either False (no execution) "
-                "or a `WaldieAgentCodeExecutionConfig` with details"
+                "or a `WaldiezAgentCodeExecutionConfig` with details"
             ),
             alias="codeExecutionConfig",
         ),
@@ -116,21 +116,21 @@ class WaldieAgentData(WaldieBase):
         ),
     ]
     termination: Annotated[
-        WaldieAgentTerminationMessage,
+        WaldiezAgentTerminationMessage,
         Field(
             title="Termination",
             description=(
                 "The message termination check to use (keyword, method, none)"
             ),
-            default_factory=WaldieAgentTerminationMessage,
+            default_factory=WaldiezAgentTerminationMessage,
         ),
     ]
     teachability: Annotated[
-        WaldieAgentTeachability,
+        WaldiezAgentTeachability,
         Field(
             title="Teachability",
             description="The agent teachability configuration.",
-            default_factory=WaldieAgentTeachability,
+            default_factory=WaldiezAgentTeachability,
         ),
     ]
     model_ids: Annotated[
@@ -143,7 +143,7 @@ class WaldieAgentData(WaldieBase):
         ),
     ]
     skills: Annotated[
-        List[WaldieAgentLinkedSkill],
+        List[WaldiezAgentLinkedSkill],
         Field(
             default_factory=list,
             title="Skills",
@@ -151,7 +151,7 @@ class WaldieAgentData(WaldieBase):
         ),
     ]
     nested_chats: Annotated[
-        List[WaldieAgentNestedChat],
+        List[WaldiezAgentNestedChat],
         Field(
             default_factory=list,
             description=(

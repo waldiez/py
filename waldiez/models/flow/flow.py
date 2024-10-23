@@ -6,13 +6,13 @@ from typing import List, Optional, Tuple
 from pydantic import Field, model_validator
 from typing_extensions import Annotated, Literal, Self
 
-from ..agents import WaldieAgent
-from ..chat import WaldieChat
-from ..common import WaldieBase, now
-from .flow_data import WaldieFlowData
+from ..agents import WaldiezAgent
+from ..chat import WaldiezChat
+from ..common import WaldiezBase, now
+from .flow_data import WaldiezFlowData
 
 
-class WaldieFlow(WaldieBase):
+class WaldiezFlow(WaldiezBase):
     """Flow data class.
 
     Attributes
@@ -35,8 +35,8 @@ class WaldieFlow(WaldieBase):
         The date and time when the flow was created.
     updated_at : str
         The date and time when the flow was last updated.
-    data : WaldieFlowData
-        The data of the flow. See `WaldieFlowData`.
+    data : WaldiezFlowData
+        The data of the flow. See `WaldiezFlowData`.
     """
 
     id: Annotated[
@@ -88,7 +88,7 @@ class WaldieFlow(WaldieBase):
         ),
     ]
     data: Annotated[
-        WaldieFlowData,
+        WaldiezFlowData,
         Field(
             ...,
             description="The data of the flow",
@@ -121,17 +121,19 @@ class WaldieFlow(WaldieBase):
         ),
     ]
     _ordered_flow: Optional[
-        List[Tuple[WaldieChat, WaldieAgent, WaldieAgent]]
+        List[Tuple[WaldiezChat, WaldiezAgent, WaldiezAgent]]
     ] = None
 
     @property
-    def ordered_flow(self) -> List[Tuple[WaldieChat, WaldieAgent, WaldieAgent]]:
+    def ordered_flow(
+        self,
+    ) -> List[Tuple[WaldiezChat, WaldiezAgent, WaldiezAgent]]:
         """Get the ordered flow."""
         if not self._ordered_flow:
             self._ordered_flow = self._get_flow_order()
         return self._ordered_flow
 
-    def get_agent_by_id(self, agent_id: str) -> WaldieAgent:
+    def get_agent_by_id(self, agent_id: str) -> WaldiezAgent:
         """Get the agent by ID.
 
         Parameters
@@ -141,7 +143,7 @@ class WaldieFlow(WaldieBase):
 
         Returns
         -------
-        WaldieAgent
+        WaldiezAgent
             The agent.
 
         Raises
@@ -165,12 +167,12 @@ class WaldieFlow(WaldieBase):
 
     def _get_flow_order(
         self,
-    ) -> List[Tuple[WaldieChat, WaldieAgent, WaldieAgent]]:
+    ) -> List[Tuple[WaldiezChat, WaldiezAgent, WaldiezAgent]]:
         """Get the ordered flow."""
         # in the chats, there is the 'order' field, we use this,
         # we only keep the ones with order >=0
         # and sort them by this property
-        ordered_flow: List[Tuple[WaldieChat, WaldieAgent, WaldieAgent]] = []
+        ordered_flow: List[Tuple[WaldiezChat, WaldiezAgent, WaldiezAgent]] = []
         sorted_chats_by_order = sorted(
             self.data.chats, key=lambda chat: chat.data.order
         )
@@ -223,7 +225,7 @@ class WaldieFlow(WaldieBase):
 
     def get_group_chat_members(
         self, group_manager_id: str
-    ) -> List[WaldieAgent]:
+    ) -> List[WaldiezAgent]:
         """Get the group chat members.
 
         Parameters
@@ -233,7 +235,7 @@ class WaldieFlow(WaldieBase):
 
         Returns
         -------
-        List[WaldieAgent]
+        List[WaldiezAgent]
             The list of group chat
         """
         agent = self.get_agent_by_id(group_manager_id)
@@ -275,7 +277,7 @@ class WaldieFlow(WaldieBase):
 
         Returns
         -------
-        WaldieFlow
+        WaldiezFlow
             The validated flow.
 
         Raises

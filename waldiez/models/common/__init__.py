@@ -2,11 +2,11 @@
 
 from datetime import datetime, timezone
 
-from .base import WaldieBase
+from .base import WaldiezBase
 from .method_utils import (
     METHOD_ARGS,
     METHOD_TYPE_HINTS,
-    WaldieMethodName,
+    WaldiezMethodName,
     check_function,
     parse_code_string,
 )
@@ -28,10 +28,10 @@ def now() -> str:
 
 
 __all__ = [
-    "WaldieBase",
+    "WaldiezBase",
     "METHOD_ARGS",
     "METHOD_TYPE_HINTS",
-    "WaldieMethodName",
+    "WaldiezMethodName",
     "now",
     "check_function",
     "parse_code_string",
