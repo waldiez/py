@@ -13,13 +13,6 @@ To a python script or a jupyter notebook with the corresponding [autogen](https:
 
 ## Installation
 
-<!-- 
-On PyPI:
-
-```bash
-python -m pip install waldiez
-``` -->
-
 From this repository:
 
 ```bash
