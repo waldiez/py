@@ -1,9 +1,9 @@
 """Waldie Skill related models."""
 
-from .skill import WaldieSkill
-from .skill_data import WaldieSkillData
+from .skill import WaldiezSkill
+from .skill_data import WaldiezSkillData
 
 __all__ = [
-    "WaldieSkill",
-    "WaldieSkillData",
+    "WaldiezSkill",
+    "WaldiezSkillData",
 ]

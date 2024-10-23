@@ -5,14 +5,14 @@
 import pytest
 
 from waldiez.models.agents.group_manager.speakers import (
-    WaldieGroupManagerSpeakers,
+    WaldiezGroupManagerSpeakers,
 )
 
 
-def test_waldie_group_manager_speakers() -> None:
-    """Test WaldieGroupManagerSpeakers."""
+def test_waldiez_group_manager_speakers() -> None:
+    """Test WaldiezGroupManagerSpeakers."""
     # Given
-    speakers_config = WaldieGroupManagerSpeakers(
+    speakers_config = WaldiezGroupManagerSpeakers(
         selection_method="auto",
         selection_custom_method=None,
         max_retries_for_selecting=None,
@@ -26,7 +26,7 @@ def test_waldie_group_manager_speakers() -> None:
     assert speakers_config.custom_method_string is None
 
     # Given
-    speakers_config = WaldieGroupManagerSpeakers(
+    speakers_config = WaldiezGroupManagerSpeakers(
         selection_method="custom",
         selection_custom_method=(
             "def custom_speaker_selection(last_speaker, groupchat):\n"
@@ -47,7 +47,7 @@ def test_waldie_group_manager_speakers() -> None:
     )
 
     with pytest.raises(ValueError):
-        WaldieGroupManagerSpeakers(
+        WaldiezGroupManagerSpeakers(
             selection_method="custom",
             selection_custom_method="",
             max_retries_for_selecting=1,
@@ -57,7 +57,7 @@ def test_waldie_group_manager_speakers() -> None:
             transitions_type="allowed",
         )
     with pytest.raises(ValueError):
-        WaldieGroupManagerSpeakers(
+        WaldiezGroupManagerSpeakers(
             selection_method="custom",
             selection_custom_method=(
                 "def invalid_custom_speaker_selection(last_speaker, groupchat):\n"

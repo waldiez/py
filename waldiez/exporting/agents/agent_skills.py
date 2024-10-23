@@ -2,15 +2,15 @@
 
 from typing import Dict, List
 
-from waldiez.models import WaldieAgent, WaldieSkill
+from waldiez.models import WaldiezAgent, WaldiezSkill
 
 from ..utils import get_escaped_string
 
 
 def get_agent_skill_registrations(
-    agent: WaldieAgent,
+    agent: WaldiezAgent,
     agent_names: Dict[str, str],
-    all_skills: List[WaldieSkill],
+    all_skills: List[WaldiezSkill],
     skill_names: Dict[str, str],
 ) -> str:
     """Get the agent skill registrations.
@@ -29,11 +29,11 @@ def get_agent_skill_registrations(
 
     Parameters
     ----------
-    agent : WaldieAgent
+    agent : WaldiezAgent
         The agent.
     agent_names : Dict[str, str]
         A mapping of agent id to agent name.
-    all_skills : List[WaldieSkill]
+    all_skills : List[WaldiezSkill]
         All the skills in the flow.
     skill_names : Dict[str, str]
         A mapping of skill id to skill name.
@@ -48,11 +48,11 @@ def get_agent_skill_registrations(
     content = ""
     for linked_skill in agent.data.skills:
         skill_name = skill_names[linked_skill.id]
-        waldie_skill = next(
+        waldiez_skill = next(
             skill for skill in all_skills if skill.id == linked_skill.id
         )
         skill_description = (
-            waldie_skill.description or f"Description of {skill_name}"
+            waldiez_skill.description or f"Description of {skill_name}"
         )
         skill_description = get_escaped_string(skill_description)
         content += (

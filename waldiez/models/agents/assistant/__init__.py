@@ -1,6 +1,6 @@
 """Assistant agent model."""
 
-from .assistant import WaldieAssistant
-from .assistant_data import WaldieAssistantData
+from .assistant import WaldiezAssistant
+from .assistant_data import WaldiezAssistantData
 
-__all__ = ["WaldieAssistant", "WaldieAssistantData"]
+__all__ = ["WaldiezAssistant", "WaldiezAssistantData"]

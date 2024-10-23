@@ -2,26 +2,26 @@
 
 from typing import Dict, List, Tuple
 
-from waldiez.models import WaldieAgent, WaldieModel
+from waldiez.models import WaldiezAgent, WaldiezModel
 
 from ..models import export_agent_models
 
 
 def get_agent_llm_config(
-    agent: WaldieAgent,
+    agent: WaldiezAgent,
     agent_name: str,
-    all_models: List[WaldieModel],
+    all_models: List[WaldiezModel],
     model_names: Dict[str, str],
 ) -> Tuple[str, str]:
     """Get the llm config argument string for one agent.
 
     Parameters
     ----------
-    agent : WaldieAgent
+    agent : WaldiezAgent
         The agent.
     agent_name : str
         The name of the agent.
-    all_models : List[WaldieModel]
+    all_models : List[WaldiezModel]
         All the models in the flow.
     model_names : Dict[str, str]
         A mapping of model id to model name.

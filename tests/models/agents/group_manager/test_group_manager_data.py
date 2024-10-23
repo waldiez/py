@@ -1,13 +1,13 @@
 """Test waldiez.models.agents.group_manager.group_manager_data.*."""
 
 from waldiez.models.agents.group_manager.group_manager_data import (
-    WaldieGroupManagerData,
+    WaldiezGroupManagerData,
 )
 
 
-def test_waldie_group_manager_data() -> None:
-    """Test WaldieGroupManagerData."""
-    group_manager_data = WaldieGroupManagerData()  # type: ignore
+def test_waldiez_group_manager_data() -> None:
+    """Test WaldiezGroupManagerData."""
+    group_manager_data = WaldiezGroupManagerData()  # type: ignore
     assert group_manager_data.human_input_mode == "NEVER"
     # assert defaults
     assert group_manager_data.speakers.selection_method == "auto"

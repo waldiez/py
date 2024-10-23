@@ -24,7 +24,7 @@ from autogen.io import IOStream  # type: ignore[import-untyped]
 from .stream import TCPConsumer, TCPProvider, TCPServer
 
 
-class WaldieIOStream(IOStream):
+class WaldiezIOStream(IOStream):
     """Custom IOStream class to handle the `print` and `input` functions."""
 
     def __init__(

@@ -3,24 +3,24 @@
 It extends a user agent and has RAG related parameters.
 """
 
-from .rag_user import WaldieRagUser
-from .rag_user_data import WaldieRagUserData
+from .rag_user import WaldiezRagUser
+from .rag_user_data import WaldiezRagUserData
 from .retrieve_config import (
-    WaldieRagUserChunkMode,
-    WaldieRagUserModels,
-    WaldieRagUserRetrieveConfig,
-    WaldieRagUserTask,
-    WaldieRagUserVectorDb,
+    WaldiezRagUserChunkMode,
+    WaldiezRagUserModels,
+    WaldiezRagUserRetrieveConfig,
+    WaldiezRagUserTask,
+    WaldiezRagUserVectorDb,
 )
-from .vector_db_config import WaldieRagUserVectorDbConfig
+from .vector_db_config import WaldiezRagUserVectorDbConfig
 
 __all__ = [
-    "WaldieRagUser",
-    "WaldieRagUserData",
-    "WaldieRagUserModels",
-    "WaldieRagUserVectorDb",
-    "WaldieRagUserChunkMode",
-    "WaldieRagUserRetrieveConfig",
-    "WaldieRagUserTask",
-    "WaldieRagUserVectorDbConfig",
+    "WaldiezRagUser",
+    "WaldiezRagUserData",
+    "WaldiezRagUserModels",
+    "WaldiezRagUserVectorDb",
+    "WaldiezRagUserChunkMode",
+    "WaldiezRagUserRetrieveConfig",
+    "WaldiezRagUserTask",
+    "WaldiezRagUserVectorDbConfig",
 ]

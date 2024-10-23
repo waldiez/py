@@ -4,7 +4,7 @@ import os
 import tempfile
 
 from waldiez.exporting.skills import export_skills, get_agent_skill_registration
-from waldiez.models import WaldieSkill, WaldieSkillData
+from waldiez.models import WaldiezSkill, WaldiezSkillData
 
 
 def test_get_agent_skill_registration() -> None:
@@ -35,7 +35,7 @@ def test_get_agent_skill_registration() -> None:
 def test_export_skills() -> None:
     """Test export_skills()."""
     # Given
-    skill1 = WaldieSkill(
+    skill1 = WaldiezSkill(
         id="ws-1",
         name="skill1",
         type="skill",
@@ -44,12 +44,12 @@ def test_export_skills() -> None:
         description="A skill that does something.",
         created_at="2021-01-01T00:00:00.000Z",
         updated_at="2021-01-01T00:00:00.000Z",
-        data=WaldieSkillData(
+        data=WaldiezSkillData(
             content="def skill1():\n    print('skill1')",
             secrets={},
         ),
     )
-    skill2 = WaldieSkill(
+    skill2 = WaldiezSkill(
         id="ws-2",
         name="skill2",
         type="skill",
@@ -58,7 +58,7 @@ def test_export_skills() -> None:
         description="A skill that does something else.",
         created_at="2021-01-01T00:00:00.000Z",
         updated_at="2021-01-01T00:00:00.000Z",
-        data=WaldieSkillData(
+        data=WaldiezSkillData(
             content="def skill2():\n    print('skill2')",
             secrets={"SKILL_2_KEY": "123456"},
         ),

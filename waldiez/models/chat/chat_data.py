@@ -6,13 +6,13 @@ from pydantic import ConfigDict, Field, field_validator, model_validator
 from pydantic.alias_generators import to_camel
 from typing_extensions import Annotated, Self
 
-from ..common import WaldieBase
-from .chat_message import WaldieChatMessage, validate_message_dict
-from .chat_nested import WaldieChatNested
-from .chat_summary import WaldieChatSummary
+from ..common import WaldiezBase
+from .chat_message import WaldiezChatMessage, validate_message_dict
+from .chat_nested import WaldiezChatNested
+from .chat_summary import WaldiezChatSummary
 
 
-class WaldieChatData(WaldieBase):
+class WaldiezChatData(WaldiezBase):
     """Chat data class.
 
     Attributes
@@ -31,11 +31,11 @@ class WaldieChatData(WaldieBase):
         The of the chat. If negative, ignored.
     clear_history : Optional[bool], optional
         Whether to clear the chat history, by default None.
-    message : Union[str, WaldieChatMessage]
+    message : Union[str, WaldiezChatMessage]
         The message of the chat.
-    nested_chat : WaldieChatNested
+    nested_chat : WaldiezChatNested
         The nested chat config.
-    summary : WaldieChatSummary
+    summary : WaldiezChatSummary
         The summary method and options for the chat.
     max_turns : Optional[int]
         The maximum number of turns for the chat, by default None (no limit).
@@ -52,7 +52,7 @@ class WaldieChatData(WaldieBase):
     ---------
     validate_message(value: Any)
         Validate the message.
-    validate_summary_method(value: Optional[WaldieChatSummaryMethod])
+    validate_summary_method(value: Optional[WaldiezChatSummaryMethod])
         Validate the summary method.
     serialize_summary_method(value: Any, info: FieldSerializationInfo)
         Serialize summary method.
@@ -120,26 +120,26 @@ class WaldieChatData(WaldieBase):
         ),
     ]
     message: Annotated[
-        Union[str, WaldieChatMessage],
+        Union[str, WaldiezChatMessage],
         Field(
             title="Message",
             description="The message of the chat.",
-            default_factory=WaldieChatMessage,
+            default_factory=WaldiezChatMessage,
         ),
     ]
     nested_chat: Annotated[
-        WaldieChatNested,
+        WaldiezChatNested,
         Field(
             title="Nested Chat",
             description="The nested chat.",
             alias="nestedChat",
-            default_factory=WaldieChatNested,
+            default_factory=WaldiezChatNested,
         ),
     ]
     summary: Annotated[
-        WaldieChatSummary,
+        WaldiezChatSummary,
         Field(
-            default_factory=WaldieChatSummary,
+            default_factory=WaldiezChatSummary,
             title="Summary",
             description="The summary method options for the chat.",
         ),
@@ -193,7 +193,7 @@ class WaldieChatData(WaldieBase):
 
         Returns
         -------
-        WaldieChatData
+        WaldiezChatData
             The validated chat data.
 
         Raises
@@ -201,7 +201,7 @@ class WaldieChatData(WaldieBase):
         ValueError
             If the validation fails.
         """
-        if isinstance(self.message, WaldieChatMessage):
+        if isinstance(self.message, WaldiezChatMessage):
             if self.message.type == "none":
                 self._message_content = None
             elif self.message.type == "string":
@@ -220,7 +220,7 @@ class WaldieChatData(WaldieBase):
 
     @field_validator("message", mode="before")
     @classmethod
-    def validate_message(cls, value: Any) -> WaldieChatMessage:
+    def validate_message(cls, value: Any) -> WaldiezChatMessage:
         """Validate the message.
 
         Parameters
@@ -230,7 +230,7 @@ class WaldieChatData(WaldieBase):
 
         Returns
         -------
-        WaldieChatMessage
+        WaldiezChatMessage
             The validated message value.
 
         Raises
@@ -239,18 +239,18 @@ class WaldieChatData(WaldieBase):
             If the validation fails.
         """
         if value is None:
-            return WaldieChatMessage(
+            return WaldiezChatMessage(
                 type="none", use_carryover=False, content=None, context={}
             )
         if isinstance(value, str):
-            return WaldieChatMessage(
+            return WaldiezChatMessage(
                 type="string", use_carryover=False, content=value, context={}
             )
         if isinstance(value, dict):
             return validate_message_dict(
                 value, function_name="callable_message"
             )
-        if isinstance(value, WaldieChatMessage):
+        if isinstance(value, WaldiezChatMessage):
             return validate_message_dict(
                 value={
                     "type": value.type,
@@ -260,7 +260,7 @@ class WaldieChatData(WaldieBase):
                 },
                 function_name="callable_message",
             )
-        return WaldieChatMessage(
+        return WaldiezChatMessage(
             type="none", use_carryover=False, content=None, context={}
         )
 
@@ -288,7 +288,7 @@ class WaldieChatData(WaldieBase):
             The dictionary to use for generating the kwargs.
         """
         extra_args: Dict[str, Any] = {}
-        if isinstance(self.message, WaldieChatMessage):
+        if isinstance(self.message, WaldiezChatMessage):
             for key, value in self.message.context.items():
                 if str(value).lower() in ("none", "null"):
                     extra_args[key] = None

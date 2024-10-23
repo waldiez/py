@@ -3,7 +3,7 @@
 import ast
 from typing import Dict, List, Literal, Optional, Tuple
 
-WaldieMethodName = Literal[
+WaldiezMethodName = Literal[
     "callable_message",  # Chat
     "is_termination_message",  # Agent
     "nested_chat_message",  # Agents' NestedChat
@@ -14,7 +14,7 @@ WaldieMethodName = Literal[
     "custom_text_split_function",  # RAG
 ]
 
-METHOD_ARGS: Dict[WaldieMethodName, List[str]] = {
+METHOD_ARGS: Dict[WaldiezMethodName, List[str]] = {
     "callable_message": ["sender", "recipient", "context"],
     "is_termination_message": ["message"],
     "nested_chat_message": ["recipient", "messages", "sender", "config"],
@@ -32,7 +32,7 @@ METHOD_ARGS: Dict[WaldieMethodName, List[str]] = {
 }
 
 # pylint: disable=line-too-long
-METHOD_TYPE_HINTS: Dict[WaldieMethodName, str] = {
+METHOD_TYPE_HINTS: Dict[WaldiezMethodName, str] = {
     "callable_message": "# type: (ConversableAgent, ConversableAgent, dict) -> Union[dict, str]",
     "is_termination_message": "# type: (dict) -> bool",
     "nested_chat_message": "# type: (ConversableAgent, list[dict], ConversableAgent, dict) -> Union[dict, str]",
@@ -72,7 +72,7 @@ def parse_code_string(
 
 def check_function(
     code_string: str,
-    function_name: WaldieMethodName,
+    function_name: WaldiezMethodName,
     skip_type_hints: bool = False,
 ) -> Tuple[bool, str]:
     """Check the function.
@@ -81,7 +81,7 @@ def check_function(
     ----------
     code_string : str
         The code string.
-    function_name : WaldieMethodName
+    function_name : WaldiezMethodName
         The expected function name.
     skip_type_hints : bool, optional
         Whether to skip type hints in the function body, by default False.
@@ -110,7 +110,7 @@ def check_function(
 def _get_function_body(
     tree: ast.Module,
     code_string: str,
-    function_name: WaldieMethodName,
+    function_name: WaldiezMethodName,
     method_args: List[str],
     skip_type_hints: bool = False,
 ) -> Tuple[bool, str]:
@@ -122,7 +122,7 @@ def _get_function_body(
         The ast module.
     code_string : str
         The code string.
-    function_name : WaldieMethodName
+    function_name : WaldiezMethodName
         The expected function name.
     method_args : List[str]
         The expected method arguments.

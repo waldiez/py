@@ -5,13 +5,13 @@ import pytest
 from waldiez.exporting.agents.termination_message import (
     get_is_termination_message,
 )
-from waldiez.models import WaldieAgent
+from waldiez.models import WaldiezAgent
 
 
 def test_get_is_termination_message() -> None:
     """Test get_is_termination_message()."""
     # Given
-    agent = WaldieAgent(  # type: ignore
+    agent = WaldiezAgent(  # type: ignore
         id="wa-1",
         name="agent_name",
         agent_type="assistant",
@@ -31,7 +31,7 @@ def test_get_is_termination_message() -> None:
     # Then
     assert output == expected_output
     # Given
-    agent = WaldieAgent(  # type: ignore
+    agent = WaldiezAgent(  # type: ignore
         id="wa-1",
         name="agent_name",
         agent_type="assistant",
@@ -57,7 +57,7 @@ def test_get_is_termination_message() -> None:
     # Then
     assert output == expected_output
     # Given
-    agent = WaldieAgent(  # type: ignore
+    agent = WaldiezAgent(  # type: ignore
         id="wa-1",
         name="agent_name",
         agent_type="assistant",
@@ -82,7 +82,7 @@ def test_get_is_termination_message() -> None:
     # Then
     assert output == expected_output
     # Given
-    agent = WaldieAgent(  # type: ignore
+    agent = WaldiezAgent(  # type: ignore
         id="wa-1",
         name="agent_name",
         agent_type="assistant",
@@ -107,7 +107,7 @@ def test_get_is_termination_message() -> None:
     # Then
     assert output == expected_output
     # Given
-    agent = WaldieAgent(  # type: ignore
+    agent = WaldiezAgent(  # type: ignore
         id="wa-1",
         name="agent_name",
         agent_type="assistant",

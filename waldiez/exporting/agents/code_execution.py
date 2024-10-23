@@ -2,17 +2,17 @@
 
 from typing import Dict, Tuple
 
-from waldiez.models import WaldieAgent
+from waldiez.models import WaldiezAgent
 
 
 def get_agent_code_execution_config(
-    agent: WaldieAgent, agent_name: str, skill_names: Dict[str, str]
+    agent: WaldiezAgent, agent_name: str, skill_names: Dict[str, str]
 ) -> Tuple[str, str, str]:
     """Get the code execution config for the agent.
 
     Parameters
     ----------
-    agent : WaldieAgent
+    agent : WaldiezAgent
         The agent.
     agent_name : str
         The agent name.

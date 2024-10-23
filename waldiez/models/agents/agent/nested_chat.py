@@ -5,10 +5,10 @@ from typing import List
 from pydantic import Field
 from typing_extensions import Annotated
 
-from ...common import WaldieBase
+from ...common import WaldiezBase
 
 
-class WaldieAgentNestedChatMessage(WaldieBase):
+class WaldiezAgentNestedChatMessage(WaldiezBase):
     """Waldie Agent nested chat message.
 
     A reference to a chat's message or reply in a nested chat
@@ -35,21 +35,21 @@ class WaldieAgentNestedChatMessage(WaldieBase):
     ]
 
 
-class WaldieAgentNestedChat(WaldieBase):
+class WaldiezAgentNestedChat(WaldiezBase):
     """Waldie Agent Nested Chat.
 
     Attributes
     ----------
-    triggered_by : List[WaldieAgentNestedChatMessage]
+    triggered_by : List[WaldiezAgentNestedChatMessage]
         A list of chats (id and is_reply) to determine
         the triggering of the nested chat.
-    messages : List[WaldieAgentNestedChatMessage]
+    messages : List[WaldiezAgentNestedChatMessage]
         The list of messages (chat ids and 'is_reply'z)
         to include the in the nested chat registration.
     """
 
     triggered_by: Annotated[
-        List[WaldieAgentNestedChatMessage],
+        List[WaldiezAgentNestedChatMessage],
         Field(
             title="Triggered By",
             description=(
@@ -61,7 +61,7 @@ class WaldieAgentNestedChat(WaldieBase):
         ),
     ]
     messages: Annotated[
-        List[WaldieAgentNestedChatMessage],
+        List[WaldiezAgentNestedChatMessage],
         Field(
             title="Messages",
             description=(

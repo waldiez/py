@@ -5,13 +5,13 @@
 import pytest
 
 from waldiez.models.agents.agent.termination_message import (
-    WaldieAgentTerminationMessage,
+    WaldiezAgentTerminationMessage,
 )
 
 
-def test_waldie_agent_termination_message_keyword() -> None:
-    """Test WaldieAgentTerminationMessage with keyword."""
-    termination_message = WaldieAgentTerminationMessage(
+def test_waldiez_agent_termination_message_keyword() -> None:
+    """Test WaldiezAgentTerminationMessage with keyword."""
+    termination_message = WaldiezAgentTerminationMessage(
         type="keyword",
         keywords=["keyword-1", "keyword-2"],
         criterion="found",
@@ -25,7 +25,7 @@ def test_waldie_agent_termination_message_keyword() -> None:
         'lambda x: any(x.get("content", "") and keyword in x.get("content", "") for keyword in ["keyword-1", "keyword-2"])'
     )
 
-    termination_message = WaldieAgentTerminationMessage(
+    termination_message = WaldiezAgentTerminationMessage(
         type="keyword",
         keywords=["keyword-1", "keyword-2"],
         criterion="ending",
@@ -35,7 +35,7 @@ def test_waldie_agent_termination_message_keyword() -> None:
         'lambda x: any(x.get("content", "").endswith(keyword) for keyword in ["keyword-1", "keyword-2"])'
     )
 
-    termination_message = WaldieAgentTerminationMessage(
+    termination_message = WaldiezAgentTerminationMessage(
         type="keyword",
         keywords=["keyword-1", "keyword-2"],
         criterion="exact",
@@ -46,7 +46,7 @@ def test_waldie_agent_termination_message_keyword() -> None:
     )
 
     with pytest.raises(ValueError):
-        WaldieAgentTerminationMessage(
+        WaldiezAgentTerminationMessage(
             type="keyword",
             keywords=["TERMINATE"],
             criterion=None,
@@ -54,7 +54,7 @@ def test_waldie_agent_termination_message_keyword() -> None:
         )
 
     with pytest.raises(ValueError):
-        WaldieAgentTerminationMessage(
+        WaldiezAgentTerminationMessage(
             type="keyword",
             keywords=[],
             criterion="found",
@@ -62,9 +62,9 @@ def test_waldie_agent_termination_message_keyword() -> None:
         )
 
 
-def test_waldie_agent_termination_message_method() -> None:
-    """Test WaldieAgentTerminationMessage with method."""
-    termination_message = WaldieAgentTerminationMessage(
+def test_waldiez_agent_termination_message_method() -> None:
+    """Test WaldiezAgentTerminationMessage with method."""
+    termination_message = WaldiezAgentTerminationMessage(
         type="method",
         keywords=[],
         criterion=None,
@@ -83,7 +83,7 @@ def test_waldie_agent_termination_message_method() -> None:
     )
 
     with pytest.raises(ValueError):
-        WaldieAgentTerminationMessage(
+        WaldiezAgentTerminationMessage(
             type="method",
             keywords=[],
             criterion=None,
@@ -91,7 +91,7 @@ def test_waldie_agent_termination_message_method() -> None:
         )
 
     with pytest.raises(ValueError):
-        WaldieAgentTerminationMessage(
+        WaldiezAgentTerminationMessage(
             type="method",
             keywords=[],
             criterion=None,

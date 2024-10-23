@@ -5,14 +5,14 @@ from typing import List
 from pydantic import Field
 from typing_extensions import Annotated, Literal
 
-from ...common import WaldieBase, now
-from .agent_data import WaldieAgentData
-from .code_execution import WaldieAgentCodeExecutionConfig
+from ...common import WaldiezBase, now
+from .agent_data import WaldiezAgentData
+from .code_execution import WaldiezAgentCodeExecutionConfig
 
-WaldieAgentType = Literal["user", "assistant", "manager", "rag_user"]
+WaldiezAgentType = Literal["user", "assistant", "manager", "rag_user"]
 
 
-class WaldieAgent(WaldieBase):
+class WaldiezAgent(WaldiezBase):
     """Waldie Agent.
 
     Attributes
@@ -35,9 +35,9 @@ class WaldieAgent(WaldieBase):
         The date and time when the agent was created.
     updated_at : str
         The date and time when the agent was last updated.
-    data: WaldieAgentData
+    data: WaldiezAgentData
         The data (properties) of this agent.
-        See `waldiez.models.agents.WaldieAgentData` for more info.
+        See `waldiez.models.agents.WaldiezAgentData` for more info.
 
     Functions
     ---------
@@ -110,11 +110,11 @@ class WaldieAgent(WaldieBase):
         ),
     ]
     data: Annotated[
-        WaldieAgentData,
+        WaldiezAgentData,
         Field(
             title="Data",
             description="The data (properties) of the agent",
-            default_factory=WaldieAgentData,
+            default_factory=WaldiezAgentData,
         ),
     ]
 
@@ -181,7 +181,7 @@ class WaldieAgent(WaldieBase):
         """
         # if the config dict has functions, make sure they can be found
         if isinstance(
-            self.data.code_execution_config, WaldieAgentCodeExecutionConfig
+            self.data.code_execution_config, WaldiezAgentCodeExecutionConfig
         ):
             for function in self.data.code_execution_config.functions:
                 if function not in skill_ids:

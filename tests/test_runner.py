@@ -1,4 +1,4 @@
-"""Test WaldieRunner."""
+"""Test WaldiezRunner."""
 
 # pylint: disable=protected-access
 
@@ -6,37 +6,37 @@ from typing import Optional
 
 import pytest
 
-from waldiez import Waldie, WaldieIOStream, WaldieRunner
-from waldiez.models import WaldieFlow
+from waldiez import Waldiez, WaldiezIOStream, WaldiezRunner
+from waldiez.models import WaldiezFlow
 
 
-def test_runner(waldie_flow: WaldieFlow) -> None:
-    """Test WaldieRunner.
+def test_runner(waldiez_flow: WaldiezFlow) -> None:
+    """Test WaldiezRunner.
 
     Parameters
     ----------
-    waldie_flow : WaldieFlow
-        A WaldieFlow instance.
+    waldiez_flow : WaldiezFlow
+        A WaldiezFlow instance.
     """
-    waldie = Waldie(flow=waldie_flow)
-    runner = WaldieRunner(waldie)
-    assert runner.waldie == waldie
+    waldiez = Waldiez(flow=waldiez_flow)
+    runner = WaldiezRunner(waldiez)
+    assert runner.waldiez == waldiez
     assert not runner.running
 
     prompt_input: Optional[str] = None
-    stream: WaldieIOStream
+    stream: WaldiezIOStream
 
     def on_prompt_input(prompt: str) -> None:
         nonlocal prompt_input, stream
         prompt_input = prompt
         stream.forward_input("Reply to prompt\n")
 
-    stream = WaldieIOStream(
+    stream = WaldiezIOStream(
         on_prompt_input=on_prompt_input,
         print_function=print,
         input_timeout=2,
     )
-    with WaldieIOStream.set_default(stream):
+    with WaldiezIOStream.set_default(stream):
         runner.run(stream)
     assert not runner.running
     assert runner._stream.get() is None
@@ -44,24 +44,24 @@ def test_runner(waldie_flow: WaldieFlow) -> None:
     stream.close()
 
 
-def test_waldie_with_invalid_requirement(
+def test_waldiez_with_invalid_requirement(
     capsys: pytest.CaptureFixture[str],
-    waldie_flow: WaldieFlow,
+    waldiez_flow: WaldiezFlow,
 ) -> None:
-    """Test Waldie with invalid requirement.
+    """Test Waldiez with invalid requirement.
 
     Parameters
     ----------
     capsys : pytest.CaptureFixture[str]
         Pytest fixture to capture stdout and stderr.
-    waldie_flow : WaldieFlow
-        A WaldieFlow instance.
+    waldiez_flow : WaldiezFlow
+        A WaldiezFlow instance.
     """
-    flow_dict = waldie_flow.model_dump(by_alias=True)
+    flow_dict = waldiez_flow.model_dump(by_alias=True)
     # add an invalid requirement
     flow_dict["requirements"] = ["invalid_requirement"]
-    waldie = Waldie.from_dict(data=flow_dict)
-    runner = WaldieRunner(waldie)
+    waldiez = Waldiez.from_dict(data=flow_dict)
+    runner = WaldiezRunner(waldiez)
     runner._install_requirements()
     std_err = capsys.readouterr().out
     assert (

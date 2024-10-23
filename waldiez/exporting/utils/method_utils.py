@@ -1,16 +1,16 @@
 """Method related string generation utilities."""
 
-from waldiez.models import METHOD_ARGS, WaldieMethodName
+from waldiez.models import METHOD_ARGS, WaldiezMethodName
 
 
 def get_method_string(
-    method_name: WaldieMethodName, renamed_method_name: str, method_body: str
+    method_name: WaldiezMethodName, renamed_method_name: str, method_body: str
 ) -> str:
     """Get a function string.
 
     Parameters
     ----------
-    method_name : WaldieMethodName
+    method_name : WaldiezMethodName
         The method name.
     renamed_method_name : str
         The renamed method name.

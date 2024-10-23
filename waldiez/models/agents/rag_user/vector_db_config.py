@@ -7,11 +7,11 @@ from pydantic import ConfigDict, Field, model_validator
 from pydantic.alias_generators import to_camel
 from typing_extensions import Annotated, Self
 
-from ...common import WaldieBase
+from ...common import WaldiezBase
 
 
 # pylint: disable=line-too-long
-class WaldieRagUserVectorDbConfig(WaldieBase):
+class WaldiezRagUserVectorDbConfig(WaldiezBase):
     """The config for the vector db.
 
     Attributes
@@ -143,7 +143,7 @@ class WaldieRagUserVectorDbConfig(WaldieBase):
 
         Returns
         -------
-        WaldieRagUserVectorDbConfig
+        WaldiezRagUserVectorDbConfig
             The vector db config.
 
         Raises

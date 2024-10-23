@@ -2,18 +2,18 @@
 
 from typing import Dict
 
-from waldiez.models import WaldieAgent
+from waldiez.models import WaldiezAgent
 
 
 def get_agent_teachability_string(
-    agent: WaldieAgent,
+    agent: WaldiezAgent,
     agent_names: Dict[str, str],
 ) -> str:
     """Get the teachability string to use for the agent.
 
     Parameters
     ----------
-    agent : WaldieAgent
+    agent : WaldiezAgent
         The agent.
     agent_names : Dict[str, str]
         A mapping of agent id to agent name.

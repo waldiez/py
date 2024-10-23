@@ -1,48 +1,48 @@
-"""Test WaldieExporter."""
+"""Test WaldiezExporter."""
 
 from pathlib import Path
 
 import pytest
 
-from waldiez import Waldie, WaldieExporter
-from waldiez.models import WaldieFlow
+from waldiez import Waldiez, WaldiezExporter
+from waldiez.models import WaldiezFlow
 
 from .exporting.flow_helpers import get_flow
 
 
-def test_export_load_from_file(waldie_flow: WaldieFlow) -> None:
+def test_export_load_from_file(waldiez_flow: WaldiezFlow) -> None:
     """Test exporting and loading from file.
 
     Parameters
     ----------
-    waldie_flow : WaldieFlow
-        A WaldieFlow instance.
+    waldiez_flow : WaldiezFlow
+        A WaldiezFlow instance.
     """
-    waldie = Waldie(flow=waldie_flow)
-    exporter = WaldieExporter(waldie)
-    output_file = Path("waldie.waldiez")
+    waldiez = Waldiez(flow=waldiez_flow)
+    exporter = WaldiezExporter(waldiez)
+    output_file = Path("flow.waldiez")
     exporter.export(str(output_file))
     assert output_file.exists()
-    WaldieExporter.load(output_file)
+    WaldiezExporter.load(output_file)
     output_file.unlink()
 
 
 def test_exporter_load_invalid_path() -> None:
     """Test exporter load invalid path."""
     with pytest.raises(ValueError):
-        WaldieExporter.load(Path("non_existent_file"))
+        WaldiezExporter.load(Path("non_existent_file"))
 
 
-def test_exporter_use_directory(waldie_flow: WaldieFlow) -> None:
+def test_exporter_use_directory(waldiez_flow: WaldiezFlow) -> None:
     """Test exporter use directory.
 
     Parameters
     ----------
-    waldie_flow : WaldieFlow
-        A WaldieFlow instance.
+    waldiez_flow : WaldiezFlow
+        A WaldiezFlow instance.
     """
-    waldie = Waldie(flow=waldie_flow)
-    exporter = WaldieExporter(waldie)
+    waldiez = Waldiez(flow=waldiez_flow)
+    exporter = WaldiezExporter(waldiez)
     output_dir = Path("output_dir.waldiez")
     output_dir.mkdir()
     with pytest.raises(IsADirectoryError):
@@ -50,17 +50,17 @@ def test_exporter_use_directory(waldie_flow: WaldieFlow) -> None:
     output_dir.rmdir()
 
 
-def test_exporter_file_exists(waldie_flow: WaldieFlow) -> None:
+def test_exporter_file_exists(waldiez_flow: WaldiezFlow) -> None:
     """Test exporter file exists.
 
     Parameters
     ----------
-    waldie_flow : WaldieFlow
-        A WaldieFlow instance.
+    waldiez_flow : WaldiezFlow
+        A WaldiezFlow instance.
     """
-    waldie = Waldie(flow=waldie_flow)
-    exporter = WaldieExporter(waldie)
-    output_file = Path("waldie.waldiez")
+    waldiez = Waldiez(flow=waldiez_flow)
+    exporter = WaldiezExporter(waldiez)
+    output_file = Path("flow.waldiez")
     output_file.touch()
     with pytest.raises(FileExistsError):
         exporter.export(output_file)
@@ -68,81 +68,81 @@ def test_exporter_file_exists(waldie_flow: WaldieFlow) -> None:
     output_file.unlink()
 
 
-def test_exporter_force(waldie_flow: WaldieFlow) -> None:
+def test_exporter_force(waldiez_flow: WaldiezFlow) -> None:
     """Test exporter force.
 
     Parameters
     ----------
-    waldie_flow : WaldieFlow
-        A WaldieFlow instance.
+    waldiez_flow : WaldiezFlow
+        A WaldiezFlow instance.
     """
-    waldie = Waldie(flow=waldie_flow)
-    exporter = WaldieExporter(waldie)
-    output_file = Path("waldie.waldiez")
+    waldiez = Waldiez(flow=waldiez_flow)
+    exporter = WaldiezExporter(waldiez)
+    output_file = Path("flow.waldiez")
     output_file.touch()
     exporter.export(output_file, force=True)
     output_file.unlink()
 
 
-def test_export_to_py(waldie_flow: WaldieFlow) -> None:
+def test_export_to_py(waldiez_flow: WaldiezFlow) -> None:
     """Test exporting to Python.
 
     Parameters
     ----------
-    waldie_flow : WaldieFlow
-        A WaldieFlow instance.
+    waldiez_flow : WaldiezFlow
+        A WaldiezFlow instance.
     """
-    waldie = Waldie(flow=waldie_flow)
-    exporter = WaldieExporter(waldie)
-    output_file = Path("waldie.py")
+    waldiez = Waldiez(flow=waldiez_flow)
+    exporter = WaldiezExporter(waldiez)
+    output_file = Path("waldiez.py")
     exporter.export(output_file)
     assert output_file.exists()
     output_file.unlink()
 
 
-def test_export_to_ipynb(waldie_flow: WaldieFlow) -> None:
+def test_export_to_ipynb(waldiez_flow: WaldiezFlow) -> None:
     """Test exporting to Jupyter Notebook.
 
     Parameters
     ----------
-    waldie_flow : WaldieFlow
-        A WaldieFlow instance.
+    waldiez_flow : WaldiezFlow
+        A WaldiezFlow instance.
     """
-    waldie = Waldie(flow=waldie_flow)
-    exporter = WaldieExporter(waldie)
-    output_file = Path("waldie.ipynb")
+    waldiez = Waldiez(flow=waldiez_flow)
+    exporter = WaldiezExporter(waldiez)
+    output_file = Path("waldiez.ipynb")
     exporter.export(output_file)
     assert output_file.exists()
     output_file.unlink()
 
 
-def test_export_to_waldiez(waldie_flow: WaldieFlow) -> None:
+def test_export_to_waldiez(waldiez_flow: WaldiezFlow) -> None:
     """Test exporting to Waldiez file.
 
     Parameters
     ----------
-    waldie_flow : WaldieFlow
-        A WaldieFlow instance.
+    waldiez_flow : WaldiezFlow
+        A WaldiezFlow instance.
     """
-    waldie = Waldie(flow=waldie_flow)
-    exporter = WaldieExporter(waldie)
-    output_file = Path("waldie.waldiez")
+    waldiez = Waldiez(flow=waldiez_flow)
+    exporter = WaldiezExporter(waldiez)
+    output_file = Path("waldiez.waldiez")
     exporter.export(output_file)
     assert output_file.exists()
     output_file.unlink()
 
 
-def test_export_to_invalid_extension(waldie_flow: WaldieFlow) -> None:
+def test_export_to_invalid_extension(waldiez_flow: WaldiezFlow) -> None:
     """Test exporting to invalid extension.
 
     Parameters
     ----------
-    waldie_flow : WaldieFlow
-        A WaldieFlow instance.
+    waldiez_flow : WaldiezFlow
+        A WaldiezFlow instance.
     """
-    waldie = Waldie(flow=waldie_flow)
-    exporter = WaldieExporter(waldie)
-    output_file = Path("waldie.invalid")
+    waldiez = Waldiez(flow=waldiez_flow)
+    exporter = WaldiezExporter(waldiez)
+    output_file = Path("waldiez.invalid")
     with pytest.raises(ValueError):
         exporter.export(output_file)
 
@@ -150,9 +150,9 @@ def test_export_to_invalid_extension(waldie_flow: WaldieFlow) -> None:
 def test_export_complex_flow() -> None:
     """Test exporting invalid flow."""
     flow = get_flow()
-    waldie = Waldie(flow=flow)
-    exporter = WaldieExporter(waldie)
-    output_file = Path("waldie.py")
+    waldiez = Waldiez(flow=flow)
+    exporter = WaldiezExporter(waldiez)
+    output_file = Path("flow.py")
     exporter.export(output_file)
     assert output_file.exists()
     output_file.unlink()

@@ -2,17 +2,17 @@
 
 from typing import Tuple
 
-from waldiez.models import WaldieAgent
+from waldiez.models import WaldiezAgent
 
 
 def get_is_termination_message(
-    agent: WaldieAgent, agent_name: str
+    agent: WaldiezAgent, agent_name: str
 ) -> Tuple[str, str]:
     """Get the `is_termination_message` argument and content (if any).
 
     Parameters
     ----------
-    agent : WaldieAgent
+    agent : WaldiezAgent
         The agent.
     agent_name : str
         The agent name.

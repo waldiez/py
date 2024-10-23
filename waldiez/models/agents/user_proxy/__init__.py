@@ -1,6 +1,6 @@
 """User proxy agent model."""
 
-from .user_proxy import WaldieUserProxy
-from .user_proxy_data import WaldieUserProxyData
+from .user_proxy import WaldiezUserProxy
+from .user_proxy_data import WaldiezUserProxyData
 
-__all__ = ["WaldieUserProxy", "WaldieUserProxyData"]
+__all__ = ["WaldiezUserProxy", "WaldiezUserProxyData"]

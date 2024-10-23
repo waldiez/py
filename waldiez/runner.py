@@ -1,10 +1,10 @@
-"""Waldie Flow runner.
+"""Waldiez Flow runner.
 
-Run a waldie flow.
+Run a waldiez flow.
 The flow is first converted to an autogen flow with agents, chats and skills.
 We then chown to temporary directory, call the flow's `main()` and
 return the results. Before running the flow, any additional environment
-variables specified in the waldie file are set.
+variables specified in the waldiez file are set.
 """
 
 import datetime
@@ -23,9 +23,9 @@ from typing import Callable, Dict, Iterator, List, Optional, Type, Union
 
 from autogen import ChatResult  # type: ignore
 
-from .exporter import WaldieExporter
-from .io_stream import WaldieIOStream
-from .waldie import Waldie
+from .exporter import WaldiezExporter
+from .io_stream import WaldiezIOStream
+from .models.waldiez import Waldiez
 
 
 @contextmanager
@@ -50,69 +50,69 @@ def _chdir(to: Union[str, Path]) -> Iterator[None]:
         os.chdir(old_cwd)
 
 
-class WaldieRunner:
-    """Waldie runner class."""
+class WaldiezRunner:
+    """Waldiez runner class."""
 
     def __init__(
-        self, waldie: Waldie, file_path: Optional[Union[str, Path]] = None
+        self, waldiez: Waldiez, file_path: Optional[Union[str, Path]] = None
     ) -> None:
-        """Initialize the Waldie manager."""
-        self._waldie = waldie
+        """Initialize the Waldiez manager."""
+        self._waldiez = waldiez
         self._running = False
         self._file_path = file_path
-        self._stream: ContextVar[Optional[WaldieIOStream]] = ContextVar(
-            "waldie_stream", default=None
+        self._stream: ContextVar[Optional[WaldiezIOStream]] = ContextVar(
+            "waldiez_stream", default=None
         )
-        self._exporter = WaldieExporter(waldie)
+        self._exporter = WaldiezExporter(waldiez)
 
     @classmethod
     def load(
         cls,
-        waldie_file: Union[str, Path],
+        waldiez_file: Union[str, Path],
         name: Optional[str] = None,
         description: Optional[str] = None,
         tags: Optional[List[str]] = None,
         requirements: Optional[List[str]] = None,
-    ) -> "WaldieRunner":
-        """Create a WaldieRunner instance from a file.
+    ) -> "WaldiezRunner":
+        """Create a WaldiezRunner instance from a file.
 
         Parameters
         ----------
-        waldie_file : Union[str, Path]
+        waldiez_file : Union[str, Path]
             The file path.
         name : Optional[str], optional
-            The name of the Waldie, by default None.
+            The name of the Waldiez, by default None.
         description : Optional[str], optional
-            The description of the Waldie, by default None.
+            The description of the Waldiez, by default None.
         tags : Optional[List[str]], optional
-            The tags of the Waldie, by default None.
+            The tags of the Waldiez, by default None.
         requirements : Optional[List[str]], optional
-            The requirements of the Waldie, by default None.
+            The requirements of the Waldiez, by default None.
 
         Returns
         -------
-        WaldieRunner
-            The Waldie runner instance.
+        WaldiezRunner
+            The Waldiez runner instance.
 
         Raises
         ------
         FileNotFoundError
             If the file is not found.
         RuntimeError
-            If the file is not a valid Waldie file.
+            If the file is not a valid Waldiez file.
         """
-        waldie = Waldie.load(
-            waldie_file,
+        waldiez = Waldiez.load(
+            waldiez_file,
             name=name,
             description=description,
             tags=tags,
             requirements=requirements,
         )
-        return cls(waldie, file_path=waldie_file)
+        return cls(waldiez, file_path=waldiez_file)
 
     def __enter__(
         self,
-    ) -> "WaldieRunner":
+    ) -> "WaldiezRunner":
         """Enter the context manager."""
         return self
 
@@ -131,9 +131,9 @@ class WaldieRunner:
             del token
 
     @property
-    def waldie(self) -> Waldie:
-        """Get the Waldie."""
-        return self._waldie
+    def waldiez(self) -> Waldiez:
+        """Get the Waldiez instance."""
+        return self._waldiez
 
     @property
     def running(self) -> bool:
@@ -150,7 +150,7 @@ class WaldieRunner:
     def _install_requirements(self) -> None:
         """Install the requirements for the flow."""
         extra_requirements = set(
-            req for req in self.waldie.requirements if req not in sys.modules
+            req for req in self.waldiez.requirements if req not in sys.modules
         )
         if extra_requirements:
             print_function = self._get_print_function()
@@ -177,7 +177,7 @@ class WaldieRunner:
             destination_dir = Path(output_path).parent
             destination_dir = (
                 destination_dir
-                / "waldie_out"
+                / "waldiez_out"
                 / datetime.datetime.now().strftime("%Y%m%d%H%M%S")
             )
             destination_dir.mkdir(parents=True, exist_ok=True)
@@ -202,7 +202,7 @@ class WaldieRunner:
     def _set_env_vars(self) -> Dict[str, str]:
         """Set environment variables and return the old ones (if any)."""
         old_vars: Dict[str, str] = {}
-        for var_key, var_value in self.waldie.get_flow_env_vars():
+        for var_key, var_value in self.waldiez.get_flow_env_vars():
             if var_key:
                 current = os.environ.get(var_key, "")
                 old_vars[var_key] = current
@@ -221,7 +221,7 @@ class WaldieRunner:
     def _do_run(
         self, output_path: Optional[Union[str, Path]]
     ) -> Union[ChatResult, List[ChatResult]]:
-        """Run the Waldie workflow."""
+        """Run the Waldiez workflow."""
         results: Union[ChatResult, List[ChatResult]] = []
         temp_dir = Path(tempfile.mkdtemp())
         file_name = "flow.py" if not output_path else Path(output_path).name
@@ -258,20 +258,20 @@ class WaldieRunner:
         self._install_requirements()
         token = self._stream.get()
         if token is not None:
-            with WaldieIOStream.set_default(token):
+            with WaldiezIOStream.set_default(token):
                 return self._do_run(output_path)
         return self._do_run(output_path)
 
     def run(
         self,
-        stream: Optional[WaldieIOStream] = None,
+        stream: Optional[WaldiezIOStream] = None,
         output_path: Optional[Union[str, Path]] = None,
     ) -> Union[ChatResult, List[ChatResult]]:
-        """Run the Waldie workflow.
+        """Run the Waldiez workflow.
 
         Parameters
         ----------
-        stream : Optional[WaldieIOStream], optional
+        stream : Optional[WaldiezIOStream], optional
             The stream to use, by default None.
         output_path : Optional[Union[str, Path]], optional
             The output path, by default None.

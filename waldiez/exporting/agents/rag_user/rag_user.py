@@ -3,10 +3,10 @@
 from typing import Dict, Set, Tuple
 
 from waldiez.models import (
-    WaldieAgent,
-    WaldieRagUser,
-    WaldieRagUserModels,
-    WaldieRagUserRetrieveConfig,
+    WaldiezAgent,
+    WaldiezRagUser,
+    WaldiezRagUserModels,
+    WaldiezRagUserRetrieveConfig,
 )
 
 from ...utils import get_object_string
@@ -14,7 +14,7 @@ from .vector_db import get_rag_user_vector_db_string
 
 
 def get_rag_user_retrieve_config_str(
-    agent: WaldieRagUser,
+    agent: WaldiezRagUser,
     agent_name: str,
     model_names: Dict[str, str],
 ) -> Tuple[str, str, Set[str]]:
@@ -22,7 +22,7 @@ def get_rag_user_retrieve_config_str(
 
     Parameters
     ----------
-    agent : WaldieRagUser
+    agent : WaldiezRagUser
         The agent.
     agent_name : str
         The agent's name.
@@ -73,7 +73,7 @@ def get_rag_user_retrieve_config_str(
 
 
 def get_rag_user_extras(
-    agent: WaldieAgent,
+    agent: WaldiezAgent,
     agent_name: str,
     model_names: Dict[str, str],
 ) -> Tuple[str, str, Set[str]]:
@@ -81,7 +81,7 @@ def get_rag_user_extras(
 
     Parameters
     ----------
-    agent : WaldieAgent
+    agent : WaldiezAgent
         The agent.
     agent_name : str
         The agent's name.
@@ -96,7 +96,7 @@ def get_rag_user_extras(
     before_agent_string = ""
     retrieve_arg = ""
     db_imports: Set[str] = set()
-    if agent.agent_type == "rag_user" and isinstance(agent, WaldieRagUser):
+    if agent.agent_type == "rag_user" and isinstance(agent, WaldiezRagUser):
         rag_content_before_agent, retrieve_arg, db_imports = (
             get_rag_user_retrieve_config_str(
                 agent=agent, agent_name=agent_name, model_names=model_names
@@ -110,8 +110,8 @@ def get_rag_user_extras(
 
 
 def _get_model_arg(
-    agent: WaldieRagUser,
-    retrieve_config: WaldieRagUserRetrieveConfig,
+    agent: WaldiezRagUser,
+    retrieve_config: WaldiezRagUserRetrieveConfig,
     model_names: Dict[str, str],
 ) -> str:  # pragma: no cover
     agent_models = agent.data.model_ids
@@ -124,12 +124,12 @@ def _get_model_arg(
         selected_model = model_names[retrieve_config.model]
         new_model_name = f"{selected_model}"
         return f"{new_model_name}"
-    return WaldieRagUserModels[retrieve_config.vector_db]
+    return WaldiezRagUserModels[retrieve_config.vector_db]
 
 
 def _get_args_dict(
-    agent: WaldieRagUser,
-    retrieve_config: WaldieRagUserRetrieveConfig,
+    agent: WaldiezRagUser,
+    retrieve_config: WaldiezRagUserRetrieveConfig,
     model_names: Dict[str, str],
 ) -> Dict[str, str]:
     model_arg = _get_model_arg(agent, retrieve_config, model_names)

@@ -3,8 +3,13 @@
 from pathlib import Path
 from typing import Dict, List, Optional, Set, Tuple
 
-from waldiez.models import WaldieAgent, WaldieChat, WaldieModel, WaldieSkill
-from waldiez.waldie import Waldie
+from waldiez.models import (
+    Waldiez,
+    WaldiezAgent,
+    WaldiezChat,
+    WaldiezModel,
+    WaldiezSkill,
+)
 
 from ..agents import export_agent
 from ..chats import export_chats, export_nested_chat
@@ -24,11 +29,11 @@ from .def_main import get_def_main
 
 # pylint: disable=too-many-locals
 def export_flow(
-    waldie: Waldie,
-    agents: Tuple[List[WaldieAgent], Dict[str, str]],
-    chats: Tuple[List[WaldieChat], Dict[str, str]],
-    models: Tuple[List[WaldieModel], Dict[str, str]],
-    skills: Tuple[List[WaldieSkill], Dict[str, str]],
+    waldiez: Waldiez,
+    agents: Tuple[List[WaldiezAgent], Dict[str, str]],
+    chats: Tuple[List[WaldiezChat], Dict[str, str]],
+    models: Tuple[List[WaldiezModel], Dict[str, str]],
+    skills: Tuple[List[WaldiezSkill], Dict[str, str]],
     output_dir: Optional[Path],
     notebook: bool,
 ) -> str:
@@ -41,15 +46,15 @@ def export_flow(
 
     Parameters
     ----------
-    waldie : Waldie
-        The Waldie instance.
-    agents : Tuple[List[WaldieAgent], Dict[str, str]]
+    waldiez : Waldiez
+        The Waldiez instance.
+    agents : Tuple[List[WaldiezAgent], Dict[str, str]]
         The agents and their names.
-    chats : Tuple[List[WaldieChat], Dict[str, str]]
+    chats : Tuple[List[WaldiezChat], Dict[str, str]]
         The chats and their names.
-    models : Tuple[List[WaldieModel], Dict[str, str]]
+    models : Tuple[List[WaldiezModel], Dict[str, str]]
         The models and their names.
-    skills : Tuple[List[WaldieSkill], Dict[str, str]]
+    skills : Tuple[List[WaldiezSkill], Dict[str, str]]
         The skills and their names.
     output_dir : Optional[Path]
         The output directory.
@@ -86,7 +91,7 @@ def export_flow(
         skill_names=skill_names,
         output_dir=output_dir,
     )
-    if len(waldie.chats) > 1:
+    if len(waldiez.chats) > 1:
         other_imports.add("from autogen import initiate_chats")
     for agent in all_agents:
         agent_string, after_agent, agent_imports = export_agent(
@@ -96,7 +101,7 @@ def export_flow(
             skill_names=skill_names,
             all_models=all_models,
             all_skills=all_skills,
-            group_chat_members=waldie.flow.get_group_chat_members(agent.id),
+            group_chat_members=waldiez.flow.get_group_chat_members(agent.id),
         )
         other_imports.update(agent_imports)
         if after_agent:
@@ -125,7 +130,7 @@ def export_flow(
         skill_imports=skill_imports,
     )
     return _combine_strings(
-        waldie=waldie,
+        waldiez=waldiez,
         imports_string=all_imports_string,
         agents_string=agent_strings,
         nested_chats_string=nested_chats_strings,
@@ -138,7 +143,7 @@ def export_flow(
 
 # pylint: disable=too-many-arguments
 def _combine_strings(
-    waldie: Waldie,
+    waldiez: Waldiez,
     imports_string: str,
     agents_string: str,
     nested_chats_string: str,
@@ -158,7 +163,7 @@ def _combine_strings(
         content += get_comment("nested", notebook) + "\n"
     content += nested_chats_string
     chats_content, additional_methods = export_chats(
-        main_chats=waldie.chats,
+        main_chats=waldiez.chats,
         agent_names=agent_names,
         chat_names=chat_names,
         tabs=0 if notebook else 1,

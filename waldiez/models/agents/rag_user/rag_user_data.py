@@ -3,11 +3,11 @@
 from pydantic import Field
 from typing_extensions import Annotated
 
-from ..user_proxy import WaldieUserProxyData
-from .retrieve_config import WaldieRagUserRetrieveConfig
+from ..user_proxy import WaldiezUserProxyData
+from .retrieve_config import WaldiezRagUserRetrieveConfig
 
 
-class WaldieRagUserData(WaldieUserProxyData):
+class WaldiezRagUserData(WaldiezUserProxyData):
     """RAG user agent data.
 
     The data for a RAG user agent.
@@ -16,17 +16,17 @@ class WaldieRagUserData(WaldieUserProxyData):
     ----------
     use_message_generator: bool
         Whether to use the message generator in user's chats. Defaults to False.
-    retrieve_config : WaldieRagUserRetrieveConfig
+    retrieve_config : WaldiezRagUserRetrieveConfig
         The RAG user agent's retrieve config.
 
     """
 
     retrieve_config: Annotated[
-        WaldieRagUserRetrieveConfig,
+        WaldiezRagUserRetrieveConfig,
         Field(
             title="Retrieve Config",
             description="The RAG user agent's retrieve config",
-            default_factory=WaldieRagUserRetrieveConfig,
+            default_factory=WaldiezRagUserRetrieveConfig,
             alias="retrieveConfig",
         ),
     ]

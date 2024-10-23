@@ -6,12 +6,12 @@ It extends a user agent and has RAG related parameters (`retrieve_config`).
 from pydantic import Field
 from typing_extensions import Annotated, Literal
 
-from ..agent import WaldieAgent
-from .rag_user_data import WaldieRagUserData
-from .retrieve_config import WaldieRagUserRetrieveConfig
+from ..agent import WaldiezAgent
+from .rag_user_data import WaldiezRagUserData
+from .retrieve_config import WaldiezRagUserRetrieveConfig
 
 
-class WaldieRagUser(WaldieAgent):
+class WaldiezRagUser(WaldiezAgent):
     """RAG user agent.
 
     It extends a user agent and has RAG related parameters.
@@ -20,10 +20,10 @@ class WaldieRagUser(WaldieAgent):
     ----------
     agent_type : Literal["rag_user"]
         The agent type: 'rag_user' for a RAG user agent.
-    data : WaldieRagUserData
+    data : WaldiezRagUserData
         The RAG user agent's data.
-        See `WaldieRagUserData` for more info.
-    retrieve_config : WaldieRagUserRetrieveConfig
+        See `WaldiezRagUserData` for more info.
+    retrieve_config : WaldiezRagUserRetrieveConfig
         The RAG user agent's retrieve config.
     """
 
@@ -38,21 +38,21 @@ class WaldieRagUser(WaldieAgent):
     ]
 
     data: Annotated[
-        WaldieRagUserData,
+        WaldiezRagUserData,
         Field(
             title="Data",
             description="The RAG user agent's data",
-            default_factory=WaldieRagUserData,
+            default_factory=WaldiezRagUserData,
         ),
     ]
 
     @property
-    def retrieve_config(self) -> WaldieRagUserRetrieveConfig:
+    def retrieve_config(self) -> WaldiezRagUserRetrieveConfig:
         """Get the retrieve config.
 
         Returns
         -------
-        WaldieRagUserRetrieveConfig
+        WaldiezRagUserRetrieveConfig
             The RAG user agent's retrieve config.
         """
         return self.data.retrieve_config

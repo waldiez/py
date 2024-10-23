@@ -2,11 +2,11 @@
 
 import pytest
 
-from waldiez.models.flow.flow_data import WaldieFlowData
+from waldiez.models.flow.flow_data import WaldiezFlowData
 
 
-def test_waldie_flow_data() -> None:
-    """Test WaldieFlowData."""
+def test_waldiez_flow_data() -> None:
+    """Test WaldiezFlowData."""
     # Given
     assistant_1 = {
         "id": "wa-1",
@@ -20,7 +20,7 @@ def test_waldie_flow_data() -> None:
         "type": "agent",
         "agent_type": "assistant",
     }
-    flow_data = WaldieFlowData(
+    flow_data = WaldiezFlowData(
         nodes=[],
         edges=[],
         viewport={},
@@ -48,7 +48,7 @@ def test_waldie_flow_data() -> None:
 
     with pytest.raises(ValueError):
         # at least 2 agents are required
-        WaldieFlowData(
+        WaldiezFlowData(
             nodes=[],
             edges=[],
             viewport={},
@@ -64,7 +64,7 @@ def test_waldie_flow_data() -> None:
         )
     with pytest.raises(ValueError):
         # not unique agent ids
-        WaldieFlowData(
+        WaldiezFlowData(
             nodes=[],
             edges=[],
             viewport={},

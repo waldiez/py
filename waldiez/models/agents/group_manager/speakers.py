@@ -6,20 +6,20 @@ from pydantic import ConfigDict, Field, model_validator
 from pydantic.alias_generators import to_camel
 from typing_extensions import Annotated, Literal, Self
 
-from ...common import WaldieBase, WaldieMethodName, check_function
+from ...common import WaldiezBase, WaldiezMethodName, check_function
 
-WaldieGroupManagerSpeakersSelectionMethod = Literal[
+WaldiezGroupManagerSpeakersSelectionMethod = Literal[
     "auto",
     "manual",
     "random",
     "round_robin",
     "custom",
 ]
-WaldieGroupManagerSpeakersSelectionMode = Literal["repeat", "transition"]
-WaldieGroupManagerSpeakersTransitionsType = Literal["allowed", "disallowed"]
+WaldiezGroupManagerSpeakersSelectionMode = Literal["repeat", "transition"]
+WaldiezGroupManagerSpeakersTransitionsType = Literal["allowed", "disallowed"]
 
 
-class WaldieGroupManagerSpeakers(WaldieBase):
+class WaldiezGroupManagerSpeakers(WaldiezBase):
     """Group chat speakers.
 
     If the method for the speaker selection is `custom`
@@ -47,19 +47,19 @@ class WaldieGroupManagerSpeakers(WaldieBase):
 
     Attributes
     ----------
-    selection_method : WaldieGroupManagerSpeakersSelectionMethod
+    selection_method : WaldiezGroupManagerSpeakersSelectionMethod
         The next speaker selection method.
     selection_custom_method : Optional[str]
         Method for custom selection.
     max_retries_for_selecting : Optional[int]
         Max retries for selecting a speaker.
-    selection_mode : WaldieGroupManagerSpeakersSelectionMode
+    selection_mode : WaldiezGroupManagerSpeakersSelectionMode
         Selection mode.
     allow_repeat : Union[bool, List[str]]
         Allow repeat.
     allowed_or_disallowed_transitions : Dict[str, List[str]]
         Allowed or disallowed transitions.
-    transitions_type : WaldieGroupManagerSpeakersTransitionsType
+    transitions_type : WaldiezGroupManagerSpeakersTransitionsType
         The type of transition rules to use if
         if a mapping (agent => List[agents]) is used:
         `allowed` (default) or `disallowed`
@@ -80,7 +80,7 @@ class WaldieGroupManagerSpeakers(WaldieBase):
     )
 
     selection_method: Annotated[
-        WaldieGroupManagerSpeakersSelectionMethod,
+        WaldiezGroupManagerSpeakersSelectionMethod,
         Field(
             "auto",
             title="Selection Method",
@@ -118,7 +118,7 @@ class WaldieGroupManagerSpeakers(WaldieBase):
         ),
     ]
     selection_mode: Annotated[
-        WaldieGroupManagerSpeakersSelectionMode,
+        WaldiezGroupManagerSpeakersSelectionMode,
         Field(
             "repeat",
             title="Selection Mode",
@@ -155,7 +155,7 @@ class WaldieGroupManagerSpeakers(WaldieBase):
         ),
     ]
     transitions_type: Annotated[
-        WaldieGroupManagerSpeakersTransitionsType,
+        WaldiezGroupManagerSpeakersTransitionsType,
         Field(
             "allowed",
             title="Transitions type",
@@ -198,7 +198,7 @@ class WaldieGroupManagerSpeakers(WaldieBase):
         if self.selection_method == "custom":
             if not self.selection_custom_method:
                 raise ValueError("No custom method provided.")
-            function_name: WaldieMethodName = "custom_speaker_selection"
+            function_name: WaldiezMethodName = "custom_speaker_selection"
             is_valid, error_or_body = check_function(
                 self.selection_custom_method, function_name=function_name
             )

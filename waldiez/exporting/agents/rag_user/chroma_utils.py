@@ -2,15 +2,15 @@
 
 from typing import Set, Tuple
 
-from waldiez.models import WaldieRagUser
+from waldiez.models import WaldiezRagUser
 
 
-def _get_chroma_client_string(agent: WaldieRagUser) -> Tuple[str, str]:
+def _get_chroma_client_string(agent: WaldiezRagUser) -> Tuple[str, str]:
     """Get the ChromaVectorDB client string.
 
     Parameters
     ----------
-    agent : WaldieRagUser
+    agent : WaldiezRagUser
         The agent.
     agent_name : str
         The agent's name.
@@ -35,13 +35,13 @@ def _get_chroma_client_string(agent: WaldieRagUser) -> Tuple[str, str]:
 
 
 def _get_chroma_embedding_function_string(
-    agent: WaldieRagUser, agent_name: str
+    agent: WaldiezRagUser, agent_name: str
 ) -> Tuple[str, str, str]:
     """Get the ChromaVectorDB embedding function string.
 
     Parameters
     ----------
-    agent : WaldieRagUser
+    agent : WaldiezRagUser
         The agent.
     agent_name : str
         The agent's name.
@@ -73,13 +73,13 @@ def _get_chroma_embedding_function_string(
 
 
 def get_chroma_db_args(
-    agent: WaldieRagUser, agent_name: str
+    agent: WaldiezRagUser, agent_name: str
 ) -> Tuple[str, Set[str], str, str]:
     """Get the 'kwargs to use for ChromaVectorDB.
 
     Parameters
     ----------
-    agent : WaldieRagUser
+    agent : WaldiezRagUser
         The agent.
     agent_name : str
         The agent's name.

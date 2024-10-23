@@ -5,32 +5,32 @@ from waldiez.exporting.chats.helpers import (
     export_single_chat_string,
 )
 from waldiez.models import (
-    WaldieAgent,
-    WaldieChat,
-    WaldieChatData,
-    WaldieChatMessage,
-    WaldieChatNested,
-    WaldieChatSummary,
-    WaldieRagUser,
+    WaldiezAgent,
+    WaldiezChat,
+    WaldiezChatData,
+    WaldiezChatMessage,
+    WaldiezChatNested,
+    WaldiezChatSummary,
+    WaldiezRagUser,
 )
 
 
 def test_export_empty_single_chat_string() -> None:
     """Test export_single_chat_string() with empty chat."""
     # Given
-    agent1 = WaldieAgent(  # type: ignore
+    agent1 = WaldiezAgent(  # type: ignore
         id="wa-1",
         name="agent1",
         agent_type="assistant",
     )
-    agent2 = WaldieAgent(  # type: ignore
+    agent2 = WaldiezAgent(  # type: ignore
         id="wa-2",
         name="agent2",
         agent_type="user",
     )
-    chat1 = WaldieChat(
+    chat1 = WaldiezChat(
         id="wc-1",
-        data=WaldieChatData(
+        data=WaldiezChatData(
             name="chat1",
             description="A chat that does something.",
             source="wa-1",
@@ -40,19 +40,19 @@ def test_export_empty_single_chat_string() -> None:
             clear_history=None,
             silent=None,
             max_turns=None,
-            message=WaldieChatMessage(
+            message=WaldiezChatMessage(
                 type="none",
                 content=None,
                 context={},
                 use_carryover=False,
             ),
-            summary=WaldieChatSummary(
+            summary=WaldiezChatSummary(
                 method=None,
                 prompt="",
                 args={},
             ),
-            nested_chat=WaldieChatNested(
-                message=WaldieChatMessage(
+            nested_chat=WaldiezChatNested(
+                message=WaldiezChatMessage(
                     type="none",
                     use_carryover=False,
                     content=None,
@@ -84,19 +84,19 @@ def test_export_empty_single_chat_string() -> None:
 def test_export_single_chat_string() -> None:
     """Test export_single_chat_string()."""
     # Given
-    agent1 = WaldieAgent(  # type: ignore
+    agent1 = WaldiezAgent(  # type: ignore
         id="wa-1",
         name="agent1",
         agent_type="assistant",
     )
-    agent2 = WaldieAgent(  # type: ignore
+    agent2 = WaldiezAgent(  # type: ignore
         id="wa-2",
         name="agent2",
         agent_type="user",
     )
-    chat1 = WaldieChat(
+    chat1 = WaldiezChat(
         id="wc-1",
-        data=WaldieChatData(
+        data=WaldiezChatData(
             name="chat1",
             description="A chat that does something.",
             source="wa-1",
@@ -106,7 +106,7 @@ def test_export_single_chat_string() -> None:
             clear_history=False,
             silent=False,
             max_turns=5,
-            message=WaldieChatMessage(
+            message=WaldiezChatMessage(
                 type="string",
                 use_carryover=False,
                 content="Hello, wa-2!",
@@ -114,13 +114,13 @@ def test_export_single_chat_string() -> None:
                     "problem": "Solve this problem.",
                 },
             ),
-            summary=WaldieChatSummary(
+            summary=WaldiezChatSummary(
                 method="reflection_with_llm",
                 prompt="Summarize the chat.",
                 args={"temperature": "0.5", "max_tokens": "100"},
             ),
-            nested_chat=WaldieChatNested(
-                message=WaldieChatMessage(
+            nested_chat=WaldiezChatNested(
+                message=WaldiezChatMessage(
                     type="none",
                     use_carryover=False,
                     content=None,
@@ -159,9 +159,9 @@ def test_export_single_chat_string() -> None:
     assert not result[1]
     assert result[0] == expected
     # Given
-    chat2 = WaldieChat(
+    chat2 = WaldiezChat(
         id="wc-2",
-        data=WaldieChatData(
+        data=WaldiezChatData(
             name="chat2",
             description="A chat that does something else.",
             source="wa-2",
@@ -171,18 +171,18 @@ def test_export_single_chat_string() -> None:
             clear_history=True,
             silent=True,
             max_turns=10,
-            message=WaldieChatMessage(
+            message=WaldiezChatMessage(
                 type="none",
                 use_carryover=False,
                 content=None,
                 context={"temperature": "0.5", "max_tokens": "100"},
             ),
-            summary=WaldieChatSummary(
+            summary=WaldiezChatSummary(
                 method="last_msg",
                 prompt="",
                 args={},
             ),
-            nested_chat=WaldieChatNested(
+            nested_chat=WaldiezChatNested(
                 message=None,
                 reply=None,
             ),
@@ -212,9 +212,9 @@ def test_export_single_chat_string() -> None:
     assert not result[1]
     assert result[0] == expected
     # Given
-    chat3 = WaldieChat(
+    chat3 = WaldiezChat(
         id="wc-3",
-        data=WaldieChatData(
+        data=WaldiezChatData(
             name="chat3",
             description="A chat that does something else.",
             source="wa-2",
@@ -224,7 +224,7 @@ def test_export_single_chat_string() -> None:
             clear_history=True,
             silent=True,
             max_turns=10,
-            message=WaldieChatMessage(
+            message=WaldiezChatMessage(
                 type="method",
                 use_carryover=False,
                 content=(
@@ -233,12 +233,12 @@ def test_export_single_chat_string() -> None:
                 ),
                 context={"temperature": "0.5", "max_tokens": "100"},
             ),
-            summary=WaldieChatSummary(
+            summary=WaldiezChatSummary(
                 method="last_msg",
                 prompt="",
                 args={},
             ),
-            nested_chat=WaldieChatNested(
+            nested_chat=WaldiezChatNested(
                 message=None,
                 reply=None,
             ),
@@ -278,24 +278,24 @@ def test_export_single_chat_string() -> None:
 def test_export_multiple_chats_string() -> None:
     """Test export_multiple_chats_string()."""
     # Given
-    agent1 = WaldieAgent(  # type: ignore
+    agent1 = WaldiezAgent(  # type: ignore
         id="wa-1",
         name="agent1",
         agent_type="assistant",
     )
-    agent2 = WaldieAgent(  # type: ignore
+    agent2 = WaldiezAgent(  # type: ignore
         id="wa-2",
         name="agent2",
         agent_type="user",
     )
-    agent3 = WaldieAgent(  # type: ignore
+    agent3 = WaldiezAgent(  # type: ignore
         id="wa-3",
         name="agent3",
         agent_type="assistant",
     )
-    chat1 = WaldieChat(
+    chat1 = WaldiezChat(
         id="wc-1",
-        data=WaldieChatData(
+        data=WaldiezChatData(
             name="chat1",
             description="A chat that does something.",
             source="wa-1",
@@ -305,7 +305,7 @@ def test_export_multiple_chats_string() -> None:
             clear_history=False,
             silent=False,
             max_turns=5,
-            message=WaldieChatMessage(
+            message=WaldiezChatMessage(
                 type="method",
                 use_carryover=False,
                 content=(
@@ -316,13 +316,13 @@ def test_export_multiple_chats_string() -> None:
                     "problem": "Solve this problem.",
                 },
             ),
-            summary=WaldieChatSummary(
+            summary=WaldiezChatSummary(
                 method="reflection_with_llm",
                 prompt="Summarize the chat.",
                 args={"temperature": "0.5", "max_tokens": "100"},
             ),
-            nested_chat=WaldieChatNested(
-                message=WaldieChatMessage(
+            nested_chat=WaldiezChatNested(
+                message=WaldiezChatMessage(
                     type="none",
                     use_carryover=False,
                     content=None,
@@ -334,9 +334,9 @@ def test_export_multiple_chats_string() -> None:
             real_target=None,
         ),
     )
-    chat2 = WaldieChat(
+    chat2 = WaldiezChat(
         id="wc-2",
-        data=WaldieChatData(
+        data=WaldiezChatData(
             name="chat2",
             description="A chat that does something else.",
             source="wa-2",
@@ -346,19 +346,19 @@ def test_export_multiple_chats_string() -> None:
             clear_history=False,
             silent=False,
             max_turns=5,
-            message=WaldieChatMessage(
+            message=WaldiezChatMessage(
                 type="none",
                 use_carryover=False,
                 content=None,
                 context={"temperature": "0.5", "max_tokens": "100"},
             ),
-            summary=WaldieChatSummary(
+            summary=WaldiezChatSummary(
                 method="last_msg",
                 prompt="",
                 args={},
             ),
-            nested_chat=WaldieChatNested(
-                message=WaldieChatMessage(
+            nested_chat=WaldiezChatNested(
+                message=WaldiezChatMessage(
                     type="none",
                     use_carryover=False,
                     content=None,
@@ -370,9 +370,9 @@ def test_export_multiple_chats_string() -> None:
             real_target=None,
         ),
     )
-    chat3 = WaldieChat(
+    chat3 = WaldiezChat(
         id="wc-3",
-        data=WaldieChatData(
+        data=WaldiezChatData(
             name="chat3",
             description="A chat that does something else.",
             source="wa-2",
@@ -382,19 +382,19 @@ def test_export_multiple_chats_string() -> None:
             clear_history=False,
             silent=False,
             max_turns=5,
-            message=WaldieChatMessage(
+            message=WaldiezChatMessage(
                 type="string",
                 use_carryover=False,
                 content="Hello, wa-3!",
                 context={},
             ),
-            summary=WaldieChatSummary(
+            summary=WaldiezChatSummary(
                 method="last_msg",
                 prompt="",
                 args={},
             ),
-            nested_chat=WaldieChatNested(
-                message=WaldieChatMessage(
+            nested_chat=WaldiezChatNested(
+                message=WaldiezChatMessage(
                     type="none", use_carryover=False, content=None, context={}
                 ),
                 reply=None,
@@ -465,7 +465,7 @@ def callable_message_chat1(sender, recipient, context):
 def test_chat_with_rag_user() -> None:
     """Test chat with RAG user (message_generator)."""
     # Given
-    agent1 = WaldieRagUser(  # type: ignore
+    agent1 = WaldiezRagUser(  # type: ignore
         id="wa-1",
         name="agentA",
         agent_type="rag_user",
@@ -475,14 +475,14 @@ def test_chat_with_rag_user() -> None:
             }
         },
     )
-    agent2 = WaldieAgent(  # type: ignore
+    agent2 = WaldiezAgent(  # type: ignore
         id="wa-2",
         name="agent2",
         agent_type="assistant",
     )
-    chat1 = WaldieChat(
+    chat1 = WaldiezChat(
         id="wc-1",
-        data=WaldieChatData(
+        data=WaldiezChatData(
             name="chat1",
             description="A chat that does something.",
             source="wa-1",
@@ -492,19 +492,19 @@ def test_chat_with_rag_user() -> None:
             clear_history=False,
             silent=False,
             max_turns=5,
-            message=WaldieChatMessage(
+            message=WaldiezChatMessage(
                 type="rag_message_generator",
                 use_carryover=False,
                 content="Hello, wa-2!",
                 context={"problem": "Solve this problem."},
             ),
-            summary=WaldieChatSummary(
+            summary=WaldiezChatSummary(
                 method="reflection_with_llm",
                 prompt="Summarize the chat.",
                 args={"temperature": "0.5", "max_tokens": "100"},
             ),
-            nested_chat=WaldieChatNested(
-                message=WaldieChatMessage(
+            nested_chat=WaldiezChatNested(
+                message=WaldiezChatMessage(
                     type="none",
                     use_carryover=False,
                     content=None,
@@ -547,7 +547,7 @@ def test_chat_with_rag_user() -> None:
 def test_rag_user_with_multiple_chats() -> None:
     """Test RAG user with multiple chats."""
     # Given
-    agent1 = WaldieRagUser(  # type: ignore
+    agent1 = WaldiezRagUser(  # type: ignore
         id="wa-1",
         name="agentA",
         agent_type="rag_user",
@@ -557,19 +557,19 @@ def test_rag_user_with_multiple_chats() -> None:
             }
         },
     )
-    agent2 = WaldieAgent(  # type: ignore
+    agent2 = WaldiezAgent(  # type: ignore
         id="wa-2",
         name="agent2",
         agent_type="assistant",
     )
-    agent3 = WaldieAgent(  # type: ignore
+    agent3 = WaldiezAgent(  # type: ignore
         id="wa-3",
         name="agent3",
         agent_type="user",
     )
-    chat1 = WaldieChat(
+    chat1 = WaldiezChat(
         id="wc-1",
-        data=WaldieChatData(
+        data=WaldiezChatData(
             name="chat1",
             description="A chat that does something.",
             source="wa-1",
@@ -579,19 +579,19 @@ def test_rag_user_with_multiple_chats() -> None:
             clear_history=False,
             silent=False,
             max_turns=5,
-            message=WaldieChatMessage(
+            message=WaldiezChatMessage(
                 type="rag_message_generator",
                 use_carryover=False,
                 content="Hello, wa-2!",
                 context={"problem": "Solve this problem."},
             ),
-            summary=WaldieChatSummary(
+            summary=WaldiezChatSummary(
                 method="reflection_with_llm",
                 prompt="Summarize the chat.",
                 args={"temperature": "0.5", "max_tokens": "100"},
             ),
-            nested_chat=WaldieChatNested(
-                message=WaldieChatMessage(
+            nested_chat=WaldiezChatNested(
+                message=WaldiezChatMessage(
                     type="none",
                     use_carryover=False,
                     content=None,
@@ -603,9 +603,9 @@ def test_rag_user_with_multiple_chats() -> None:
             real_target=None,
         ),
     )
-    chat2 = WaldieChat(
+    chat2 = WaldiezChat(
         id="wc-2",
-        data=WaldieChatData(
+        data=WaldiezChatData(
             name="chat2",
             description="A chat that does something else.",
             source="wa-2",
@@ -615,19 +615,19 @@ def test_rag_user_with_multiple_chats() -> None:
             clear_history=False,
             silent=False,
             max_turns=5,
-            message=WaldieChatMessage(
+            message=WaldiezChatMessage(
                 type="none",
                 use_carryover=False,
                 content=None,
                 context={"temperature": "0.5", "max_tokens": "100"},
             ),
-            summary=WaldieChatSummary(
+            summary=WaldiezChatSummary(
                 method="last_msg",
                 prompt="",
                 args={},
             ),
-            nested_chat=WaldieChatNested(
-                message=WaldieChatMessage(
+            nested_chat=WaldiezChatNested(
+                message=WaldiezChatMessage(
                     type="none",
                     use_carryover=False,
                     content=None,

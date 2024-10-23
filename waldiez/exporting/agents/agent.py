@@ -2,7 +2,7 @@
 
 from typing import Dict, List, Set, Tuple
 
-from waldiez.models import WaldieAgent, WaldieModel, WaldieSkill
+from waldiez.models import WaldiezAgent, WaldiezModel, WaldiezSkill
 
 from ..utils import get_escaped_string
 from .agent_skills import get_agent_skill_registrations
@@ -13,12 +13,12 @@ from .rag_user import get_rag_user_extras
 from .termination_message import get_is_termination_message
 
 
-def get_agent_class_name(agent: WaldieAgent) -> str:
+def get_agent_class_name(agent: WaldiezAgent) -> str:
     """Get the agent class name.
 
     Parameters
     ----------
-    agent : WaldieAgent
+    agent : WaldiezAgent
         The agent.
 
     Returns
@@ -66,12 +66,12 @@ def get_agent_imports(agent_class: str) -> Set[str]:
     return imports
 
 
-def get_system_message_arg(agent: WaldieAgent) -> str:
+def get_system_message_arg(agent: WaldiezAgent) -> str:
     """Get the system message argument.
 
     Parameters
     ----------
-    agent : WaldieAgent
+    agent : WaldiezAgent
         The agent.
 
     Returns
@@ -89,13 +89,13 @@ def get_system_message_arg(agent: WaldieAgent) -> str:
 
 # pylint: disable=too-many-locals, unused-argument
 def export_agent(
-    agent: WaldieAgent,
+    agent: WaldiezAgent,
     agent_names: Dict[str, str],
     model_names: Dict[str, str],
     skill_names: Dict[str, str],
-    all_models: List[WaldieModel],
-    all_skills: List[WaldieSkill],
-    group_chat_members: List[WaldieAgent],
+    all_models: List[WaldiezModel],
+    all_skills: List[WaldiezSkill],
+    group_chat_members: List[WaldiezAgent],
 ) -> Tuple[str, str, Set[str]]:
     """Export the agent to a string.
 
@@ -138,7 +138,7 @@ def export_agent(
 
     Parameters
     ----------
-    agent : WaldieAgent
+    agent : WaldiezAgent
         The agent.
     agent_names : Dict[str, str]
         A mapping of agent id to agent name.
@@ -146,11 +146,11 @@ def export_agent(
         A mapping of model id to model name.
     skill_names : Dict[str, str]
         A mapping of skill id to skill name.
-    all_models : List[WaldieModel]
+    all_models : List[WaldiezModel]
         All the models in the flow.
-    all_skills : List[WaldieSkill]
+    all_skills : List[WaldiezSkill]
         All the skills in the flow.
-    group_chat_members : List[WaldieAgent]
+    group_chat_members : List[WaldiezAgent]
         The group chat members.
 
     Returns

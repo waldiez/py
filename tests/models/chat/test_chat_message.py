@@ -6,20 +6,20 @@ import pytest
 from typing_extensions import Literal
 
 from waldiez.models.chat import (
-    WaldieChat,
-    WaldieChatData,
-    WaldieChatMessage,
-    WaldieChatNested,
-    WaldieChatSummary,
+    WaldiezChat,
+    WaldiezChatData,
+    WaldiezChatMessage,
+    WaldiezChatNested,
+    WaldiezChatSummary,
     validate_message_dict,
 )
 from waldiez.models.chat.chat_message import RAG_METHOD_WITH_CARRYOVER
 
 
-def test_waldie_chat_message() -> None:
-    """Test WaldieChatMessage."""
+def test_waldiez_chat_message() -> None:
+    """Test WaldiezChatMessage."""
     # Given
-    message = WaldieChatMessage(
+    message = WaldiezChatMessage(
         type="string",
         use_carryover=False,
         content="Hello there",
@@ -30,7 +30,7 @@ def test_waldie_chat_message() -> None:
     assert message.content == "Hello there"
 
     # Given
-    message = WaldieChatMessage(
+    message = WaldiezChatMessage(
         type="method",
         use_carryover=False,
         content="Hello there",
@@ -41,7 +41,7 @@ def test_waldie_chat_message() -> None:
     assert message.content == "Hello there"
 
     # Given
-    message = WaldieChatMessage(
+    message = WaldiezChatMessage(
         type="none",
         use_carryover=False,
         content=None,
@@ -274,14 +274,14 @@ def test_rag_message_generator_message() -> None:
     assert message.context == {"n_results": "5"}
 
     # Given
-    chat = WaldieChat(
+    chat = WaldiezChat(
         id="chat_id",
-        data=WaldieChatData(
+        data=WaldiezChatData(
             name="chat_name",
             description="Chat description",
             source="source",
             target="target",
-            message=WaldieChatMessage(
+            message=WaldiezChatMessage(
                 type="rag_message_generator",
                 use_carryover=False,
                 content=None,
@@ -293,7 +293,7 @@ def test_rag_message_generator_message() -> None:
             position=0,
             order=0,
             clear_history=False,
-            nested_chat=WaldieChatNested(
+            nested_chat=WaldiezChatNested(
                 message=None,
                 reply=None,
             ),
@@ -301,7 +301,7 @@ def test_rag_message_generator_message() -> None:
             silent=False,
             real_source=None,
             real_target=None,
-            summary=WaldieChatSummary(
+            summary=WaldiezChatSummary(
                 method="last_msg",
                 prompt="Return the last message",
                 args={},

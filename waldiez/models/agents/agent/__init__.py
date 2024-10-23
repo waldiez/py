@@ -1,21 +1,21 @@
 """Base agent class to be inherited by all other agents."""
 
-from .agent import WaldieAgent, WaldieAgentType
-from .agent_data import WaldieAgentData
-from .code_execution import WaldieAgentCodeExecutionConfig
-from .linked_skill import WaldieAgentLinkedSkill
-from .nested_chat import WaldieAgentNestedChat, WaldieAgentNestedChatMessage
-from .teachability import WaldieAgentTeachability
-from .termination_message import WaldieAgentTerminationMessage
+from .agent import WaldiezAgent, WaldiezAgentType
+from .agent_data import WaldiezAgentData
+from .code_execution import WaldiezAgentCodeExecutionConfig
+from .linked_skill import WaldiezAgentLinkedSkill
+from .nested_chat import WaldiezAgentNestedChat, WaldiezAgentNestedChatMessage
+from .teachability import WaldiezAgentTeachability
+from .termination_message import WaldiezAgentTerminationMessage
 
 __all__ = [
-    "WaldieAgent",
-    "WaldieAgentCodeExecutionConfig",
-    "WaldieAgentData",
-    "WaldieAgentLinkedSkill",
-    "WaldieAgentNestedChat",
-    "WaldieAgentNestedChatMessage",
-    "WaldieAgentTeachability",
-    "WaldieAgentTerminationMessage",
-    "WaldieAgentType",
+    "WaldiezAgent",
+    "WaldiezAgentCodeExecutionConfig",
+    "WaldiezAgentData",
+    "WaldiezAgentLinkedSkill",
+    "WaldiezAgentNestedChat",
+    "WaldiezAgentNestedChatMessage",
+    "WaldiezAgentTeachability",
+    "WaldiezAgentTerminationMessage",
+    "WaldiezAgentType",
 ]

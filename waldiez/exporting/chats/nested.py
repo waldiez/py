@@ -3,27 +3,27 @@
 from typing import Dict, List, Optional, Tuple
 
 from waldiez.models import (
-    WaldieAgent,
-    WaldieAgentNestedChat,
-    WaldieAgentNestedChatMessage,
-    WaldieChat,
+    WaldiezAgent,
+    WaldiezAgentNestedChat,
+    WaldiezAgentNestedChatMessage,
+    WaldiezChat,
 )
 
 from ..utils import get_escaped_string, get_object_string
 
 
 def get_nested_chat_trigger_agent_names(
-    all_chats: List[WaldieChat],
-    nested_chat: WaldieAgentNestedChat,
+    all_chats: List[WaldiezChat],
+    nested_chat: WaldiezAgentNestedChat,
     agent_names: Dict[str, str],
 ) -> str:
     """Get the trigger agent names for the nested chat.
 
     Parameters
     ----------
-    all_chats : List[WaldieChat]
+    all_chats : List[WaldiezChat]
         All the chats in the flow.
-    nested_chat : WaldieAgentNestedChat
+    nested_chat : WaldiezAgentNestedChat
         The nested chat.
     agent_names : Dict[str, str]
         A mapping of agent id to agent name.
@@ -35,20 +35,20 @@ def get_nested_chat_trigger_agent_names(
     """
     trigger_agent_ids: List[str] = []
     for message in nested_chat.triggered_by:
-        waldie_chat = next(chat for chat in all_chats if chat.id == message.id)
+        waldiez_chat = next(chat for chat in all_chats if chat.id == message.id)
         if message.is_reply:
-            trigger_agent_ids.append(waldie_chat.target)
+            trigger_agent_ids.append(waldiez_chat.target)
         else:
-            trigger_agent_ids.append(waldie_chat.source)
+            trigger_agent_ids.append(waldiez_chat.source)
     agents = [agent_names[agent_id] for agent_id in trigger_agent_ids]
     trigger_string = f'{[", ".join(agents)]}'
     return trigger_string.replace("'", '"')
 
 
 def get_nested_chat_message_string(
-    waldie_chat: WaldieChat,
-    message: WaldieAgentNestedChatMessage,
-    agent: WaldieAgent,
+    waldiez_chat: WaldiezChat,
+    message: WaldiezAgentNestedChatMessage,
+    agent: WaldiezAgent,
     agent_names: Dict[str, str],
     chat_names: Dict[str, str],
 ) -> Tuple[str, Optional[str]]:
@@ -56,11 +56,11 @@ def get_nested_chat_message_string(
 
     Parameters
     ----------
-    waldie_chat : WaldieChat
+    waldiez_chat : WaldiezChat
         The chat.
-    message : WaldieAgentNestedChatMessage
+    message : WaldiezAgentNestedChatMessage
         The message.
-    agent : WaldieAgent
+    agent : WaldiezAgent
         The agent.
     agent_names : Dict[str, str]
         A mapping of agent id to agent name.
@@ -73,19 +73,19 @@ def get_nested_chat_message_string(
         The message string and the method name if the message is a method.
     """
     sender_name: Optional[str] = None
-    sender_id = waldie_chat.target if message.is_reply else waldie_chat.source
+    sender_id = waldiez_chat.target if message.is_reply else waldiez_chat.source
     recipient_id = (
-        waldie_chat.source if message.is_reply else waldie_chat.target
+        waldiez_chat.source if message.is_reply else waldiez_chat.target
     )
     if sender_id != agent.id:
         sender_name = agent_names[sender_id]
     recipient_name = agent_names[recipient_id]
-    chat_dict = waldie_chat.get_chat_args()
+    chat_dict = waldiez_chat.get_chat_args()
     chat_dict["recipient"] = recipient_name
     if sender_name:
         chat_dict["sender"] = sender_name
     message_value, message_source = get_chat_nested_string(
-        chat=waldie_chat, is_reply=message.is_reply, chat_names=chat_names
+        chat=waldiez_chat, is_reply=message.is_reply, chat_names=chat_names
     )
     chat_dict["message"] = message_value
     message_dict_str = get_object_string(chat_dict, tabs=1)
@@ -106,25 +106,25 @@ def get_nested_chat_message_string(
 
 
 def get_nested_chat_queue(
-    nested_chat: WaldieAgentNestedChat,
-    agent: WaldieAgent,
+    nested_chat: WaldiezAgentNestedChat,
+    agent: WaldiezAgent,
     agent_names: Dict[str, str],
     chat_names: Dict[str, str],
-    all_chats: List[WaldieChat],
+    all_chats: List[WaldiezChat],
 ) -> Tuple[str, List[str]]:
     """Get the nested chat queue.
 
     Parameters
     ----------
-    nested_chat : WaldieAgentNestedChat
+    nested_chat : WaldiezAgentNestedChat
         The nested chat.
-    agent : WaldieAgent
+    agent : WaldiezAgent
         The agent.
     agent_names : Dict[str, str]
         A mapping of agent id to agent name.
     chat_names : Dict[str, str]
         A mapping of chat id to chat name.
-    all_chats : List[WaldieChat]
+    all_chats : List[WaldiezChat]
         All the chats in the flow.
 
     Returns
@@ -135,9 +135,9 @@ def get_nested_chat_queue(
     message_methods_to_include = []
     chat_messages_str = "[\n"
     for message in nested_chat.messages:
-        waldie_chat = next(chat for chat in all_chats if chat.id == message.id)
+        waldiez_chat = next(chat for chat in all_chats if chat.id == message.id)
         message_str, message_source = get_nested_chat_message_string(
-            waldie_chat=waldie_chat,
+            waldiez_chat=waldiez_chat,
             message=message,
             agent=agent,
             agent_names=agent_names,
@@ -153,7 +153,7 @@ def get_nested_chat_queue(
 
 
 def get_chat_nested_string(
-    chat: WaldieChat,
+    chat: WaldiezChat,
     is_reply: bool,
     chat_names: Dict[str, str],
 ) -> Tuple[str, Optional[str]]:
@@ -161,7 +161,7 @@ def get_chat_nested_string(
 
     Parameters
     ----------
-    chat : WaldieChat
+    chat : WaldiezChat
         The chat.
     is_reply : bool
         Whether to use the nested chat's reply message or not.
@@ -195,8 +195,8 @@ def get_chat_nested_string(
 
 
 def export_nested_chat(
-    agent: WaldieAgent,
-    all_chats: List[WaldieChat],
+    agent: WaldiezAgent,
+    all_chats: List[WaldiezChat],
     chat_names: Dict[str, str],
     agent_names: Dict[str, str],
 ) -> str:
@@ -204,9 +204,9 @@ def export_nested_chat(
 
     Parameters
     ----------
-    agent : WaldieAgent
+    agent : WaldiezAgent
         The agent.
-    all_chats : List[WaldieChat]
+    all_chats : List[WaldiezChat]
         All the chats in the flow.
     chat_names : Dict[str, str]
         The chat names.

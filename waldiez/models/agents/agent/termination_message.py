@@ -6,10 +6,10 @@ from pydantic import ConfigDict, Field, model_validator
 from pydantic.alias_generators import to_camel
 from typing_extensions import Annotated, Literal, Self
 
-from ...common import WaldieBase, WaldieMethodName, check_function
+from ...common import WaldiezBase, WaldiezMethodName, check_function
 
 
-class WaldieAgentTerminationMessage(WaldieBase):
+class WaldiezAgentTerminationMessage(WaldiezBase):
     """Waldie Agent Termination Message Check.
 
     Attributes
@@ -112,7 +112,7 @@ class WaldieAgentTerminationMessage(WaldieBase):
             raise ValueError(
                 "Method content is required for method termination."
             )
-        expected_function_name: WaldieMethodName = "is_termination_message"
+        expected_function_name: WaldiezMethodName = "is_termination_message"
         valid, error_or_content = check_function(
             self.method_content, expected_function_name
         )
@@ -155,7 +155,7 @@ class WaldieAgentTerminationMessage(WaldieBase):
             If the configuration is invalid.
         Returns
         -------
-        WaldieAgentTerminationMessage
+        WaldiezAgentTerminationMessage
             The validated termination message configuration.
         """
         if self.type == "method":

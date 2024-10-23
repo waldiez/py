@@ -1,22 +1,22 @@
-"""Test waldiez.models.model.WaldieModel."""
+"""Test waldiez.models.model.WaldiezModel."""
 
 import os
 
 import pytest
 
 from waldiez.models.model import (
-    WaldieModel,
-    WaldieModelAPIType,
-    WaldieModelData,
-    WaldieModelPrice,
+    WaldiezModel,
+    WaldiezModelAPIType,
+    WaldiezModelData,
+    WaldiezModelPrice,
 )
 
 
-def test_valid_waldie_model() -> None:
-    """Test valid WaldieModel."""
+def test_valid_waldiez_model() -> None:
+    """Test valid WaldiezModel."""
     # Given
-    api_type: WaldieModelAPIType = "openai"
-    data = WaldieModelData(
+    api_type: WaldiezModelAPIType = "openai"
+    data = WaldiezModelData(
         base_url="https://example.com",
         api_key="api_key",
         api_type=api_type,
@@ -25,7 +25,7 @@ def test_valid_waldie_model() -> None:
         top_p=0.2,
         max_tokens=100,
         default_headers={"Content-Type": "application/json"},
-        price=WaldieModelPrice(
+        price=WaldiezModelPrice(
             prompt_price_per_1k=0.1,
             completion_token_price_per_1k=0.2,
         ),
@@ -33,7 +33,7 @@ def test_valid_waldie_model() -> None:
     # When
     name = "model"
     description = "description"
-    model = WaldieModel(
+    model = WaldiezModel(
         id="wm-1",
         name=name,
         description=description,
@@ -82,22 +82,22 @@ def test_valid_waldie_model() -> None:
     }
 
 
-def test_waldie_model_api_key_and_price() -> None:
-    """Test WaldieModel api key from env var and price."""
+def test_waldiez_model_api_key_and_price() -> None:
+    """Test WaldiezModel api key from env var and price."""
     current_api_key = os.environ.pop("OPENAI_API_KEY", None)
     os.environ["OPENAI_API_KEY"] = "api_key"
     # Given
-    api_type: WaldieModelAPIType = "openai"
-    data = WaldieModelData(  # type: ignore
+    api_type: WaldiezModelAPIType = "openai"
+    data = WaldiezModelData(  # type: ignore
         base_url="https://example.com",
         api_type=api_type,
-        price=WaldieModelPrice(
+        price=WaldiezModelPrice(
             prompt_price_per_1k=0.1,
             completion_token_price_per_1k=None,
         ),
     )
     # When
-    model = WaldieModel(
+    model = WaldiezModel(
         id="wm-1",
         name="model",
         description="description",
@@ -117,12 +117,12 @@ def test_waldie_model_api_key_and_price() -> None:
         os.environ.pop("OPENAI_API_KEY", None)
 
     # Given
-    data = WaldieModelData(  # type: ignore
+    data = WaldiezModelData(  # type: ignore
         base_url="https://example.com",
         api_type=api_type,
     )
     # When
-    model = WaldieModel(
+    model = WaldiezModel(
         id="wm-1",
         name="model",
         description="description",
@@ -138,18 +138,18 @@ def test_waldie_model_api_key_and_price() -> None:
     assert model.api_key == os.environ.get("OPENAI_API_KEY", "")
 
 
-def test_waldie_api_key() -> None:
-    """Test WaldieModel api key from env var."""
+def test_waldiez_api_key() -> None:
+    """Test WaldiezModel api key from env var."""
     current_api_key = os.environ.pop("GOOGLE_GEMINI_API_KEY", None)
     os.environ["GOOGLE_GEMINI_API_KEY"] = "gemini_api_key"
     # Given
-    api_type: WaldieModelAPIType = "google"
-    data = WaldieModelData(  # type: ignore
+    api_type: WaldiezModelAPIType = "google"
+    data = WaldiezModelData(  # type: ignore
         base_url="https://example.com",
         api_type=api_type,
     )
     # When
-    model = WaldieModel(
+    model = WaldiezModel(
         id="wm-1",
         name="model",
         description="description",
@@ -171,11 +171,11 @@ def test_waldie_api_key() -> None:
     os.environ["GROQ_API_KEY"] = "groq_api_key"
     # Given
     api_type = "groq"
-    data = WaldieModelData(  # type: ignore
+    data = WaldiezModelData(  # type: ignore
         api_type=api_type,
     )
     # When
-    model = WaldieModel(
+    model = WaldiezModel(
         id="wm-1",
         name="model",
         description="description",
@@ -194,10 +194,10 @@ def test_waldie_api_key() -> None:
         os.environ.pop("GROQ_API_KEY", None)
 
 
-def test_waldie_invalid_model() -> None:
-    """Test invalid WaldieModel."""
+def test_waldiez_invalid_model() -> None:
+    """Test invalid WaldiezModel."""
     with pytest.raises(ValueError):
-        WaldieModel(  # type: ignore
+        WaldiezModel(  # type: ignore
             id="wm-1",
             name="model",
             description="description",
