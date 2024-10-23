@@ -1,1 +1,1 @@
-::: waldiez.waldiez
+::: waldiez.models.waldiez
