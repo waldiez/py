@@ -1,4 +1,4 @@
-"""Waldie Agent Code Execution Configuration."""
+"""Waldiez Agent Code Execution Configuration."""
 
 from typing import List, Optional
 
@@ -9,7 +9,7 @@ from ...common import WaldiezBase
 
 
 class WaldiezAgentCodeExecutionConfig(WaldiezBase):
-    """Waldie Agent Code Execution Configuration.
+    """Waldiez Agent Code Execution Configuration.
 
     Attributes
     ----------

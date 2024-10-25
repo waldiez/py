@@ -1,4 +1,4 @@
-"""Waldie model(llm) model."""
+"""Waldiez model(llm) model."""
 
 import os
 from typing import Any, Dict, List, Optional
@@ -11,7 +11,7 @@ from .model_data import WaldiezModelData
 
 
 class WaldiezModel(WaldiezBase):
-    """Waldie Model class.
+    """Waldiez Model class.
 
     Attributes
     ----------

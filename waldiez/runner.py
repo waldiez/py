@@ -169,6 +169,11 @@ class WaldiezRunner:
                 if proc.stderr:
                     for line in io.TextIOWrapper(proc.stderr, encoding="utf-8"):
                         print_function(line.strip())
+            print_function(
+                "Requirements installed.\n"
+                "NOTE: If new packages were added and you are using Jupyter, "
+                "you might need to restart the kernel."
+            )
 
     def _after_run(
         self, temp_dir: Path, output_path: Optional[Union[str, Path]]

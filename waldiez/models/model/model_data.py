@@ -1,4 +1,4 @@
-"""Waldie Model Data."""
+"""Waldiez Model Data."""
 
 from typing import Dict, Optional
 
@@ -41,7 +41,7 @@ class WaldiezModelPrice(WaldiezBase):
 
 # pylint: disable=line-too-long
 class WaldiezModelData(WaldiezBase):
-    """Waldie Model Data.
+    """Waldiez Model Data.
 
     Attributes
     ----------

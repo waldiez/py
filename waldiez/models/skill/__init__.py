@@ -1,4 +1,4 @@
-"""Waldie Skill related models."""
+"""Waldiez Skill related models."""
 
 from .skill import WaldiezSkill
 from .skill_data import WaldiezSkillData

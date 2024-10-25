@@ -1,4 +1,4 @@
-"""Waldie agents model."""
+"""Waldiez agents model."""
 
 from typing import Iterator, List
 
@@ -14,7 +14,7 @@ from .user_proxy import WaldiezUserProxy
 
 
 class WaldiezAgents(WaldiezBase):
-    """Waldie agents model.
+    """Waldiez agents model.
 
     Attributes
     ----------

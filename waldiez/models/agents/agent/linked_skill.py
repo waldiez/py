@@ -1,4 +1,4 @@
-"""Waldie Agent Skill Model."""
+"""Waldiez Agent Skill Model."""
 
 from pydantic import Field
 from typing_extensions import Annotated
@@ -7,7 +7,7 @@ from ...common import WaldiezBase
 
 
 class WaldiezAgentLinkedSkill(WaldiezBase):
-    """Waldie Agent Linked Skill.
+    """Waldiez Agent Linked Skill.
 
     Attributes
     ----------

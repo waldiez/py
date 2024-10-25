@@ -1,4 +1,4 @@
-"""Waldie Message Model."""
+"""Waldiez Message Model."""
 
 from typing import Any, Dict, Optional, Tuple, Union
 
@@ -14,7 +14,7 @@ WaldiezChatMessageType = Literal[
 
 class WaldiezChatMessage(WaldiezBase):
     """
-    Waldie Message.
+    Waldiez Message.
 
     A generic message with a type and content.
 

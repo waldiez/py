@@ -1,4 +1,4 @@
-"""Waldie flow data."""
+"""Waldiez flow data."""
 
 from typing import Any, Dict, List
 

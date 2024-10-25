@@ -1,1 +1,1 @@
-"""Waldie tests."""
+"""Waldiez tests."""

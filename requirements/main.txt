@@ -11,7 +11,7 @@ attrs==24.2.0
     #   jsonschema
     #   referencing
     #   twisted
-autogen-agentchat==0.2.36
+autogen-agentchat==0.2.37
     # via waldiez (pyproject.toml)
 automat==24.8.1
     # via twisted

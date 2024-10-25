@@ -1,4 +1,4 @@
-"""Waldie Agent Teachability."""
+"""Waldiez Agent Teachability."""
 
 from pydantic import Field
 from typing_extensions import Annotated, Literal
@@ -7,7 +7,7 @@ from ...common import WaldiezBase
 
 
 class WaldiezAgentTeachability(WaldiezBase):
-    """Waldie Agent Teachability.
+    """Waldiez Agent Teachability.
 
     Attributes
     ----------
