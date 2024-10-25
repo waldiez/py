@@ -197,7 +197,7 @@ def custom_embedding_function():
         "custom_token_count_function": "custom_token_count_function_rag_user",
         "custom_text_split_function": "custom_text_split_function_rag_user",
         "vector_db": ChromaVectorDB(
-            client=chromadb.PersistentClient(path="{local_path}"),
+            client=chromadb.PersistentClient(path=r"{local_path}"),
             embedding_function=custom_embedding_function_rag_user,
         ),
     }}"""
@@ -210,7 +210,7 @@ def custom_embedding_function():
     assert (
         rag_content_before_agent
         == f"""
-rag_user_client = chromadb.PersistentClient(path="{local_path}")
+rag_user_client = chromadb.PersistentClient(path=r"{local_path}")
 try:
     rag_user_client.get_collection("autogen-docs")
 except ValueError:

@@ -88,7 +88,7 @@ def test_get_qdrant_db_args_local_storage() -> None:
     # Then
     local_path = os.path.join(os.getcwd(), "local_storage_path")
     assert kwargs == (
-        f'            client=QdrantClient(location="{local_path}"),\n'
+        f'            client=QdrantClient(location=r"{local_path}"),\n'
         '            embedding_function=FastEmbedEmbeddingFunction(model_name="model"),\n'
     )
     assert embeddings_func == ""
