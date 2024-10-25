@@ -1,10 +1,10 @@
 # Waldiez
 
-![CI Build](https://github.com/waldiez/py/actions/workflows/main.yaml/badge.svg) [![Coverage Status](https://coveralls.io/repos/github/waldiez/py/badge.svg)](https://coveralls.io/github/waldiez/py)
+![CI Build](https://github.com/waldiez/py/actions/workflows/main.yaml/badge.svg) [![Coverage Status](https://coveralls.io/repos/github/waldiez/py/badge.svg)](https://coveralls.io/github/waldiez/py) [![PyPI version](https://badge.fury.io/py/waldiez.svg)](https://badge.fury.io/py/waldiez)
 
 Translate a Waldiez flow:
 
-[![Flow](./docs/flow.png)](./docs/flow.png)
+![Flow](https://raw.githubusercontent.com/waldiez/py/refs/heads/main/docs/flow.png)
 
 To a python script or a jupyter notebook with the corresponding [autogen](https://github.com/microsoft/autogen/) agents and chats.
 
@@ -17,14 +17,13 @@ To a python script or a jupyter notebook with the corresponding [autogen](https:
 
 ## Installation
 
-<!-- 
 On PyPI:
 
 ```bash
 python -m pip install waldiez
-``` -->
+```
 
-From this repository:
+From the repository:
 
 ```bash
 python -m pip install git+https://github.com/waldiez/py.git
