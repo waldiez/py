@@ -47,7 +47,7 @@ def test_get_chroma_db_args() -> None:
     # Then
     local_path = os.path.join(os.getcwd(), "local_storage_path")
     assert kwargs == (
-        f'            client=chromadb.PersistentClient(path="{local_path}"),\n'
+        f'            client=chromadb.PersistentClient(path=r"{local_path}"),\n'
         '            embedding_function=SentenceTransformerEmbeddingFunction(model_name="model"),\n'
     )
     assert embeddings_func == ""
@@ -56,7 +56,7 @@ def test_get_chroma_db_args() -> None:
         "from chromadb.utils.embedding_functions import SentenceTransformerEmbeddingFunction",
     }
     assert before == (
-        f'rag_user_client = chromadb.PersistentClient(path="{local_path}")\n'
+        f'rag_user_client = chromadb.PersistentClient(path=r"{local_path}")\n'
         'rag_user_client.get_or_create_collection("collection_name")\n'
     )
 

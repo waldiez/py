@@ -48,7 +48,7 @@ def test_get_rag_user_vector_db_string_chroma() -> None:
     # Then
     local_path = os.path.join(os.getcwd(), "local_storage_path")
     assert before == (
-        f'\nrag_user_client = chromadb.PersistentClient(path="{local_path}")\n'
+        f'\nrag_user_client = chromadb.PersistentClient(path=r"{local_path}")\n'
         "try:\n"
         '    rag_user_client.get_collection("collection_name")\n'
         "except ValueError:\n"
@@ -56,7 +56,7 @@ def test_get_rag_user_vector_db_string_chroma() -> None:
     )
     assert arg == (
         "ChromaVectorDB(\n"
-        f'            client=chromadb.PersistentClient(path="{local_path}"),\n'
+        f'            client=chromadb.PersistentClient(path=r"{local_path}"),\n'
         '            embedding_function=SentenceTransformerEmbeddingFunction(model_name="model"),\n'
         "        )"
     )
@@ -243,7 +243,7 @@ def test_get_rag_user_vector_db_string_custom_embedding() -> None:
     assert (
         before
         == f"""
-rag_user_client = chromadb.PersistentClient(path="{local_path}")
+rag_user_client = chromadb.PersistentClient(path=r"{local_path}")
 try:
     rag_user_client.get_collection("collection_name")
 except ValueError:
@@ -260,7 +260,7 @@ def custom_embedding_function_rag_user():
     )
     assert arg == (
         "ChromaVectorDB(\n"
-        f'            client=chromadb.PersistentClient(path="{local_path}"),\n'
+        f'            client=chromadb.PersistentClient(path=r"{local_path}"),\n'
         "            embedding_function=custom_embedding_function_rag_user,\n"
         "        )"
     )
@@ -311,7 +311,7 @@ def test_get_rag_user_vector_db_string_with_metadata() -> None:
     assert (
         before
         == f"""
-rag_user_client = chromadb.PersistentClient(path="{local_path}")
+rag_user_client = chromadb.PersistentClient(path=r"{local_path}")
 try:
     rag_user_client.get_collection("collection_name")
 except ValueError:
@@ -320,7 +320,7 @@ except ValueError:
     )
     assert arg == (
         "ChromaVectorDB(\n"
-        f'            client=chromadb.PersistentClient(path="{local_path}"),\n'
+        f'            client=chromadb.PersistentClient(path=r"{local_path}"),\n'
         '            embedding_function=SentenceTransformerEmbeddingFunction(model_name="model"),\n'
         "            metadata={\n"
         '                "hnsw:space": "ip",\n'

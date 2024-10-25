@@ -28,8 +28,11 @@ def _get_chroma_client_string(agent: WaldiezRagUser) -> Tuple[str, str]:
         agent.retrieve_config.db_config.use_local_storage
         and agent.retrieve_config.db_config.local_storage_path is not None
     ):
+        # on windows, we get:
+        # SyntaxError: (unicode error) 'unicodeescape' codec can't decode bytes
+        # in position 2-3: truncated \UXXXXXXXX escape
         local_path = Path(agent.retrieve_config.db_config.local_storage_path)
-        client_str += f'PersistentClient(path="{local_path}")'
+        client_str += f'PersistentClient(path=r"{local_path}")'
     else:
         client_str += "Client()"
     return client_str, to_import
