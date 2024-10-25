@@ -3,6 +3,7 @@
 from waldiez.exporting.utils.object_string import get_object_string
 
 
+# fmt: off
 def test_get_object_string() -> None:
     """Test get_object_string."""
     # Given
@@ -45,6 +46,7 @@ def test_get_object_string() -> None:
             "key4": "value4"
         }
     }"""
+    assert result == excepted
     # Given
     obj3 = ["value1", {"value2": {"key1": 4}}]
     # When
@@ -58,3 +60,19 @@ def test_get_object_string() -> None:
             }
         }
     ]"""
+
+    assert result == excepted
+
+    # Given
+    obj4 = {
+        "key": 'r"string"'
+    }
+    # When
+    result = get_object_string(obj4, tabs=1)
+    # Then
+    excepted = """{
+        "key": r"string"
+    }"""
+    assert result == excepted
+
+# fmt: on

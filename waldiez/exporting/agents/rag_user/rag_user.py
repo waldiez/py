@@ -1,6 +1,6 @@
 """RAG User related exporting utils."""
 
-from typing import Dict, Set, Tuple
+from typing import Dict, List, Set, Tuple, Union
 
 from waldiez.models import (
     WaldiezAgent,
@@ -9,7 +9,7 @@ from waldiez.models import (
     WaldiezRagUserRetrieveConfig,
 )
 
-from ...utils import get_object_string
+from ...utils import get_object_string, get_path_string
 from .vector_db import get_rag_user_vector_db_string
 
 
@@ -60,6 +60,7 @@ def get_rag_user_retrieve_config_str(
             "\n\n"
         )
         args_dict["custom_text_split_function"] = text_split_arg_name
+    # docs_path = args_dict.pop("docs_path", [])
     args_content = get_object_string(args_dict)
     # get the last line (where the dict ends)
     args_parts = args_content.split("\n")
@@ -131,9 +132,9 @@ def _get_args_dict(
     agent: WaldiezRagUser,
     retrieve_config: WaldiezRagUserRetrieveConfig,
     model_names: Dict[str, str],
-) -> Dict[str, str]:
+) -> Dict[str, Union[str, List[str]]]:
     model_arg = _get_model_arg(agent, retrieve_config, model_names)
-    args_dict = {
+    args_dict: Dict[str, Union[str, List[str]]] = {
         "task": retrieve_config.task,
         "model": model_arg,
     }
@@ -142,13 +143,23 @@ def _get_args_dict(
         "context_max_tokens",
         "customized_prompt",
         "customized_answer_prefix",
-        "docs_path",
     ]
     for arg in optional_args:
         arg_value = getattr(retrieve_config, arg)
         if arg_value is not None:
             args_dict[arg] = arg_value
             args_dict[arg] = getattr(retrieve_config, arg)
+    docs_path: Union[str, List[str]] = []
+    if retrieve_config.docs_path:
+        docs_path = (
+            retrieve_config.docs_path
+            if isinstance(retrieve_config.docs_path, list)
+            else [retrieve_config.docs_path]
+        )
+        docs_path = [get_path_string(path) for path in docs_path]
+        args_dict["docs_path"] = docs_path
+    if docs_path:
+        args_dict["docs_path"] = docs_path
     non_optional_args = [
         "new_docs",
         "update_context",

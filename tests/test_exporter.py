@@ -1,5 +1,6 @@
 """Test WaldiezExporter."""
 
+import uuid
 from pathlib import Path
 
 import pytest
@@ -20,7 +21,7 @@ def test_export_load_from_file(waldiez_flow: WaldiezFlow) -> None:
     """
     waldiez = Waldiez(flow=waldiez_flow)
     exporter = WaldiezExporter(waldiez)
-    output_file = Path("flow.waldiez")
+    output_file = Path(f"{uuid.uuid4().hex}.waldiez")
     exporter.export(str(output_file))
     assert output_file.exists()
     WaldiezExporter.load(output_file)
@@ -43,7 +44,7 @@ def test_exporter_use_directory(waldiez_flow: WaldiezFlow) -> None:
     """
     waldiez = Waldiez(flow=waldiez_flow)
     exporter = WaldiezExporter(waldiez)
-    output_dir = Path("output_dir.waldiez")
+    output_dir = Path(f"{uuid.uuid4().hex}.waldiez")
     output_dir.mkdir()
     with pytest.raises(IsADirectoryError):
         exporter.export(output_dir)
@@ -60,7 +61,7 @@ def test_exporter_file_exists(waldiez_flow: WaldiezFlow) -> None:
     """
     waldiez = Waldiez(flow=waldiez_flow)
     exporter = WaldiezExporter(waldiez)
-    output_file = Path("flow.waldiez")
+    output_file = Path(f"{uuid.uuid4().hex}.waldiez")
     output_file.touch()
     with pytest.raises(FileExistsError):
         exporter.export(output_file)
@@ -78,7 +79,7 @@ def test_exporter_force(waldiez_flow: WaldiezFlow) -> None:
     """
     waldiez = Waldiez(flow=waldiez_flow)
     exporter = WaldiezExporter(waldiez)
-    output_file = Path("flow.waldiez")
+    output_file = Path(f"{uuid.uuid4().hex}.waldiez")
     output_file.touch()
     exporter.export(output_file, force=True)
     output_file.unlink(missing_ok=True)
@@ -94,7 +95,7 @@ def test_export_to_py(waldiez_flow: WaldiezFlow) -> None:
     """
     waldiez = Waldiez(flow=waldiez_flow)
     exporter = WaldiezExporter(waldiez)
-    output_file = Path("waldiez.py")
+    output_file = Path(f"{uuid.uuid4().hex}.py")
     exporter.export(output_file)
     assert output_file.exists()
     output_file.unlink(missing_ok=True)
@@ -110,7 +111,7 @@ def test_export_to_ipynb(waldiez_flow: WaldiezFlow) -> None:
     """
     waldiez = Waldiez(flow=waldiez_flow)
     exporter = WaldiezExporter(waldiez)
-    output_file = Path("waldiez.ipynb")
+    output_file = Path(f"{uuid.uuid4().hex}.ipynb")
     exporter.export(output_file)
     assert output_file.exists()
     output_file.unlink(missing_ok=True)
@@ -126,7 +127,7 @@ def test_export_to_waldiez(waldiez_flow: WaldiezFlow) -> None:
     """
     waldiez = Waldiez(flow=waldiez_flow)
     exporter = WaldiezExporter(waldiez)
-    output_file = Path("waldiez.waldiez")
+    output_file = Path(f"{uuid.uuid4().hex}.waldiez")
     exporter.export(output_file)
     assert output_file.exists()
     output_file.unlink(missing_ok=True)
@@ -142,7 +143,7 @@ def test_export_to_invalid_extension(waldiez_flow: WaldiezFlow) -> None:
     """
     waldiez = Waldiez(flow=waldiez_flow)
     exporter = WaldiezExporter(waldiez)
-    output_file = Path("waldiez.invalid")
+    output_file = Path(f"{uuid.uuid4().hex}.invalid")
     with pytest.raises(ValueError):
         exporter.export(output_file)
 
@@ -152,7 +153,7 @@ def test_export_complex_flow() -> None:
     flow = get_flow()
     waldiez = Waldiez(flow=flow)
     exporter = WaldiezExporter(waldiez)
-    output_file = Path("flow.py")
+    output_file = Path(f"{uuid.uuid4().hex}.py")
     exporter.export(output_file)
     assert output_file.exists()
     output_file.unlink()

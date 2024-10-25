@@ -47,7 +47,6 @@ def test_waldiez_flow() -> None:
         data=WaldiezUserProxyData(
             system_message="User message",
             human_input_mode="ALWAYS",
-            max_tokens=100,
             max_consecutive_auto_reply=1,
             code_execution_config=False,
             agent_default_auto_reply="User auto reply",
@@ -82,7 +81,6 @@ def test_waldiez_flow() -> None:
         data=WaldiezAssistantData(
             system_message="Assistant message",
             human_input_mode="ALWAYS",
-            max_tokens=100,
             max_consecutive_auto_reply=1,
             code_execution_config=False,
             agent_default_auto_reply="Assistant auto reply",
@@ -117,7 +115,6 @@ def test_waldiez_flow() -> None:
         data=WaldiezGroupManagerData(
             system_message="Manager message",
             human_input_mode="ALWAYS",
-            max_tokens=100,
             max_consecutive_auto_reply=1,
             code_execution_config=False,
             agent_default_auto_reply="Manager auto reply",
@@ -167,7 +164,6 @@ def test_waldiez_flow() -> None:
         data=WaldiezRagUserData(
             system_message="Rag user message",
             human_input_mode="ALWAYS",
-            max_tokens=100,
             max_consecutive_auto_reply=1,
             code_execution_config=False,
             agent_default_auto_reply="Rag user auto reply",
@@ -457,7 +453,6 @@ def test_waldiez_flow() -> None:
         data=WaldiezAssistantData(
             system_message="Assistant message",
             human_input_mode="ALWAYS",
-            max_tokens=100,
             max_consecutive_auto_reply=1,
             code_execution_config=False,
             agent_default_auto_reply="Assistant auto reply",

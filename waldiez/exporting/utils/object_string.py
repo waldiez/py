@@ -74,6 +74,8 @@ def get_object_string(obj: Any, tabs: int = 1) -> str:
         return f"[{to_return}]"
 
     if isinstance(obj, str):
+        if obj.startswith("r'") or obj.startswith('r"'):
+            return obj
         return f'"{obj}"'
 
     if obj is None:

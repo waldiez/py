@@ -39,7 +39,6 @@ def get_runnable_flow() -> WaldiezFlow:
         data=WaldiezUserProxyData(
             system_message=None,
             human_input_mode="ALWAYS",
-            max_tokens=100,
             code_execution_config=False,
             agent_default_auto_reply="I am a user.",
             max_consecutive_auto_reply=5,
@@ -74,7 +73,6 @@ def get_runnable_flow() -> WaldiezFlow:
         data=WaldiezAssistantData(
             system_message=None,
             human_input_mode="NEVER",
-            max_tokens=100,
             code_execution_config=False,
             agent_default_auto_reply="I am an assistant.",
             max_consecutive_auto_reply=5,
