@@ -1,4 +1,4 @@
-"""Waldie RAG user agent data."""
+"""Waldiez RAG user agent data."""
 
 from pydantic import Field
 from typing_extensions import Annotated

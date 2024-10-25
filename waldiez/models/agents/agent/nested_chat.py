@@ -1,4 +1,4 @@
-"""Waldie Agent Nested Chat."""
+"""Waldiez Agent Nested Chat."""
 
 from typing import List
 
@@ -9,7 +9,7 @@ from ...common import WaldiezBase
 
 
 class WaldiezAgentNestedChatMessage(WaldiezBase):
-    """Waldie Agent nested chat message.
+    """Waldiez Agent nested chat message.
 
     A reference to a chat's message or reply in a nested chat
 
@@ -36,7 +36,7 @@ class WaldiezAgentNestedChatMessage(WaldiezBase):
 
 
 class WaldiezAgentNestedChat(WaldiezBase):
-    """Waldie Agent Nested Chat.
+    """Waldiez Agent Nested Chat.
 
     Attributes
     ----------

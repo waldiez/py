@@ -1,4 +1,4 @@
-"""Waldie chat related models."""
+"""Waldiez chat related models."""
 
 from .chat import WaldiezChat
 from .chat_data import WaldiezChatData

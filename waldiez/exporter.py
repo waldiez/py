@@ -150,11 +150,11 @@ class WaldiezExporter:
         if path.exists():
             if force is False:
                 raise FileExistsError(f"File already exists: {path}")
-            path.unlink()
+            path.unlink(missing_ok=True)
         path.parent.mkdir(parents=True, exist_ok=True)
         extension = path.suffix
         if extension == ".waldiez":
-            self.to_waldie(path)
+            self.to_waldiez(path)
         elif extension == ".py":
             self.to_py(path)
         elif extension == ".ipynb":
@@ -210,7 +210,7 @@ class WaldiezExporter:
         if not os.path.exists(ipynb_path):  # pragma: no cover
             raise RuntimeError("Could not generate notebook")
         Path(ipynb_path).rename(ipynb_path.replace(".tmp.ipynb", ".ipynb"))
-        py_path.unlink()
+        py_path.unlink(missing_ok=True)
 
     def to_py(self, path: Path) -> None:
         """Export waldiez flow to python script.
@@ -242,8 +242,8 @@ class WaldiezExporter:
         with open(path, "w", encoding="utf-8") as file:
             file.write(content)
 
-    def to_waldie(self, file_path: Path) -> None:
-        """Export the Waldie instance.
+    def to_waldiez(self, file_path: Path) -> None:
+        """Export the Waldiez instance.
 
         Parameters
         ----------

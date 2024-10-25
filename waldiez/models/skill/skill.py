@@ -1,4 +1,4 @@
-"""Waldie Skill model."""
+"""Waldiez Skill model."""
 
 from typing import Dict, List
 
@@ -10,7 +10,7 @@ from .skill_data import WaldiezSkillData
 
 
 class WaldiezSkill(WaldiezBase):
-    """Waldie Skill.
+    """Waldiez Skill.
 
     Attributes
     ----------

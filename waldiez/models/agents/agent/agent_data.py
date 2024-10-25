@@ -15,7 +15,7 @@ from .termination_message import WaldiezAgentTerminationMessage
 
 
 class WaldiezAgentData(WaldiezBase):
-    """Waldie Agent Data.
+    """Waldiez Agent Data.
 
     Attributes
     ----------

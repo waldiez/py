@@ -13,7 +13,7 @@ WaldiezAgentType = Literal["user", "assistant", "manager", "rag_user"]
 
 
 class WaldiezAgent(WaldiezBase):
-    """Waldie Agent.
+    """Waldiez Agent.
 
     Attributes
     ----------

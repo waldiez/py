@@ -1,4 +1,4 @@
-"""Waldie model."""
+"""Waldiez model."""
 
 from .model import WaldiezModel
 from .model_data import WaldiezModelAPIType, WaldiezModelData, WaldiezModelPrice

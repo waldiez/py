@@ -1,4 +1,4 @@
-"""Waldie chat model."""
+"""Waldiez chat model."""
 
 from typing import Any, Dict, Optional
 

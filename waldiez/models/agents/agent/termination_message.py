@@ -1,4 +1,4 @@
-"""Waldie Agent Termination Message Check."""
+"""Waldiez Agent Termination Message Check."""
 
 from typing import List, Optional
 
@@ -10,7 +10,7 @@ from ...common import WaldiezBase, WaldiezMethodName, check_function
 
 
 class WaldiezAgentTerminationMessage(WaldiezBase):
-    """Waldie Agent Termination Message Check.
+    """Waldiez Agent Termination Message Check.
 
     Attributes
     ----------
