@@ -136,7 +136,6 @@ def get_user_proxy(agent_id: str = "wa-1") -> WaldiezUserProxy:
         data=WaldiezUserProxyData(
             system_message=None,
             human_input_mode="ALWAYS",
-            max_tokens=100,
             code_execution_config=WaldiezAgentCodeExecutionConfig(
                 work_dir="coding",
                 use_docker=None,
@@ -224,7 +223,6 @@ def get_assistant(agent_id: str = "wa-2") -> WaldiezAssistant:
         data=WaldiezAssistantData(
             system_message=None,
             human_input_mode="NEVER",
-            max_tokens=100,
             code_execution_config=False,
             agent_default_auto_reply="I am an assistant.",
             max_consecutive_auto_reply=5,
@@ -287,7 +285,6 @@ def get_group_manager(agent_id: str = "wa-3") -> WaldiezGroupManager:
             send_introductions=False,
             system_message=None,
             human_input_mode="NEVER",
-            max_tokens=100,
             code_execution_config=False,
             agent_default_auto_reply="I am a group manager.",
             max_consecutive_auto_reply=5,
@@ -350,7 +347,6 @@ def get_rag_user(agent_id: str = "wa-4") -> WaldiezRagUser:
         data=WaldiezRagUserData(
             system_message=None,
             human_input_mode="ALWAYS",
-            max_tokens=100,
             code_execution_config=False,
             agent_default_auto_reply="I am a group manager.",
             max_consecutive_auto_reply=5,
@@ -376,7 +372,12 @@ def get_rag_user(agent_id: str = "wa-4") -> WaldiezRagUser:
                     wait_until_index_ready=None,
                     metadata=None,
                 ),
-                docs_path="documents",
+                docs_path=[
+                    "documents",
+                    "C:\\Users\\username\\Documents\\file.txt",
+                    "/home/username/Documents/",
+                    "https://example.com/file.txt",
+                ],
                 new_docs=True,
                 model=None,
                 chunk_token_size=100,

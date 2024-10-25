@@ -28,7 +28,6 @@ def test_waldiez_agent() -> None:
         data=WaldiezAgentData(
             system_message="system_message",
             human_input_mode="NEVER",
-            max_tokens=100,
             agent_default_auto_reply="auto_reply",
             max_consecutive_auto_reply=5,
             termination=WaldiezAgentTerminationMessage(

@@ -293,7 +293,6 @@ def test_export_rag_user() -> None:
             agent_default_auto_reply="I am the RAG user.",
             human_input_mode="ALWAYS",
             system_message="Do stuff using docs.",
-            max_tokens=100,
             max_consecutive_auto_reply=2,
             model_ids=[],
             skills=[],

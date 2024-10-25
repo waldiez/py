@@ -1,7 +1,7 @@
 """Test waldiez.exporting.agents.rag_user.rag_user.*."""
 
 import os
-from typing import Optional
+from typing import Optional, Tuple
 
 from waldiez.exporting.agents.rag_user.rag_user import (
     get_rag_user_extras,
@@ -17,7 +17,18 @@ from waldiez.models import (
 # pylint: disable=line-too-long
 
 
+def _get_a_doc_path() -> Tuple[str, str]:
+    """Get a doc path."""
+    path = "/home/username/Documents/"
+    expecting = "/home/username/Documents/"
+    if os.name == "nt":
+        expecting = "C:\\Users\\username\\Documents\\ New Folder\\file.txt"
+        path = r"C:\Users\username\Documents\ New Folder\file.txt"
+    return path, expecting
+
+
 def _get_rag_user(
+    doc_path: str,
     local_path: Optional[str] = None,
     custom_embedding: Optional[str] = None,
     custom_token_count: Optional[str] = None,
@@ -36,6 +47,11 @@ def _get_rag_user(
             model_ids=["wm-1"],
             retrieve_config=WaldiezRagUserRetrieveConfig(  # type: ignore
                 vector_db="chroma",
+                docs_path=[
+                    doc_path,
+                    "https://example.com/file.txt",
+                    r"file:///home/username/Documents/ New Folder/file.txt",
+                ],
                 db_config=WaldiezRagUserVectorDbConfig(  # type: ignore
                     use_local_storage=local_path is not None,
                     local_storage_path=local_path,
@@ -53,7 +69,8 @@ def _get_rag_user(
 
 def test_get_rag_user_extras() -> None:
     """Test get_rag_user_extras()."""
-    rag_user = _get_rag_user()
+    doc_path, expected_path = _get_a_doc_path()
+    rag_user = _get_rag_user(doc_path)
     agent_name = "rag_user"
     model_names = {"wm-1": "model_1"}
     before_agent_string, retrieve_arg, db_imports = get_rag_user_extras(
@@ -73,6 +90,13 @@ def test_get_rag_user_extras() -> None:
         "task": "default",
         "model": "model_1",
         "customized_answer_prefix": "",
+        "docs_path": ["""
+        + f"""
+            "{expected_path}","""
+        + """
+            "https://example.com/file.txt",
+            "file:///home/username/Documents/ New Folder/file.txt"
+        ],
         "new_docs": True,
         "update_context": True,
         "get_or_create": False,
@@ -101,7 +125,10 @@ def test_get_rag_user_extras_with_custom_embedding_function() -> None:
 def custom_embedding_function():
     return text.split
 """
-    rag_user = _get_rag_user(custom_embedding=custom_embedding_function)
+    doc_path, expected_path = _get_a_doc_path()
+    rag_user = _get_rag_user(
+        doc_path, custom_embedding=custom_embedding_function
+    )
     agent_name = "rag_user"
     model_names = {"wm-1": "model_1"}
     before_agent_string, retrieve_arg, db_imports = get_rag_user_extras(
@@ -130,6 +157,13 @@ def custom_embedding_function_rag_user():
         "task": "default",
         "model": "model_1",
         "customized_answer_prefix": "",
+        "docs_path": ["""
+        + f"""
+            "{expected_path}","""
+        + """
+            "https://example.com/file.txt",
+            "file:///home/username/Documents/ New Folder/file.txt"
+        ],
         "new_docs": True,
         "update_context": True,
         "get_or_create": False,
@@ -165,7 +199,9 @@ def custom_text_split_function(text, max_tokens, chunk_mode, must_break_at_empty
 def custom_embedding_function():
     return text.split
 """
+    doc_path, expected_path = _get_a_doc_path()
     rag_user = _get_rag_user(
+        doc_path,
         local_path="data",
         custom_embedding=custom_embedding_function,
         custom_token_count=custom_token_count_function,
@@ -185,6 +221,11 @@ def custom_embedding_function():
         "task": "default",
         "model": "model_1",
         "customized_answer_prefix": "",
+        "docs_path": [
+            "{expected_path}",
+            "https://example.com/file.txt",
+            "file:///home/username/Documents/ New Folder/file.txt"
+        ],
         "new_docs": True,
         "update_context": True,
         "get_or_create": False,

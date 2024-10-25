@@ -24,9 +24,7 @@ class WaldiezAgentData(WaldiezBase):
     human_input_mode : Literal["ALWAYS", "NEVER", "TERMINATE"]
         The human input mode to use for the agent.
     code_execution_config : Union[WaldiezAgentCodeExecutionConfig, False]
-        The code execution config. Either False (no execution) or a dict
-    max_tokens : Optional[int]
-        The maximum tokens to use. Default: None (no limit).
+        The code execution config. Either False (no execution) or a dict.
     agent_default_auto_reply : Optional[str]
         The agent's default auto reply when no input is received.
     max_consecutive_auto_reply : Optional[int]
@@ -45,7 +43,7 @@ class WaldiezAgentData(WaldiezBase):
     """
 
     model_config = ConfigDict(
-        extra="forbid",
+        extra="ignore",
         alias_generator=to_camel,
         populate_by_name=True,
         # we have a field starting with "model_" (model_ids)
@@ -69,15 +67,6 @@ class WaldiezAgentData(WaldiezBase):
             title="Human input mode",
             description="The human input mode to use for the agent.",
             alias="humanInputMode",
-        ),
-    ]
-    max_tokens: Annotated[
-        Optional[int],
-        Field(
-            None,
-            title="Max tokens",
-            description="The maximum tokens to use. Default: None (no limit).",
-            alias="maxTokens",
         ),
     ]
     code_execution_config: Annotated[

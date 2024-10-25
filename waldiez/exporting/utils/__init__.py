@@ -15,12 +15,14 @@ from .naming import (
     get_valid_python_variable_name,
 )
 from .object_string import get_object_string
+from .path_check import get_path_string
 
 __all__ = [
     "add_autogen_dot_import",
     "comment",
     "get_logging_start_string",
     "get_logging_stop_string",
+    "get_path_string",
     "get_pylint_ignore_comment",
     "get_sqlite_to_csv_string",
     "get_sqlite_to_csv_call_string",

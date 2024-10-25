@@ -46,7 +46,9 @@ def test_waldiez_rag_user_vector_db_config_local_storage() -> None:
     assert vector_db_config.model == "all-MiniLM-L6-v2"
     assert not vector_db_config.use_memory
     assert vector_db_config.use_local_storage
-    assert vector_db_config.local_storage_path == os.getcwd() + "/docs"
+    assert vector_db_config.local_storage_path == os.path.join(
+        os.getcwd(), "docs"
+    )
     assert vector_db_config.connection_url is None
     assert vector_db_config.wait_until_index_ready is None
     assert vector_db_config.wait_until_document_ready is None

@@ -12,7 +12,6 @@ def test_waldiez_agent_data() -> None:
     agent_data = WaldiezAgentData(
         system_message="system_message",
         human_input_mode="NEVER",
-        max_tokens=100,
         code_execution_config=False,
         agent_default_auto_reply="auto_reply",
         max_consecutive_auto_reply=5,
@@ -35,7 +34,6 @@ def test_waldiez_agent_data() -> None:
     )
     assert agent_data.system_message == "system_message"
     assert agent_data.human_input_mode == "NEVER"
-    assert agent_data.max_tokens == 100
     assert not agent_data.code_execution_config
     assert agent_data.agent_default_auto_reply == "auto_reply"
     assert agent_data.max_consecutive_auto_reply == 5
