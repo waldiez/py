@@ -90,19 +90,3 @@ jobs:
         gh release upload
         '${{ github.ref_name }}' dist/**
         --repo '${{ github.repository }}'
-    - name: Read changelog
-      id: changelog
-      run: echo "changelog=$(bun changelog)" >> $GITHUB_OUTPUT
-    - name: Release
-      id: create_release
-      if: steps.changelog.outputs.changelog != ''
-      uses: softprops/action-gh-release@v2
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        tag_name: ${{ github.ref }}
-        name: Release ${{ github.ref }}
-        # body: the changelog
-        body: ${{ steps.changelog.outputs.changelog }}
-        draft: false
-        prerelease: false
