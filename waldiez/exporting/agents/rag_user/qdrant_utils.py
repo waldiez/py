@@ -1,5 +1,6 @@
 """Get qdrant db related imports and content."""
 
+from pathlib import Path
 from typing import Set, Tuple
 
 from waldiez.models import WaldiezRagUser
@@ -28,7 +29,7 @@ def _get_qdrant_client_string(agent: WaldiezRagUser) -> Tuple[str, str]:
         agent.retrieve_config.db_config.use_local_storage
         and agent.retrieve_config.db_config.local_storage_path
     ):
-        local_path = agent.retrieve_config.db_config.local_storage_path
+        local_path = Path(agent.retrieve_config.db_config.local_storage_path)
         client_str += f'location="{local_path}")'
     elif agent.retrieve_config.db_config.connection_url:
         client_str += (

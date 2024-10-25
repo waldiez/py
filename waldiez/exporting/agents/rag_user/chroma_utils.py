@@ -1,5 +1,6 @@
 """Get chroma db related imports and content."""
 
+from pathlib import Path
 from typing import Set, Tuple
 
 from waldiez.models import WaldiezRagUser
@@ -27,7 +28,7 @@ def _get_chroma_client_string(agent: WaldiezRagUser) -> Tuple[str, str]:
         agent.retrieve_config.db_config.use_local_storage
         and agent.retrieve_config.db_config.local_storage_path is not None
     ):
-        local_path = agent.retrieve_config.db_config.local_storage_path
+        local_path = Path(agent.retrieve_config.db_config.local_storage_path)
         client_str += f'PersistentClient(path="{local_path}")'
     else:
         client_str += "Client()"
