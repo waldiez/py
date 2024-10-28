@@ -1,5 +1,9 @@
 # Changelog
 
+## v0.1.5
+
+- Fix Quoting issue in chat messages
+
 ## v0.1.4
 
 - Fix #40 - AttributeError: 'NoneType' object has no attribute 'endswith' with keyword termination.

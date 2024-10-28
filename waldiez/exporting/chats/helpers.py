@@ -219,7 +219,7 @@ def _get_chat_message_string(
     ):
         return "None", None
     if chat.message.type == "string":
-        return chat.message.content, None
+        return get_escaped_string(chat.message.content), None
     chat_name = chat_names[chat.id]
     original_function_name = "callable_message"
     method_args = "sender, recipient, context"
