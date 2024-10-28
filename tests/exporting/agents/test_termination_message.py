@@ -96,7 +96,7 @@ def test_get_is_termination_message() -> None:
     )
     agent_name = "agent_name"
     expected_output = (
-        'lambda x: any(x.get("content", "").endswith(keyword) for keyword in ["stop", "terminate"])',
+        'lambda x: any(x.get("content", "") and x.get("content", "").endswith(keyword) for keyword in ["stop", "terminate"])',
         "",
     )
     # When

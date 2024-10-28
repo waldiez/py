@@ -32,7 +32,7 @@ def test_waldiez_agent_termination_message_keyword() -> None:
         method_content=None,
     )
     assert termination_message.string == (
-        'lambda x: any(x.get("content", "").endswith(keyword) for keyword in ["keyword-1", "keyword-2"])'
+        'lambda x: any(x.get("content", "") and x.get("content", "").endswith(keyword) for keyword in ["keyword-1", "keyword-2"])'
     )
 
     termination_message = WaldiezAgentTerminationMessage(

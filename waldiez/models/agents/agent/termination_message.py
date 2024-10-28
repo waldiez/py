@@ -136,7 +136,8 @@ class WaldiezAgentTerminationMessage(WaldiezBase):
             )
         if self.criterion == "ending":
             self._string = (
-                'lambda x: any(x.get("content", "").endswith(keyword) '
+                'lambda x: any(x.get("content", "") and '
+                'x.get("content", "").endswith(keyword) '
                 f"for keyword in [{keywords_str}])"
             )
         if self.criterion == "exact":
