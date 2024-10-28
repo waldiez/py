@@ -6,7 +6,8 @@ export_models
     Get the string representations of the LLM configs.
 """
 
-from typing import Dict, List
+from pathlib import Path
+from typing import Dict, List, Optional
 
 from waldiez.models import WaldiezModel
 
@@ -17,6 +18,7 @@ def export_models(
     all_models: List[WaldiezModel],
     model_names: Dict[str, str],
     notebook: bool,
+    output_dir: Optional[Path] = None,
 ) -> str:
     """Get the string representations of the LLM configs.
 
@@ -28,7 +30,8 @@ def export_models(
         A mapping of model ids to model names.
     notebook : bool
         Whether to export the string for a jupyter notebook.
-
+    output_dir : Optional[Path]
+        The output directory to write the api keys.
     Returns
     -------
     str
@@ -38,7 +41,8 @@ def export_models(
     -------
     ```python
     >>> from waldiez.models import WaldiezModel, WaldiezModelData
-    >>> model = WaldiezModel(
+    >>> api_key = "1234567890"
+    ... model = WaldiezModel(
     ...     id="wm-1",
     ...     name="llama3.1"  ,
     ...     description="A model for llamas :P.",
@@ -46,7 +50,7 @@ def export_models(
     ...     requirements=[],
     ...     data=WaldiezModelData(
     ...         base_url="https://example.com/v1",
-    ...         api_key="1234567890",
+    ...         api_key=api_key,
     ...         api_type="openai",
     ...         temperature=0.5,
     ...         price={
@@ -61,9 +65,9 @@ def export_models(
     # # Models
     llama3_1_llm_config = {
         "config_list": [{
-            "model": "llama3.1",
+            "model": "llama3_1",
             "base_url": "https://example.com/v1",
-            "api_key": "1234567890",
+            "api_key": get_model_api_key("llama3_1"),
             "api_type": "openai",
             "temperature": 0.5,
             "price": [0.0001, 0.0002],
@@ -72,26 +76,22 @@ def export_models(
     ```
     """
     content = get_comment("models", notebook) + "\n"
-    if len(all_models) == 1:
-        only_model = all_models[0]
-        model_name = model_names[only_model.id]
-        llm_config = only_model.get_llm_config()
+    for model in all_models:
+        model_name = model_names[model.id]
+        llm_config = model.get_llm_config()
+        llm_config["api_key"] = f'get_model_api_key("{model_name}")'
         model_dict_str = get_object_string(llm_config, tabs=2)
+        model_dict_str = model_dict_str.replace(
+            f'"get_model_api_key("{model_name}")"',
+            f'get_model_api_key("{model_name}")',
+        )
         content += f"{model_name}_llm_config = " + "{\n"
         content += '    "config_list": [\n'
         content += f"        {model_dict_str}\n"
         content += "    ]\n"
         content += "}\n"
-    else:
-        for model in all_models:
-            model_name = model_names[model.id]
-            llm_config = model.get_llm_config()
-            model_dict_str = get_object_string(llm_config, tabs=2)
-            content += f"{model_name}_llm_config = " + "{\n"
-            content += '    "config_list": [\n'
-            content += f"        {model_dict_str}\n"
-            content += "    ]\n"
-            content += "}\n"
+    if output_dir:
+        write_api_keys(all_models, model_names, output_dir)
     return content
 
 
@@ -191,3 +191,52 @@ def export_agent_models(
     content += "    ]\n"
     content += "}\n"
     return content
+
+
+def write_api_keys(
+    all_models: List[WaldiezModel],
+    model_names: Dict[str, str],
+    output_dir: Path,
+) -> None:
+    """Write the api keys to a separate file.
+
+    Parameters
+    ----------
+    all_models : List[WaldiezModel]
+        All the models in the flow.
+    model_names : Dict[str, str]
+        A mapping of model ids to model names.
+    output_dir : Path
+        The output directory to write the api keys.
+    """
+    # example call: llama3_1_api_key = get_model_api_key("llama3_1")
+    api_keys_content = '''
+"""API keys for the models."""
+
+__ALL_MODEL_API_KEYS__ = {
+'''
+    for model in all_models:
+        model_name = model_names[model.id]
+        api_keys_content += f'    "{model_name}": "{model.api_key}",\n'
+    api_keys_content += "}\n"
+
+    api_keys_content += '''
+
+def get_model_api_key(model_name: str) -> str:
+    """Get the api key for the model.
+
+    Parameters
+    ----------
+    model_name : str
+        The name of the model.
+
+    Returns
+    -------
+    str
+        The api key for the model.
+    """
+    return __ALL_MODEL_API_KEYS__.get(model_name, "")
+'''
+
+    with open(output_dir / "waldiez_api_keys.py", "w", encoding="utf-8") as f:
+        f.write(api_keys_content)

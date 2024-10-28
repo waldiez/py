@@ -80,11 +80,14 @@ def export_flow(
         "import os",
         "import sqlite3",
     }
-    other_imports: Set[str] = {
+    common_imports: Set[str] = {
         "from autogen import Agent",
         "from autogen import ConversableAgent",
         "from autogen import ChatResult",
         "from autogen import runtime_logging",
+    }
+    local_imports: Set[str] = {
+        "from waldiez_api_keys import get_model_api_key",
     }
     skill_imports, _ = export_skills(
         skills=all_skills,
@@ -92,7 +95,7 @@ def export_flow(
         output_dir=output_dir,
     )
     if len(waldiez.chats) > 1:
-        other_imports.add("from autogen import initiate_chats")
+        common_imports.add("from autogen import initiate_chats")
     for agent in all_agents:
         agent_string, after_agent, agent_imports = export_agent(
             agent=agent,
@@ -103,7 +106,7 @@ def export_flow(
             all_skills=all_skills,
             group_chat_members=waldiez.flow.get_group_chat_members(agent.id),
         )
-        other_imports.update(agent_imports)
+        common_imports.update(agent_imports)
         if after_agent:
             skipped_agent_strings += after_agent
         if agent.agent_type == "manager":
@@ -123,11 +126,13 @@ def export_flow(
         all_models=all_models,
         model_names=model_names,
         notebook=notebook,
+        output_dir=output_dir,
     )
     all_imports_string = get_imports_string(
-        imports=other_imports,
+        imports=common_imports,
         builtin_imports=builtin_imports,
         skill_imports=skill_imports,
+        local_imports=local_imports,
     )
     return _combine_strings(
         waldiez=waldiez,
