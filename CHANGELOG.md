@@ -1,5 +1,9 @@
 # Changelog
 
+## v0.1.4
+
+- Fix #40 - AttributeError: 'NoneType' object has no attribute 'endswith' with keyword termination.
+
 ## v0.1.3
 
 - Exporting: Use a separate file for the model API keys
