@@ -88,18 +88,24 @@ def test_get_imports_string() -> None:
         "from autogen import a, b\n\n"
     )
     # Given
-    imports = set()
+    imports = {
+        "pandas",
+        "from sklearn import tree",
+        "import numpy as np",
+    }
     skill_imports = set()
     builtin_imports = {"os", "import sys", "from pathlib import Path"}
     typing_imports = {"Any", "from typing import List"}
-    other_imports = {"pandas", "from sklearn import tree", "import numpy as np"}
+    local_imports = {
+        "from waldiez_api_keys import get_model_api_key",
+    }
     # When/Then
     assert get_imports_string(
         imports,
         skill_imports,
         typing_imports,
         builtin_imports,
-        other_imports,
+        local_imports,
     ) == (
         "import os\n"
         "import sys\n\n"
@@ -109,4 +115,5 @@ def test_get_imports_string() -> None:
         "import numpy as np\n"
         "import pandas\n\n"
         "from sklearn import tree\n\n"
+        "from waldiez_api_keys import get_model_api_key\n\n"
     )

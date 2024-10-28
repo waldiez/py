@@ -65,7 +65,7 @@ def get_imports_string(
     skill_imports: Set[str],
     typing_imports: Optional[Set[str]] = None,
     builtin_imports: Optional[Set[str]] = None,
-    other_imports: Optional[Set[str]] = None,
+    local_imports: Optional[Set[str]] = None,
 ) -> str:
     """Get the imports.
 
@@ -79,8 +79,8 @@ def get_imports_string(
         The typing imports, by default None.
     builtin_imports : Set[str], optional
         The builtin imports, by default None.
-    other_imports : Set[str], optional
-        Other third party imports, by default None.
+    local_imports : Set[str], optional
+        The local imports (like for getting model api keys), by default None.
 
     Returns
     -------
@@ -107,10 +107,12 @@ def get_imports_string(
         typing_imports = DEFAULT_TYPING_IMPORTS
     if not builtin_imports:
         builtin_imports = set()
-    if not other_imports:
-        other_imports = set()
+    if not local_imports:
+        local_imports = set()
     string = _get_builtin_imports_string(builtin_imports, typing_imports)
-    string += _get_third_party_imports_string(imports, other_imports)
+    string += _get_third_party_imports_string(imports)
+    if local_imports:
+        string += "\n\n" + "\n".join(sorted(local_imports)) + "\n"
     string += _get_skill_imports_string(skill_imports)
     string = "\n\n".join([line for line in string.split("\n\n") if line])
     while not string.endswith("\n\n"):
@@ -234,13 +236,9 @@ def _get_autogen_imports(
     return autogen_imports, autogen_dot_imports, remaining_imports
 
 
-def _get_third_party_imports_string(
-    imports: Set[str],
-    other_imports: Set[str],
-) -> str:
+def _get_third_party_imports_string(imports: Set[str]) -> str:
     """Get the third party imports."""
     autogen_imports, autogen_dot_imports, rest = _get_autogen_imports(imports)
-    rest.update(other_imports)
     plain_imports, from_imports_dict = _prepare_imports(
         autogen_imports=autogen_imports,
         autogen_dot_imports=autogen_dot_imports,
