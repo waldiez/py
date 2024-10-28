@@ -1,5 +1,9 @@
 # Changelog
 
+## v0.1.3
+
+- Exporting: Use a separate file for the model API keys
+
 ## v0.1.2
 
 - RAG: handle windows paths
