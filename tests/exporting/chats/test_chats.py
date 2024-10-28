@@ -78,7 +78,7 @@ def test_export_chats() -> None:
             message=WaldiezChatMessage(
                 type="string",
                 use_carryover=False,
-                content="Goodbye, world!",
+                content='{"Goodbye": "world!"}',
                 context={},
             ),
             summary=WaldiezChatSummary(
@@ -111,8 +111,7 @@ def test_export_chats() -> None:
     # When
     all_chats = [chat1, chat2]
     chat_names = {chat.id: chat.name for chat in all_chats}
-    # Then
-    export_chats(
+    chats_string, _ = export_chats(
         agent_names=agent_names,
         chat_names=chat_names,
         main_chats=[
@@ -121,3 +120,21 @@ def test_export_chats() -> None:
         ],
         tabs=1,
     )
+    # Then
+    expected = """initiate_chats([
+        {
+            "sender": agent1,
+            "recipient": agent2,
+            "clear_history": False,
+            "silent": False,
+            "message": "Hello, world!",
+        },
+        {
+            "sender": agent2,
+            "recipient": agent1,
+            "clear_history": False,
+            "silent": False,
+            "message": "{\\\\"Goodbye\\\\": \\\\"world!\\\\"}",
+        },
+    ])"""
+    assert chats_string == expected
