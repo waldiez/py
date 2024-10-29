@@ -76,6 +76,7 @@ def export_single_chat_string(
     tab = "    " * tabs
     chat, sender, recipient = flow
     chat_args = chat.get_chat_args(sender=sender)
+    chat_args = escape_summary_args_quotes(chat_args)
     if not chat_args:
         return _get_empty_simple_chat_string(
             tab,
@@ -191,6 +192,28 @@ def export_multiple_chats_string(
     return content, additional_methods_string
 
 
+def escape_summary_args_quotes(chat_args: Dict[str, Any]) -> Dict[str, Any]:
+    """Escape quotes in the summary args if they are strings.
+
+    Parameters
+    ----------
+    chat_args : Dict[str, Any]
+        The chat arguments.
+
+    Returns
+    -------
+    Dict[str, Any]
+        The chat arguments with the summary prompt escaped.
+    """
+    if "summary_args" in chat_args and isinstance(
+        chat_args["summary_args"], dict
+    ):
+        for key, value in chat_args["summary_args"].items():
+            if isinstance(value, str):
+                chat_args["summary_args"][key] = get_escaped_string(value)
+    return chat_args
+
+
 def _get_chat_message_string(
     chat: WaldiezChat,
     chat_names: Dict[str, str],
@@ -264,6 +287,7 @@ def _get_chat_dict_string(
     """
     tab = "    " * tabs
     chat_args = chat.get_chat_args(sender=sender)
+    chat_args = escape_summary_args_quotes(chat_args)
     chat_string = "{"
     chat_string += "\n" + f'{tab}    "sender": {agent_names[sender.id]},'
     chat_string += "\n" + f'{tab}    "recipient": {agent_names[recipient.id]},'

@@ -144,6 +144,5 @@ agent_name_llm_config = {
         agent_name="agent_name",
     )
     # Then
-    print(output[1])
     assert output[0] == expected_arg_output
     assert output[1] == expected_content_output

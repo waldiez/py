@@ -51,9 +51,14 @@ def test_export_chats() -> None:
                 context={},
             ),
             summary=WaldiezChatSummary(
-                method=None,
-                prompt="",
-                args={},
+                method="reflection_with_llm",
+                prompt=(
+                    "Return the summary of the chat as a JSON object: "
+                    '"{"summary": "Hello, world!"}"'
+                ),
+                args={
+                    "problem": 'Solve this task: "{"task": "cleanup"}"',
+                },
             ),
             max_turns=None,
             nested_chat=WaldiezChatNested(
@@ -125,6 +130,11 @@ def test_export_chats() -> None:
         {
             "sender": agent1,
             "recipient": agent2,
+            "summary_method": "reflection_with_llm",
+            "summary_args": {
+                "summary_prompt": "Return the summary of the chat as a JSON object: \\"{\\"summary\\": \\"Hello, world!\\"}\\"",
+                "problem": "Solve this task: \\"{\\"task\\": \\"cleanup\\"}\\""
+            },
             "clear_history": False,
             "silent": False,
             "message": "Hello, world!",
