@@ -10,6 +10,7 @@ from waldiez.models import (
 )
 
 from ..utils import get_escaped_string, get_object_string
+from .helpers import escape_summary_args_quotes
 
 
 def get_nested_chat_trigger_agent_names(
@@ -81,6 +82,7 @@ def get_nested_chat_message_string(
         sender_name = agent_names[sender_id]
     recipient_name = agent_names[recipient_id]
     chat_dict = waldiez_chat.get_chat_args()
+    chat_dict = escape_summary_args_quotes(chat_dict)
     chat_dict["recipient"] = recipient_name
     if sender_name:
         chat_dict["sender"] = sender_name
