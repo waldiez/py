@@ -1,5 +1,10 @@
 # Changelog
 
+## v0.1.6
+
+- Fix SyntaxError with quoted strings
+- Update twisted to 24.10.0
+
 ## v0.1.5
 
 - Fix Quoting issue in chat messages
