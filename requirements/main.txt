@@ -131,7 +131,7 @@ traitlets==5.14.3
     # via
     #   jupyter-core
     #   nbformat
-twisted==24.7.0
+twisted==24.10.0
     # via waldiez (pyproject.toml)
 typing-extensions==4.12.2
     # via

@@ -23,7 +23,7 @@ classifiers = [
 dependencies = [
     "jupytext",
     "autogen-agentchat==0.2.37",
-    "twisted==24.7.0",
+    "twisted==24.10.0",
 ]
 
 [project.urls]
