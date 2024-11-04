@@ -170,3 +170,21 @@ def waldiez_flow() -> WaldiezFlow:
         A WaldiezFlow instance.
     """
     return get_runnable_flow()
+
+
+@pytest.fixture(scope="function")
+def waldiez_flow_no_human_input() -> WaldiezFlow:
+    """Get a valid, runnable WaldiezFlow instance with no human input.
+
+    without models and skills
+
+    Returns
+    -------
+    WaldiezFlow
+        A WaldiezFlow instance.
+    """
+    flow = get_runnable_flow()
+    dumped = flow.model_dump(by_alias=True)
+    dumped["data"]["agents"]["users"][0]["data"]["humanInputMode"] = "NEVER"
+    dumped["data"]["chats"][0]["data"]["maxTurns"] = 1
+    return WaldiezFlow(**dumped)

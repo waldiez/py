@@ -28,6 +28,7 @@ help:
 	@echo " dev              Generate (and install) requirements, lint, test, build, docs, and export"
 	@echo " install          Install the python package"
 	@echo " publish          Publish the python package to PyPI"
+	@echo " image            Generate container image"
 	@echo ""
 
 .PHONY: format
@@ -149,3 +150,7 @@ install: build
 publish: build
 	python -m pip install --upgrade pip twine
 	python -m twine upload dist/*
+
+.PHONY: image
+image:
+	python scripts/image.py

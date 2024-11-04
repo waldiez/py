@@ -6,13 +6,14 @@ import logging
 import os
 import sys
 from pathlib import Path
-from typing import Any, Dict, Optional
-
-from autogen import ChatResult  # type: ignore[import-untyped]
+from typing import TYPE_CHECKING, Any, Dict, Optional
 
 from . import Waldiez, __version__
 from .exporter import WaldiezExporter
 from .runner import WaldiezRunner
+
+if TYPE_CHECKING:
+    from autogen import ChatResult  # type: ignore[import-untyped]
 
 
 def get_parser() -> argparse.ArgumentParser:
@@ -28,7 +29,7 @@ def get_parser() -> argparse.ArgumentParser:
         prog="waldiez",
     )
     parser.add_argument(
-        "waldiez",
+        "file",
         type=str,
         help="Path to the Waldiez flow (*.waldiez) file.",
     )
@@ -66,7 +67,7 @@ def get_parser() -> argparse.ArgumentParser:
     return parser
 
 
-def _log_result(result: ChatResult) -> None:
+def _log_result(result: "ChatResult") -> None:
     """Log the result of the Waldiez flow."""
     logger = logging.getLogger("waldiez::cli")
     logger.info("Chat History:\n")
@@ -94,9 +95,12 @@ def _run(data: Dict[str, Any], output_path: Optional[str]) -> None:
 def main() -> None:
     """Parse the command line arguments and run the Waldiez flow."""
     parser = get_parser()
+    if len(sys.argv) == 1:
+        parser.print_help()
+        sys.exit(0)
     args = parser.parse_args()
     logger = _get_logger()
-    waldiez_file: str = args.waldiez
+    waldiez_file: str = args.file
     if not os.path.exists(waldiez_file):
         logger.error("File not found: %s", waldiez_file)
         sys.exit(1)

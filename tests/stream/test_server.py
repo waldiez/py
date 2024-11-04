@@ -1,12 +1,12 @@
 # type: ignore
-"""Test waldiez.io_stream.server.*."""
+"""Test waldiez.io.stream.server.*."""
 
 import socket
 
 import pytest
 from twisted.trial import unittest
 
-from waldiez.stream import TCPConsumer, TCPProvider, TCPServer
+from waldiez.io.stream import TCPConsumer, TCPProvider, TCPServer
 
 # DeprecationWarning: reactor.stop cannot be used inside unit tests
 

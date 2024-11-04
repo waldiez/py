@@ -1,6 +1,6 @@
 """Test waldiez.io_stream.*."""
 
-from waldiez.io_stream import WaldiezIOStream
+from waldiez.io import WaldiezIOStream
 
 
 def test_waldiez_io_stream() -> None:

@@ -1,4 +1,4 @@
-"""Test waldiez.io_stream.provider.*."""
+"""Test waldiez.io.stream.provider.*."""
 
 import socket
 import time
@@ -8,7 +8,7 @@ from unittest.mock import Mock, patch
 
 import pytest
 
-from waldiez.stream.provider import END_OF_MESSAGE, TCPProvider
+from waldiez.io.stream.provider import END_OF_MESSAGE, TCPProvider
 
 
 class MockSocket(Mock):

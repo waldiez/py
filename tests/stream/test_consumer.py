@@ -1,11 +1,11 @@
-"""Test waldiez.io_stream.consumer.*."""
+"""Test waldiez.io.stream.consumer.*."""
 
 import socket
 import unittest
 from typing import Any
 from unittest.mock import Mock, patch
 
-from waldiez.stream.consumer import END_OF_MESSAGE, TCPConsumer
+from waldiez.io.stream.consumer import END_OF_MESSAGE, TCPConsumer
 
 
 class MockSocket(Mock):
