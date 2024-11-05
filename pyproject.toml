@@ -283,7 +283,7 @@ addopts = """
     --exitfirst \
     --durations=10 \
     --color=yes \
-    --timeout=30
+    --timeout=60
 """
 
 

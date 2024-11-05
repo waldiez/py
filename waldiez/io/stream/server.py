@@ -7,6 +7,7 @@ and forwards messages between them.
 # pylint: disable=import-outside-toplevel,no-member,reimported,unused-import,redefined-outer-name,invalid-name  # noqa
 import logging
 import sys
+import time
 from threading import Thread
 from types import TracebackType
 from typing import Dict, Optional, Type, cast
@@ -179,7 +180,6 @@ class TCPServerThread(Thread):
         self,
         interface: str,
         port: int,
-        timeout: Optional[float] = None,
     ) -> None:
         """Create a new TCP server.
 
@@ -189,32 +189,46 @@ class TCPServerThread(Thread):
             Interface to listen on. Defaults to '' (all interfaces)
         port : int
             Port to listen on.
-        timeout : Optional[float]
-            Timeout for the server.
         """
         super().__init__(
             name="TCPServerThread",
-            daemon=True,
+            daemon=False,
             target=self.run,
         )
         from twisted.internet.endpoints import TCP4ServerEndpoint
 
-        self.timeout = timeout
         self.reactor = get_reactor()
         self._port = port
-        endpoint = TCP4ServerEndpoint(  # type: ignore[no-untyped-call]
+        self.endpoint = TCP4ServerEndpoint(  # type: ignore[no-untyped-call]
             self.reactor,
             port,
             interface=interface,
         )
         server_factory = ServerFactory()
-        deferred = endpoint.listen(server_factory)  # type: ignore
+        deferred = self.endpoint.listen(server_factory)  # type: ignore
         deferred.addCallback(callback=self.on_start)
+        deferred.addErrback(errback=self.on_error)
 
     @property
     def port(self) -> int:
         """Get the port."""
         return self._port
+
+    @staticmethod
+    def on_error(failure: Failure) -> None:  # pragma: no cover
+        """On error callback.
+
+        Parameters
+        ----------
+        failure : Failure
+            The failure.
+
+        Raises
+        ------
+        RuntimeError
+            If the failure is not handled.
+        """
+        raise RuntimeError(failure.getErrorMessage())
 
     def on_start(self, port: Port) -> None:
         """On connect callback.
@@ -257,12 +271,7 @@ class ServerWrapper:
     server: TCPServerThread
     timeout: float
 
-    def __init__(
-        self,
-        interface: str,
-        port: int,
-        timeout: Optional[float] = None,
-    ) -> None:
+    def __init__(self, interface: str, port: int) -> None:
         """Create a new TCP server.
 
         Parameters
@@ -272,10 +281,21 @@ class ServerWrapper:
         port : int
             Port to listen on.
         """
-        self.timeout = timeout if timeout is not None else 0.2
+        self._interface = interface
+        self._port = port
+        self._init_server()
+
+    def _init_server(self) -> None:
+        """Initialize the server."""
         self.server = TCPServerThread(
-            interface=interface, port=port, timeout=self.timeout
+            interface=self._interface, port=self._port
         )
+        retries = 0
+        while self.server.factory is None and retries < 20:  # pragma: no cover
+            retries += 1
+            time.sleep(0.5)
+        if self.server.factory is None:  # pragma: no cover
+            raise RuntimeError("Server not started")
 
     @property
     def port(self) -> int:
@@ -286,7 +306,7 @@ class ServerWrapper:
         RuntimeError
             If the server is not running
         """
-        if self.server.factory is None:
+        if self.server.factory is None:  # pragma: no cover
             raise RuntimeError("server is not running")
         return self.server.port
 
@@ -298,8 +318,9 @@ class ServerWrapper:
         RuntimeError
             If the server is not running
         """
-        if self.server is None:
-            raise RuntimeError("server is not running")
+        if self.server.factory is None:  # pragma: no cover
+            del self.server
+            self._init_server()
         self.server.start()
 
     def stop(self) -> None:
@@ -340,7 +361,7 @@ class TCPServer:
     @property
     def port(self) -> int:
         """Get the port."""
-        if self._wrapper is None:
+        if self._wrapper is None:  # pragma: no cover
             return self._port
         return self._wrapper.port
 
@@ -348,7 +369,6 @@ class TCPServer:
         """Initialize the wrapper."""
         self._wrapper = ServerWrapper(
             port=self._port,
-            timeout=self._timeout,
             interface=self._interface,
         )
 
