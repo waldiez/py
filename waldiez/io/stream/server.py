@@ -4,15 +4,17 @@ It listens for connections from an input provider and an input consumer,
 and forwards messages between them.
 """
 
-# pylint: disable=import-outside-toplevel,no-member,reimported,unused-import,redefined-outer-name,invalid-name  # noqa
+# pylint: disable=import-outside-toplevel,broad-except,no-member,reimported,unused-import,redefined-outer-name,invalid-name  # noqa
 import logging
 import socket as _socket
 import sys
 import time
+from contextlib import closing
 from threading import Thread
 from types import TracebackType
 from typing import Dict, Optional, Type, cast
 
+from twisted.internet.defer import Deferred
 from twisted.internet.error import ReactorNotRestartable
 from twisted.internet.interfaces import IReactorCore
 from twisted.internet.protocol import Factory, Protocol, connectionDone
@@ -84,7 +86,7 @@ class ServerProtocol(Protocol):
                 msg = f"INPUT:{response}" + "\r\n"
                 transport = self.factory.clients["consumer"].transport
                 transport.write(msg.encode("utf-8"))  # type: ignore
-            else:
+            else:  # pragma: no cover
                 LOGGER.error("No consumer connected.")
 
     def dataReceived(self, data: bytes) -> None:
@@ -228,7 +230,8 @@ class TCPServerThread(Thread):
         """Get the twisted port."""
         return self._twisted_port
 
-    def on_error(self, failure: Failure) -> None:  # pragma: no cover
+    @staticmethod
+    def on_error(failure: Failure) -> None:  # pragma: no cover
         """On error callback.
 
         Parameters
@@ -241,18 +244,9 @@ class TCPServerThread(Thread):
         RuntimeError
             If the failure is not handled.
         """
-        if not self._logged_error:
-            self._logged_error = True
-            LOGGER.error(failure.getErrorMessage())
-        self.deferred.cancel()
-        del self.deferred
-        del self.endpoint
-        self._start_retries += 1
-        if self._start_retries < 10:
-            time.sleep(1)
-            self._initialize()
-        else:  # pragma: no cover
-            raise RuntimeError("Failed to start the server")
+        raise RuntimeError(
+            f"Failed to start the server {failure.getErrorMessage()}"
+        )
 
     def on_start(self, port: Port) -> None:
         """On connect callback.
@@ -347,27 +341,36 @@ class ServerWrapper:
             If the server is not running
         """
         if self.server.factory is None:  # pragma: no cover
-            del self.server
-            self._init_server()
+            self.stop()
+            try:
+                self._init_server()
+            except BaseException:  # pragma: no cover
+                pass
+        if self.server.factory is None:  # pragma: no cover
+            raise RuntimeError("Failed to initialize the server")
         self.server.start()
+
+    # pylint: disable=line-too-long
+    def _force_stop(self) -> None:
+        deferred = Deferred()  # type: ignore
+        deferred.addErrback(lambda _: None)
+        _reactor = self.server.reactor  # type: IReactorCore | None
+        if _reactor is not None:
+            deferred.addCallback(_reactor.callFromThread(_reactor.stop))  # type: ignore # noqa
+            deferred.addTimeout(1, _reactor)
+        if self.server.twisted_port:
+            deferred.addCallback(self.server.twisted_port.socket.close)  # type: ignore
 
     def stop(self) -> None:
         """Stop the server."""
-        # pylint: disable=broad-except,too-many-try-statements
+        # callFromThread might leave the port open for too long
+        if is_port_used(self.server.port):
+            self._force_stop()
+        self.server.factory = None
         try:
-            if self.server.factory is not None:
-                for client in self.server.factory.clients.values():
-                    if client and client.transport:
-                        client.transport.abortConnection()
-            if self.server.reactor is not None:
-                reactor: IReactorCore = self.server.reactor
-                reactor.callFromThread(reactor.stop)  # type: ignore # noqa
-            if self.server.twisted_port:
-                self.server.twisted_port.socket.close()
+            self.server.join()
         except BaseException:  # pragma: no cover
             pass
-        self.server.factory = None
-        self.server.join(timeout=0)
 
 
 class TCPServer:
@@ -470,3 +473,24 @@ class TCPServer:
         self.stop()
         self._init_wrapper()
         self.start()
+
+
+def is_port_used(port: int) -> bool:
+    """Check if port is used.
+
+    Parameters
+    ----------
+    port : int
+        Port to check.
+
+    Returns
+    -------
+    bool
+        True if the port is used, else False.
+    """
+    with closing(_socket.socket(_socket.AF_INET, _socket.SOCK_STREAM)) as soc:
+        try:
+            soc.bind(("", port))
+        except OSError:
+            return True
+    return False  # pragma: no cover

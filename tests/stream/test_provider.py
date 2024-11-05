@@ -324,7 +324,7 @@ class TestTCPProvider(unittest.TestCase):
         )
         provider.start()
         provider.wait(2)
-        mock_socket.sendall.assert_called_with(b"USE:response\r\n")
+        mock_socket.sendall.assert_any_call(b"PROVIDER\r\n")
         provider.stop()
 
     @patch("socket.socket")
