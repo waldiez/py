@@ -174,7 +174,7 @@ class TCPServerThread(Thread):
     """Threaded TCP server."""
 
     reactor: Optional[IReactorCore] = None  # noqa
-    factory: Optional[Factory] = None  # noqa
+    factory: Optional[ServerFactory] = None  # noqa
     _logged_error: bool = False
 
     def __init__(
@@ -337,8 +337,13 @@ class ServerWrapper:
 
     def stop(self) -> None:
         """Stop the server."""
-        # pylint: disable=line-too-long
-        self.server.reactor.callFromThread(self.server.reactor.stop)  # type: ignore  # noqa
+        if self.server.factory is not None:
+            for client in self.server.factory.clients.values():
+                if client and client.transport:
+                    client.transport.loseConnection()  # type: ignore # noqa
+        if self.server.reactor is not None:
+            # pylint: disable=line-too-long
+            self.server.reactor.callFromThread(self.server.reactor.stop)  # type: ignore  # noqa
         self.server.join()
 
 
