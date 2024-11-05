@@ -185,7 +185,11 @@ class InputProviderWrapper:
         """Stop the provider."""
         if self.thread:
             self.thread.running = False
-            self.thread.join(timeout=1)
+            try:
+                self.thread.socket.close()
+            except OSError:  # pragma: no cover
+                pass
+            self.thread.join(timeout=0)
             del self.thread
             self.thread = None
 

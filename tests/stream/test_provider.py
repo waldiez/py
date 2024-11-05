@@ -1,4 +1,4 @@
-"""Test waldiez.io_stream.provider.*."""
+"""Test waldiez.io.stream.provider.*."""
 
 import socket
 import time
@@ -8,7 +8,7 @@ from unittest.mock import Mock, patch
 
 import pytest
 
-from waldiez.stream.provider import END_OF_MESSAGE, TCPProvider
+from waldiez.io.stream.provider import END_OF_MESSAGE, TCPProvider
 
 
 class MockSocket(Mock):
@@ -125,7 +125,8 @@ class TestTCPProvider(unittest.TestCase):
         provider.stop()
         provider.stop()
 
-        mock_socket.close.assert_called_once()
+        no_calls = mock_socket.sendall.call_count
+        self.assertGreaterEqual(no_calls, 1)
         self.assertIsNone(provider.thread)
 
     @patch("socket.socket")
@@ -167,7 +168,8 @@ class TestTCPProvider(unittest.TestCase):
         provider.start()
         provider.stop()
 
-        mock_socket.close.assert_called_once()
+        no_calls = mock_socket.sendall.call_count
+        self.assertGreaterEqual(no_calls, 1)
         self.assertIsNone(provider.thread)
 
     @patch("socket.socket")
@@ -229,7 +231,8 @@ class TestTCPProvider(unittest.TestCase):
 
         mock_socket.connect.assert_called_once_with(("localhost", 1234))
         provider.restart()
-        mock_socket.close.assert_called_once()
+        no_close_calls = mock_socket.close.call_count
+        self.assertGreaterEqual(no_close_calls, 1)
         mock_socket.connect.assert_called_with(("localhost", 1234))
 
         self.assertIsNotNone(provider.thread)

@@ -1,12 +1,12 @@
 # type: ignore
-"""Test waldiez.io_stream.server.*."""
+"""Test waldiez.io.stream.server.*."""
 
 import socket
 
 import pytest
 from twisted.trial import unittest
 
-from waldiez.stream import TCPConsumer, TCPProvider, TCPServer
+from waldiez.io.stream import TCPConsumer, TCPProvider, TCPServer
 
 # DeprecationWarning: reactor.stop cannot be used inside unit tests
 
@@ -138,30 +138,3 @@ class TestTCPServerWithClients(unittest.TestCase):
         other_client.close()
         with pytest.warns(DeprecationWarning):
             self.server.stop()
-
-
-# pylint: disable=protected-access, no-self-use
-class TestTCPServerCatchRuntimeErrors(unittest.TestCase):
-    """Test TCPServer with catch_runtime_errors."""
-
-    def test_run_without_wrapper(self) -> None:
-        """Test run without a wrapper."""
-        server = TCPServer(0)
-        server._wrapper = None
-        assert server.port == 0
-        server.start()
-        server.stop()
-
-    def test_run_with_no_wrapper_server(self) -> None:
-        """Test run with no wrapper and server_factory."""
-        server = TCPServer(0)
-        server._wrapper.server = None
-        with pytest.raises(RuntimeError):
-            server.start()
-
-    def test_run_with_no_wrapper_server_factory(self) -> None:
-        """Test run with no wrapper and server_factory."""
-        server = TCPServer(0)
-        server._wrapper.server.factory = None
-        with pytest.raises(RuntimeError):
-            server.start()

@@ -35,9 +35,37 @@ python -m pip install git+https://github.com/waldiez/py.git
 
 ```bash
 # Export a Waldiez flow to a python script or a jupyter notebook
-waldiez --export /path/to/a/flow.waldiez --output /path/to/an/output[.py|.ipynb]
+waldiez --export /path/to/a/flow.waldiez --output /path/to/an/output/flow[.py|.ipynb]
 # Export and run the script, optionally force generation if the output file already exists
-waldiez /path/to/a/flow.waldiez --output /path/to/an/output[.py] [--force]
+waldiez /path/to/a/flow.waldiez --output /path/to/an/output/flow[.py] [--force]
+```
+
+### Using docker/podman
+
+```shell
+CONTAINER_COMMAND=docker # or podman
+# pull the image
+$CONTAINER_COMMAND pull waldiez/py
+# Export a Waldiez flow to a python script or a jupyter notebook
+$CONTAINER_COMMAND run \
+  --rm \
+  -v /path/to/a/flow.waldiez:/flow.waldiez \
+  -v /path/to/an/output:/output \
+  waldiez/py --export /flow.waldiez --output /output/flow[.py|.ipynb]
+
+# with selinux and/or podman, you might get permission (or file not found) errors, so you can try:
+$CONTAINER_COMMAND run \
+  --rm \
+  -v /path/to/a/flow.waldiez:/flow.waldiez \
+  -v /path/to/an/output:/output \
+  --userns=keep-id \
+  --security-opt label=disable \
+  waldiez/py --export /flow.waldiez --output /output/flow[.py|.ipynb]
+```
+
+```shell
+# Export and run the script
+$CONTAINER_COMMAND run --rm -v /path/to/a/flow.waldiez:/flow.waldiez -v /path/to/an/output:/output waldiez/py /flow.waldiez --output /output/output[.py]
 ```
 
 ### As a library
@@ -68,7 +96,8 @@ runner.run(output_path=output_path)
 
 ```python
 # Run the flow with a custom IOStream
-from waldiez import WaldiezIOStream, WaldiezRunner
+from waldiez import WaldiezRunner
+from waldiez.io import WaldiezIOStream
 
 flow_path = "/path/to/a/flow.waldiez"
 output_path = "/path/to/an/output.py"

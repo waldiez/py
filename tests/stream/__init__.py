@@ -1,1 +1,1 @@
-"""Test waldiez.io_stream.*."""
+"""Test waldiez.io.stream.*."""

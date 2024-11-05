@@ -19,13 +19,24 @@ from contextlib import contextmanager
 from contextvars import ContextVar
 from pathlib import Path
 from types import TracebackType
-from typing import Callable, Dict, Iterator, List, Optional, Type, Union
-
-from autogen import ChatResult  # type: ignore
+from typing import (
+    TYPE_CHECKING,
+    Callable,
+    Dict,
+    Iterator,
+    List,
+    Optional,
+    Type,
+    Union,
+)
 
 from .exporter import WaldiezExporter
-from .io_stream import WaldiezIOStream
 from .models.waldiez import Waldiez
+
+if TYPE_CHECKING:
+    from autogen import ChatResult  # type: ignore
+
+    from .io import WaldiezIOStream
 
 
 @contextmanager
@@ -60,7 +71,7 @@ class WaldiezRunner:
         self._waldiez = waldiez
         self._running = False
         self._file_path = file_path
-        self._stream: ContextVar[Optional[WaldiezIOStream]] = ContextVar(
+        self._stream: ContextVar[Optional["WaldiezIOStream"]] = ContextVar(
             "waldiez_stream", default=None
         )
         self._exporter = WaldiezExporter(waldiez)
@@ -225,9 +236,9 @@ class WaldiezRunner:
 
     def _do_run(
         self, output_path: Optional[Union[str, Path]]
-    ) -> Union[ChatResult, List[ChatResult]]:
+    ) -> Union["ChatResult", List["ChatResult"]]:
         """Run the Waldiez workflow."""
-        results: Union[ChatResult, List[ChatResult]] = []
+        results: Union["ChatResult", List["ChatResult"]] = []
         temp_dir = Path(tempfile.mkdtemp())
         file_name = "flow.py" if not output_path else Path(output_path).name
         if file_name.endswith((".json", ".waldiez")):
@@ -259,19 +270,22 @@ class WaldiezRunner:
     def _run(
         self,
         output_path: Optional[Union[str, Path]],
-    ) -> Union[ChatResult, List[ChatResult]]:
+    ) -> Union["ChatResult", List["ChatResult"]]:
         self._install_requirements()
         token = self._stream.get()
         if token is not None:
+            # pylint: disable=import-outside-toplevel
+            from .io import WaldiezIOStream
+
             with WaldiezIOStream.set_default(token):
                 return self._do_run(output_path)
         return self._do_run(output_path)
 
     def run(
         self,
-        stream: Optional[WaldiezIOStream] = None,
+        stream: Optional["WaldiezIOStream"] = None,
         output_path: Optional[Union[str, Path]] = None,
-    ) -> Union[ChatResult, List[ChatResult]]:
+    ) -> Union["ChatResult", List["ChatResult"]]:
         """Run the Waldiez workflow.
 
         Parameters

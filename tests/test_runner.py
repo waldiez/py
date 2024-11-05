@@ -6,7 +6,8 @@ from typing import Optional
 
 import pytest
 
-from waldiez import Waldiez, WaldiezIOStream, WaldiezRunner
+from waldiez import Waldiez, WaldiezRunner
+from waldiez.io import WaldiezIOStream
 from waldiez.models import WaldiezFlow
 
 

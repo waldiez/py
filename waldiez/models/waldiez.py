@@ -7,11 +7,9 @@ definitions and their optional additional skills to be used.
 
 import json
 from dataclasses import dataclass
+from functools import cache
 from pathlib import Path
 from typing import Any, Dict, Iterator, List, Optional, Tuple, Union
-
-#  let's be strict with autogen version
-from autogen.version import __version__ as autogen_version  # type: ignore
 
 from .agents import WaldiezAgent
 from .chat import WaldiezChat
@@ -203,6 +201,7 @@ class Waldiez:
     @property
     def requirements(self) -> List[str]:
         """Get the flow requirements."""
+        autogen_version = _get_autogen_version()
         requirements_list = filter(
             lambda requirement: not (
                 requirement.startswith("pyautogen")
@@ -299,3 +298,14 @@ def _get_flow(
     if "requirements" not in data:
         data["requirements"] = []
     return data
+
+
+@cache
+def _get_autogen_version() -> str:
+    """Get the autogen version."""
+    # pylint: disable=import-outside-toplevel
+    try:
+        from autogen.version import __version__ as atg_version  # type: ignore
+    except ImportError:  # pragma: no cover
+        atg_version = "0.0.0"
+    return atg_version
