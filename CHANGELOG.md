@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.1.7
+
+- Move `WaldiezIOStream` to `waldiez.io` module
+- Move autogen imports to local imports
+- Also Provide a container (docker/podman) image for running/exporting Waldiez flows
+
 ## v0.1.6
 
 - Fix SyntaxError with quoted strings
