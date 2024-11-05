@@ -210,9 +210,9 @@ class TCPServerThread(Thread):
             interface=self._interface,
         )
         server_factory = ServerFactory()
-        deferred = self.endpoint.listen(server_factory)  # type: ignore
-        deferred.addCallback(callback=self.on_start)
-        deferred.addErrback(errback=self.on_error)
+        self.deferred = self.endpoint.listen(server_factory)  # type: ignore
+        self.deferred.addCallback(callback=self.on_start)
+        self.deferred.addErrback(errback=self.on_error)
 
     @property
     def port(self) -> int:
@@ -233,6 +233,8 @@ class TCPServerThread(Thread):
             If the failure is not handled.
         """
         LOGGER.error(failure.getErrorMessage())
+        self.deferred.cancel()
+        del self.deferred
         del self.endpoint
         self._initialize()
 

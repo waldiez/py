@@ -1,5 +1,7 @@
 """Test waldiez.exporting.utils.path_check.*."""
 
+import os
+
 from waldiez.exporting.utils.path_check import get_path_string
 
 
@@ -10,7 +12,10 @@ def test_get_path_string() -> None:
     # When
     result = get_path_string(path)
     # Then
-    assert result == f"'{path}'"
+    if os.name == "nt":
+        assert result == f"r'{path}'"
+    else:
+        assert result == f"'{path}'"
 
 
 def test_get_path_string_not_local() -> None:

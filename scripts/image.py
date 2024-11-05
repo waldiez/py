@@ -60,6 +60,7 @@ def run_command(command: List[str]) -> None:
     subprocess.CalledProcessError
         If the command returns a non-zero exit status.
     """
+    # pylint: disable=inconsistent-quotes
     print(f"Running command: \n{' '.join(command)}\n")
     subprocess.run(
         command,
