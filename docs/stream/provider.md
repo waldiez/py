@@ -1,1 +1,1 @@
-::: waldiez.stream.provider
+::: waldiez.io.stream.provider

@@ -1,1 +1,1 @@
-::: waldiez.io_stream
+::: waldiez.io.WaldiezIOStream
