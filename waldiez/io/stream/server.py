@@ -195,14 +195,19 @@ class TCPServerThread(Thread):
             daemon=False,
             target=self.run,
         )
-        from twisted.internet.endpoints import TCP4ServerEndpoint
-
         self.reactor = get_reactor()
         self._port = port
+        self._interface = interface
+        self._initialize()
+
+    def _initialize(self) -> None:
+        """Initialize the server."""
+        from twisted.internet.endpoints import TCP4ServerEndpoint
+
         self.endpoint = TCP4ServerEndpoint(  # type: ignore[no-untyped-call]
             self.reactor,
-            port,
-            interface=interface,
+            self._port,
+            interface=self._interface,
         )
         server_factory = ServerFactory()
         deferred = self.endpoint.listen(server_factory)  # type: ignore
@@ -214,8 +219,7 @@ class TCPServerThread(Thread):
         """Get the port."""
         return self._port
 
-    @staticmethod
-    def on_error(failure: Failure) -> None:  # pragma: no cover
+    def on_error(self, failure: Failure) -> None:  # pragma: no cover
         """On error callback.
 
         Parameters
@@ -228,7 +232,9 @@ class TCPServerThread(Thread):
         RuntimeError
             If the failure is not handled.
         """
-        raise RuntimeError(failure.getErrorMessage())
+        LOGGER.error(failure.getErrorMessage())
+        del self.endpoint
+        self._initialize()
 
     def on_start(self, port: Port) -> None:
         """On connect callback.
