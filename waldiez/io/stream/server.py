@@ -291,9 +291,9 @@ class ServerWrapper:
             interface=self._interface, port=self._port
         )
         retries = 0
-        while self.server.factory is None and retries < 40:  # pragma: no cover
+        while self.server.factory is None and retries < 30:  # pragma: no cover
             retries += 1
-            time.sleep(0.5)
+            time.sleep(1)
         if self.server.factory is None:  # pragma: no cover
             raise RuntimeError("Server not started")
 
