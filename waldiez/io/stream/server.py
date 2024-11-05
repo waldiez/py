@@ -175,6 +175,7 @@ class TCPServerThread(Thread):
 
     reactor: Optional[IReactorCore] = None  # noqa
     factory: Optional[Factory] = None  # noqa
+    _logged_error: bool = False
 
     def __init__(
         self,
@@ -210,9 +211,9 @@ class TCPServerThread(Thread):
             interface=self._interface,
         )
         server_factory = ServerFactory()
-        deferred = self.endpoint.listen(server_factory)  # type: ignore
-        deferred.addCallback(callback=self.on_start)
-        deferred.addErrback(errback=self.on_error)
+        self.deferred = self.endpoint.listen(server_factory)  # type: ignore
+        self.deferred.addCallback(callback=self.on_start)
+        self.deferred.addErrback(errback=self.on_error)
 
     @property
     def port(self) -> int:
@@ -232,8 +233,13 @@ class TCPServerThread(Thread):
         RuntimeError
             If the failure is not handled.
         """
-        LOGGER.error(failure.getErrorMessage())
+        if not self._logged_error:
+            self._logged_error = True
+            LOGGER.error(failure.getErrorMessage())
+        self.deferred.cancel()
+        del self.deferred
         del self.endpoint
+        time.sleep(2)
         self._initialize()
 
     def on_start(self, port: Port) -> None:
@@ -297,9 +303,9 @@ class ServerWrapper:
             interface=self._interface, port=self._port
         )
         retries = 0
-        while self.server.factory is None and retries < 30:  # pragma: no cover
+        while self.server.factory is None and retries < 20:  # pragma: no cover
             retries += 1
-            time.sleep(1)
+            time.sleep(2)
         if self.server.factory is None:  # pragma: no cover
             raise RuntimeError("Server not started")
 
