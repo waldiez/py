@@ -1,1 +1,1 @@
-::: waldiez.stream.consumer
+::: waldiez.io.stream.consumer

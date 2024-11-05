@@ -1,1 +1,1 @@
-::: waldiez.stream.server
+::: waldiez.io.stream.server
