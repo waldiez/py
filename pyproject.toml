@@ -271,7 +271,15 @@ line-ending = "lf"
 
 # pytest
 [tool.pytest.ini_options]
-# filterwarnings = []
+filterwarnings = [
+  # DeprecationWarning:
+  #   Type google._upb._message.MessageMapContainer uses PyType_Spec with a metaclass that has custom tp_new.
+  #   This is deprecated and will no longer be allowed in Python 3.14.
+  #
+  # autogen/logger/logger_utils.py:9: DeprecationWarning:
+  # datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version
+  "ignore::DeprecationWarning",
+]
 python_files = [
     "tests.py",
     "test_*.py",
