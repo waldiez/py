@@ -278,6 +278,9 @@ filterwarnings = [
   #
   # autogen/logger/logger_utils.py:9: DeprecationWarning:
   # datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version
+  #
+  # DeprecationWarning:
+  # reactor.stop cannot be used inside unit tests
   "ignore::DeprecationWarning",
 ]
 python_files = [

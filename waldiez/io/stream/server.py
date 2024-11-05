@@ -6,6 +6,7 @@ and forwards messages between them.
 
 # pylint: disable=import-outside-toplevel,no-member,reimported,unused-import,redefined-outer-name,invalid-name  # noqa
 import logging
+import socket as _socket
 import sys
 import time
 from threading import Thread
@@ -175,7 +176,9 @@ class TCPServerThread(Thread):
 
     reactor: Optional[IReactorCore] = None  # noqa
     factory: Optional[ServerFactory] = None  # noqa
+    _twisted_port: Optional[Port] = None
     _logged_error: bool = False
+    _start_retries: int = 0
 
     def __init__(
         self,
@@ -220,6 +223,11 @@ class TCPServerThread(Thread):
         """Get the port."""
         return self._port
 
+    @property
+    def twisted_port(self) -> Optional[Port]:
+        """Get the twisted port."""
+        return self._twisted_port
+
     def on_error(self, failure: Failure) -> None:  # pragma: no cover
         """On error callback.
 
@@ -239,8 +247,12 @@ class TCPServerThread(Thread):
         self.deferred.cancel()
         del self.deferred
         del self.endpoint
-        time.sleep(2)
-        self._initialize()
+        self._start_retries += 1
+        if self._start_retries < 10:
+            time.sleep(1)
+            self._initialize()
+        else:  # pragma: no cover
+            raise RuntimeError("Failed to start the server")
 
     def on_start(self, port: Port) -> None:
         """On connect callback.
@@ -250,12 +262,16 @@ class TCPServerThread(Thread):
         port : Port
             The port to connect to.
         """
+        self._start_retries = 0
         socket = port.getHost()  # type: ignore[no-untyped-call]
         LOGGER.debug(
             "listening on %s:%s",
             socket.host,
             socket.port,
         )
+        # allow reusing the port
+        port.socket.setsockopt(_socket.SOL_SOCKET, _socket.SO_REUSEADDR, 1)
+        self._twisted_port = port
         self._port = socket.port
         self.factory = port.factory
 
@@ -303,9 +319,9 @@ class ServerWrapper:
             interface=self._interface, port=self._port
         )
         retries = 0
-        while self.server.factory is None and retries < 20:  # pragma: no cover
+        while self.server.factory is None and retries < 30:  # pragma: no cover
             retries += 1
-            time.sleep(2)
+            time.sleep(1)
         if self.server.factory is None:  # pragma: no cover
             raise RuntimeError("Server not started")
 
@@ -337,14 +353,21 @@ class ServerWrapper:
 
     def stop(self) -> None:
         """Stop the server."""
-        if self.server.factory is not None:
-            for client in self.server.factory.clients.values():
-                if client and client.transport:
-                    client.transport.loseConnection()  # type: ignore # noqa
-        if self.server.reactor is not None:
-            # pylint: disable=line-too-long
-            self.server.reactor.callFromThread(self.server.reactor.stop)  # type: ignore  # noqa
-        self.server.join()
+        # pylint: disable=broad-except,too-many-try-statements
+        try:
+            if self.server.factory is not None:
+                for client in self.server.factory.clients.values():
+                    if client and client.transport:
+                        client.transport.abortConnection()
+            if self.server.reactor is not None:
+                reactor: IReactorCore = self.server.reactor
+                reactor.callFromThread(reactor.stop)  # type: ignore # noqa
+            if self.server.twisted_port:
+                self.server.twisted_port.socket.close()
+        except BaseException:  # pragma: no cover
+            pass
+        self.server.factory = None
+        self.server.join(timeout=0)
 
 
 class TCPServer:

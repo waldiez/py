@@ -3,12 +3,9 @@
 
 import socket
 
-import pytest
 from twisted.trial import unittest
 
 from waldiez.io.stream import TCPConsumer, TCPProvider, TCPServer
-
-# DeprecationWarning: reactor.stop cannot be used inside unit tests
 
 
 class TestTCPServer(unittest.TestCase):
@@ -32,28 +29,25 @@ class TestTCPServer(unittest.TestCase):
 
     def test_stop(self) -> None:
         """Test stop."""
-        with pytest.warns(DeprecationWarning):
-            self.server.start()
-            self.server.stop()
+        self.server.start()
+        self.server.stop()
         self.assertFalse(self.server.is_running())
 
     def test_stop_twice(self) -> None:
         """Test stop twice."""
-        with pytest.warns(DeprecationWarning):
-            self.server.start()
-            self.server.stop()
-            self.assertFalse(self.server.is_running())
-            self.server.stop()
-            self.assertFalse(self.server.is_running())
+        self.server.start()
+        self.server.stop()
+        self.assertFalse(self.server.is_running())
+        self.server.stop()
+        self.assertFalse(self.server.is_running())
 
     def test_restart(self) -> None:
         """Test restart."""
-        with pytest.warns(DeprecationWarning):
-            self.server.start()
-            self.server.restart()
-            self.assertTrue(self.server.is_running())
-            self.server.stop()
-            self.assertFalse(self.server.is_running())
+        self.server.start()
+        self.server.restart()
+        self.assertTrue(self.server.is_running())
+        self.server.stop()
+        self.assertFalse(self.server.is_running())
 
 
 class TestTCPServerContextManager(unittest.TestCase):
@@ -61,10 +55,9 @@ class TestTCPServerContextManager(unittest.TestCase):
 
     def test_context_manager(self) -> None:
         """Test context manager."""
-        with pytest.warns(DeprecationWarning):
-            with TCPServer(0) as server:
-                self.assertTrue(server.is_running())
-            self.assertFalse(server.is_running())
+        with TCPServer(0) as server:
+            self.assertTrue(server.is_running())
+        self.assertFalse(server.is_running())
 
 
 class TestTCPServerWithClients(unittest.TestCase):
@@ -91,8 +84,7 @@ class TestTCPServerWithClients(unittest.TestCase):
         self.assertEqual(response, "response")
         provider.stop()
         consumer.stop()
-        with pytest.warns(DeprecationWarning):
-            self.server.stop()
+        self.server.stop()
 
     def test_no_consumer(self) -> None:
         """Test run without a consumer connection."""
@@ -110,8 +102,7 @@ class TestTCPServerWithClients(unittest.TestCase):
         other_client.sendall(b"USE:response\r\n")
         other_client.close()
         provider.stop()
-        with pytest.warns(DeprecationWarning):
-            self.server.stop()
+        self.server.stop()
 
     def test_no_provider(self) -> None:
         """Test run without a provider connection."""
@@ -124,8 +115,7 @@ class TestTCPServerWithClients(unittest.TestCase):
         consumer.stop()
         self.assertIsNone(response)
         consumer.stop()
-        with pytest.warns(DeprecationWarning):
-            self.server.stop()
+        self.server.stop()
 
     def test_unknown_message(self) -> None:
         """Test run with an unknown message."""
@@ -136,5 +126,4 @@ class TestTCPServerWithClients(unittest.TestCase):
         other_client.connect(("localhost", self.server.port))
         other_client.sendall(b"UNKNOWN\r\n")
         other_client.close()
-        with pytest.warns(DeprecationWarning):
-            self.server.stop()
+        self.server.stop()

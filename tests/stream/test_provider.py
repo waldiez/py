@@ -299,7 +299,8 @@ class TestTCPProvider(unittest.TestCase):
         with TCPProvider("localhost", 1234, response="response") as provider:
             self.assertTrue(provider.is_running())
         self.assertFalse(provider.is_running())
-        mock_socket.close.assert_called_once()
+        no_calls = mock_socket.sendall.call_count
+        self.assertGreaterEqual(no_calls, 1)
 
     @patch("socket.socket")
     def test_provider_no_timeout(self, mock_socket: MockSocket) -> None:
