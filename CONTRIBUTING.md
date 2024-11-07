@@ -27,9 +27,7 @@ There are three core modules in this project:
 
 - `waldiez.models`: Contains the pydantic models for the waldiez flow.
 - `waldiez.exporting`: Contains the logic to export a waldiez flow to a python script or a jupyter notebook.
-- `waldiez.stream`: Contains the logic to provide the WaldiezIOStream (extends autogen.IOSream) to handle input and output.
-
-For each of the modules, there is a corresponding test module in the `tests` folder.
+- `waldiez.io`: Contains the logic to provide the WaldiezIOStream (extends autogen.IOSream) to handle input and output.
 
 The project is structured as follows:
 
@@ -38,7 +36,6 @@ waldiez
 ├── __main__.py
 ├── cli.py
 ├── exporter.py
-├── io_stream.py
 ├── runner.py
 ├── exporting
 │   ├── agents
@@ -66,14 +63,9 @@ waldiez
 │   │   ...
 │   └── skill
 │       ...
-├── stream
-│   ├── consumer.py
-│   ├── example.py
+├── io
 │   ├── __init__.py
-│   ├── provider.py
-│   └── server.py
 ├── _version.py
-└── waldiez.py
 ```
 
 ## Testing
@@ -86,5 +78,4 @@ make test
 # for specific tests
 make test_models
 make test_exporting
-make test_stream
 ```

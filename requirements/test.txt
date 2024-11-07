@@ -16,5 +16,3 @@ pytest-timeout==2.3.1
     # via waldiez (pyproject.toml)
 pytest-xdist==3.6.1
     # via waldiez (pyproject.toml)
-twisted==24.10.0
-    # via waldiez (pyproject.toml)

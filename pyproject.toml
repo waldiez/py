@@ -22,8 +22,7 @@ classifiers = [
 ]
 dependencies = [
     "jupytext",
-    "autogen-agentchat==0.2.37",
-    "twisted==24.10.0",
+    "autogen-agentchat==0.2.37"
 ]
 
 [project.urls]
@@ -55,7 +54,7 @@ dev = [
     'yamllint==1.35.1',
 ]
 autogen_extras =[
-    'chromadb==0.5.17',
+    'chromadb==0.5.18',
     'fastembed==0.4.1',
     'pgvector==0.3.6',
     'psycopg[binary]>=3.2.3',

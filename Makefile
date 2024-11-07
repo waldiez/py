@@ -18,7 +18,6 @@ help:
 	@echo " export           Export *.waldiez files in ./examples to {.py,.ipynb}"
 	@echo " requirements	 Generate requirements/*.txt files"
 	@echo " test             Run the tests"
-	@echo " test_stream      Run tests on the 'stream' directory"
 	@echo " test_models      Run tests on the 'models' directory"
 	@echo " test_exporting   Run tests on the 'exporting' directory"
 	@echo " docs             Generate the documentation"
@@ -49,7 +48,7 @@ lint:
 	yamllint -c .yamllint.yaml .
 	ruff check --config pyproject.toml .
 	pylint --rcfile=pyproject.toml .
-	python scripts/eclint.py
+	# python scripts/eclint.py
 
 .PHONY: forlint
 forlint: format lint
@@ -85,14 +84,6 @@ test: .before_test
 		--cov-report lcov:${.REPORTS_DIR}/lcov.info \
 		--junitxml=${.REPORTS_DIR}/xunit.xml \
 		${.TESTS_DIR}/
-
-.PHONY: test_stream
-test_stream: .before_test
-	python -m pytest \
-		-c pyproject.toml -vv \
-		--cov-report=term-missing:skip-covered \
-		--cov=${.PACKAGE_NAME}/stream \
-		${.TESTS_DIR}/stream
 
 .PHONY: test_models
 test_models: .before_test

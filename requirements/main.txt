@@ -10,11 +10,8 @@ attrs==24.2.0
     # via
     #   jsonschema
     #   referencing
-    #   twisted
 autogen-agentchat==0.2.37
     # via waldiez (pyproject.toml)
-automat==24.8.1
-    # via twisted
 certifi==2024.8.30
     # via
     #   httpcore
@@ -22,16 +19,12 @@ certifi==2024.8.30
     #   requests
 charset-normalizer==3.3.2
     # via requests
-constantly==23.10.4
-    # via twisted
 diskcache==5.6.3
     # via autogen-agentchat
 distro==1.9.0
     # via openai
 docker==7.1.0
     # via autogen-agentchat
-exceptiongroup==1.2.2
-    # via anyio
 fastjsonschema==2.20.0
     # via nbformat
 flaml==2.2.0
@@ -42,16 +35,11 @@ httpcore==1.0.5
     # via httpx
 httpx==0.27.2
     # via openai
-hyperlink==21.0.0
-    # via twisted
 idna==3.8
     # via
     #   anyio
     #   httpx
-    #   hyperlink
     #   requests
-incremental==24.7.2
-    # via twisted
 jiter==0.5.0
     # via openai
 jsonschema==4.23.0
@@ -108,10 +96,6 @@ rpds-py==0.20.0
     # via
     #   jsonschema
     #   referencing
-setuptools==74.0.0
-    # via
-    #   incremental
-    #   zope-interface
 sniffio==1.3.1
     # via
     #   anyio
@@ -121,28 +105,18 @@ termcolor==2.4.0
     # via autogen-agentchat
 tiktoken==0.7.0
     # via autogen-agentchat
-tomli==2.0.1
-    # via
-    #   incremental
-    #   jupytext
 tqdm==4.66.5
     # via openai
 traitlets==5.14.3
     # via
     #   jupyter-core
     #   nbformat
-twisted==24.10.0
-    # via waldiez (pyproject.toml)
 typing-extensions==4.12.2
     # via
-    #   anyio
     #   openai
     #   pydantic
     #   pydantic-core
-    #   twisted
 urllib3==2.2.2
     # via
     #   docker
     #   requests
-zope-interface==7.0.3
-    # via twisted

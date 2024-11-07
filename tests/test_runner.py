@@ -30,7 +30,7 @@ def test_runner(waldiez_flow: WaldiezFlow) -> None:
     def on_prompt_input(prompt: str) -> None:
         nonlocal prompt_input, stream
         prompt_input = prompt
-        stream.forward_input("Reply to prompt\n")
+        stream.set_input("Reply to prompt\n")
 
     stream = WaldiezIOStream(
         on_prompt_input=on_prompt_input,
@@ -42,7 +42,6 @@ def test_runner(waldiez_flow: WaldiezFlow) -> None:
     assert not runner.running
     assert runner._stream.get() is None
     assert prompt_input is not None
-    stream.close()
 
 
 def test_waldiez_with_invalid_requirement(
