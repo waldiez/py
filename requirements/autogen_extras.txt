@@ -2,7 +2,7 @@
 #    uv pip compile pyproject.toml --output-file requirements/autogen_extras.txt --extra=autogen_extras --no-deps --no-strip-extras
 autogen-agentchat[anthropic, bedrock, gemini, groq, mistral, retrievechat, retrievechat-couchbase, retrievechat-mongodb, retrievechat-pgvector, retrievechat-qdrant, together, websurfer]==0.2.37
     # via waldiez (pyproject.toml)
-chromadb==0.5.17
+chromadb==0.5.18
     # via waldiez (pyproject.toml)
 fastembed==0.4.1
     # via waldiez (pyproject.toml)
@@ -15,6 +15,4 @@ psycopg[binary]==3.2.3
 pymongo==4.10.1
     # via waldiez (pyproject.toml)
 qdrant-client==1.12.1
-    # via waldiez (pyproject.toml)
-twisted==24.10.0
     # via waldiez (pyproject.toml)

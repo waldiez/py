@@ -26,8 +26,6 @@ python-dotenv==1.0.1
     # via waldiez (pyproject.toml)
 ruff==0.7.2
     # via waldiez (pyproject.toml)
-twisted==24.10.0
-    # via waldiez (pyproject.toml)
 types-pyyaml==6.0.12
     # via waldiez (pyproject.toml)
 yamllint==1.35.1

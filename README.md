@@ -96,30 +96,66 @@ runner.run(output_path=output_path)
 
 ```python
 # Run the flow with a custom IOStream
+# In case the standard 'input' and 'print' functions cannot be used
+import time
+import threading
+
+from typing import Any
+
 from waldiez import WaldiezRunner
 from waldiez.io import WaldiezIOStream
 
 flow_path = "/path/to/a/flow.waldiez"
 output_path = "/path/to/an/output.py"
 
-def print_function(*values, **args) -> None:
-    """A custom print function."""
-    print(values)
 
-def on_prompt_input(prompt: str) -> str:
-    """A custom input function."""
-    return input(prompt)
+def custom_print_function(*args: Any, sep: str = " ", **kwargs: Any) -> None:
+    """Custom print function."""
+    print(*args, sep=sep, **kwargs)
 
-io_stream = WaldiezIOStream(
-    print_function=print_function,
-    on_prompt_input=on_prompt_input,
+
+# Custom input handler
+class InputProcessorWrapper:
+    """Wrapper input processor.
+    
+    To manage the interaction between the custom input processor and IOStream.
+    """
+
+    def __init__(self):
+        self.stream = None  # Placeholder for the WaldiezIOStream instance
+        self.lock = threading.Lock()  # Ensure thread-safe operations
+
+    def custom_input_processor(self, prompt: str) -> None:
+        """Simulate external input and send it back to the IOStream."""
+        def external_input_simulation():
+            with self.lock:  # Ensure thread-safe access
+                time.sleep(2)  # Simulate delay for network input
+                if self.stream:
+                    self.stream.set_input("Simulated external input")
+                else:
+                    raise RuntimeError("Stream reference not set!")
+
+        threading.Thread(target=external_input_simulation, daemon=True).start()
+
+    def set_stream(self, stream: "WaldiezIOStream"):
+        """Set the WaldiezIOStream instance."""
+        with self.lock:  # Ensure thread-safe setting of the stream
+            self.stream = stream
+
+processor_wrapper = InputProcessorWrapper()
+
+stream = WaldiezIOStream(
     input_timeout=30,
+    print_function=
+    on_prompt_input=processor_wrapper.custom_input_processor,
 )
+
+# Link the processor wrapper to the WaldiezIOStream instance
+processor_wrapper.set_stream(custom_stream)
+
 with WaldiezIOStream.set_default(io_stream):
     runner = WaldiezRunner.load(flow_path)
     runner.run(stream=io_stream, output_path=output_path)
-
-io_stream.close()
 
 ```
 
@@ -127,7 +163,6 @@ io_stream.close()
 
 - [autogen](https://github.com/microsoft/autogen/)
 - [juptytext](https://github.com/mwouts/jupytext)
-- [twisted](https://github.com/twisted/twisted)
 - [pydantic](https://github.com/pydantic/pydantic)
 
 ## License

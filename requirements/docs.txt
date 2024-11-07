@@ -22,5 +22,3 @@ mkdocstrings[crystal, python]==0.26.2
     # via waldiez (pyproject.toml)
 mkdocstrings-python==1.12.2
     # via waldiez (pyproject.toml)
-twisted==24.10.0
-    # via waldiez (pyproject.toml)
