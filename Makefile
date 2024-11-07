@@ -48,7 +48,7 @@ lint:
 	yamllint -c .yamllint.yaml .
 	ruff check --config pyproject.toml .
 	pylint --rcfile=pyproject.toml .
-	# python scripts/eclint.py
+	python scripts/eclint.py
 
 .PHONY: forlint
 forlint: format lint

@@ -36,10 +36,10 @@ class WaldiezIOStream(IOStream):
 
         Notes
         -----
-        - on_prompt_input: It does not return a string (like input does).
-          Instead, it is meant to be used to forward the prompt somewhere else
-           (e.g., a websocket). When we get the input, we can call
-              `waldiez_io_stream.set_input(input_data)` with the input data.
+        - on_prompt_input: It does not return a string (like 'input' does).
+            Instead, it is meant to be used to forward the prompt somewhere else
+            (e.g., a websocket). When we get the input, we can call
+            `waldiez_io_stream.set_input(input_data)` with the input data.
         """
         self.input_timeout = input_timeout  # Timeout for input
         self.print_function = print_function  # Custom print handler
