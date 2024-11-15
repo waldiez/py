@@ -22,7 +22,7 @@ classifiers = [
 ]
 dependencies = [
     "jupytext",
-    "autogen-agentchat==0.2.37"
+    "ag2==0.3.2"
 ]
 
 [project.urls]
@@ -49,27 +49,27 @@ dev = [
     'pydocstyle==6.3.0',
     'pylint==3.3.1',
     'python-dotenv==1.0.1',
-    'ruff==0.7.2',
+    'ruff==0.7.4',
     'types-PyYAML==6.0.12',
     'yamllint==1.35.1',
 ]
-autogen_extras =[
-    'chromadb==0.5.18',
-    'fastembed==0.4.1',
-    'pgvector==0.3.6',
-    'psycopg[binary]>=3.2.3',
-    'autogen-agentchat[retrievechat]==0.2.37',
-    'autogen-agentchat[retrievechat-pgvector]==0.2.37',
-    'autogen-agentchat[retrievechat-mongodb]==0.2.37',
-    'autogen-agentchat[retrievechat-qdrant]==0.2.37',
-    'autogen-agentchat[retrievechat-couchbase]==0.2.37',
-    'autogen-agentchat[gemini]==0.2.37',
-    'autogen-agentchat[together]==0.2.37',
-    'autogen-agentchat[anthropic]==0.2.37',
-    'autogen-agentchat[mistral]==0.2.37',
-    'autogen-agentchat[groq]==0.2.37',
-    'autogen-agentchat[bedrock]==0.2.37',
-    'autogen-agentchat[websurfer]==0.2.37',
+ag2_extras =[
+    'chromadb==0.5.3',
+    'fastembed==0.4.2',
+    'pgvector>=0.2.5',
+    'psycopg[binary]>=3.1.18',
+    'ag2[retrievechat]==0.3.2',
+    'ag2[retrievechat-pgvector]==0.3.2',
+    'ag2[retrievechat-mongodb]==0.3.2',
+    'ag2[retrievechat-qdrant]==0.3.2',
+    'ag2[gemini]==0.3.2',
+    'ag2[together]==0.3.2',
+    'ag2[anthropic]==0.3.2',
+    'ag2[mistral]==0.3.2',
+    'ag2[groq]==0.3.2',
+    'ag2[bedrock]==0.3.2',
+    'ag2[websurfer]==0.3.2',
+    'ag2[together]==0.3.2',
     'pymongo==4.10.1',
     'qdrant-client==1.12.1',
 ]
@@ -87,9 +87,9 @@ docs = [
   'mkdocs==1.6.1',
   'mkdocs-jupyter==0.25.1',
   'mkdocs-macros-plugin==1.3.7',
-  'mkdocs-material==9.5.43',
+  'mkdocs-material==9.5.44',
   'mkdocs-minify-html-plugin==0.2.3',
-  'mkdocstrings[crystal,python]==0.26.2',
+  'mkdocstrings[crystal,python]==0.27.0',
   'mkdocstrings-python==1.12.2'
 ]
 

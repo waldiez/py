@@ -4,7 +4,7 @@ import os
 import tempfile
 
 import pytest
-from autogen.version import __version__ as autogen_version  # type: ignore
+from autogen.version import __version__ as ag2_version  # type: ignore
 
 from waldiez import Waldiez
 
@@ -32,10 +32,7 @@ def test_waldiez() -> None:
     assert next(waldiez2.models)
     assert waldiez2.has_rag_agents
     skill = next(waldiez2.skills)
-    assert (
-        f"autogen-agentchat[retrievechat]=={autogen_version}"
-        in waldiez2.requirements
-    )
+    assert f"ag2[retrievechat]=={ag2_version}" in waldiez2.requirements
     assert "SKILL_KEY" in skill.secrets
     assert "SKILL_KEY" == waldiez2.get_flow_env_vars()[0][0]
     for agent in waldiez2.agents:
@@ -66,11 +63,8 @@ def test_waldiez_without_rag() -> None:
     assert waldiez.tags == flow_dict["tags"]
     assert next(waldiez.models)
     assert not waldiez.has_rag_agents
-    assert (
-        f"autogen-agentchat[retrievechat]=={autogen_version}"
-        not in waldiez.requirements
-    )
-    assert f"autogen-agentchat=={autogen_version}" in waldiez.requirements
+    assert f"ag2[retrievechat]=={ag2_version}" not in waldiez.requirements
+    assert f"ag2=={ag2_version}" in waldiez.requirements
 
 
 def test_waldiez_errors() -> None:

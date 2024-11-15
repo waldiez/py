@@ -2,7 +2,7 @@
 
 [![Flow](./flow.png)](./flow.png)
 
-To a python script or a jupyter notebook with the corresponding [autogen](https://github.com/microsoft/autogen/) agents and chats.
+To a python script or a jupyter notebook with the corresponding [ag2](https://github.com/ag2ai/ag2/) agents and chats.
 
 ## Features
 
@@ -153,6 +153,6 @@ with WaldiezIOStream.set_default(io_stream):
 
 ### Tools
 
-- [autogen](https://github.com/microsoft/autogen/)
+- [ag2 (formerly AutoGen)](https://github.com/ag2ai/ag2)
 - [juptytext](https://github.com/mwouts/jupytext)
 - [pydantic](https://github.com/pydantic/pydantic)

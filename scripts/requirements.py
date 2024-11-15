@@ -11,7 +11,7 @@ EXTRAS = [
     "dev",
     "test",
     "docs",
-    "autogen_extras",
+    "ag2_extras",
 ]
 
 
