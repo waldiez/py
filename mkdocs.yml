@@ -11,7 +11,7 @@ theme:
   palette:
     # Palette toggle for light mode
     - media: "(prefers-color-scheme: light)"
-      primary: white
+      primary: custom-light
       accent: blue
       scheme: default
       toggle:
@@ -19,7 +19,7 @@ theme:
         name: Switch to dark mode
     # Palette toggle for dark mode
     - media: "(prefers-color-scheme: dark)"
-      primary: black
+      primary: custom-dark
       accent: blue
       scheme: slate
       toggle:
@@ -70,6 +70,9 @@ markdown_extensions:
   - mdx_include:
       base_path: docs
 
+extra_css:
+  - static/css/main.css
+
 plugins:
   - mkdocs-jupyter:
   - search:
@@ -103,7 +106,7 @@ plugins:
             show_category_heading: true
 
 nav:
-  - Waldiez!: index.md
+  - Waldiez: index.md
   - Reference:
       - Models:
           - Model: models/model.md
