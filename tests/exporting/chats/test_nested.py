@@ -90,12 +90,7 @@ def test_export_nested_chat() -> None:
         data={  # type: ignore
             "nested_chats": [
                 WaldiezAgentNestedChat(
-                    triggered_by=[
-                        WaldiezAgentNestedChatMessage(
-                            id="wc-1",
-                            is_reply=True,
-                        ),
-                    ],
+                    triggered_by=["wa-2"],
                     messages=[
                         WaldiezAgentNestedChatMessage(
                             id="wc-2",
@@ -225,12 +220,7 @@ agent1.register_nested_chats(
         data={  # type: ignore
             "nested_chats": [
                 WaldiezAgentNestedChat(
-                    triggered_by=[
-                        WaldiezAgentNestedChatMessage(
-                            id="wc-1",
-                            is_reply=False,
-                        ),
-                    ],
+                    triggered_by=["wa-1"],
                     messages=[
                         WaldiezAgentNestedChatMessage(
                             id="wc-2",
@@ -400,12 +390,7 @@ agent2.register_nested_chats(
         data={  # type: ignore
             "nested_chats": [
                 WaldiezAgentNestedChat(
-                    triggered_by=[
-                        WaldiezAgentNestedChatMessage(
-                            id="wc-2",
-                            is_reply=False,
-                        ),
-                    ],
+                    triggered_by=["wa-2"],
                     messages=[],
                 )
             ]

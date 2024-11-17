@@ -14,7 +14,6 @@ from .helpers import escape_summary_args_quotes
 
 
 def get_nested_chat_trigger_agent_names(
-    all_chats: List[WaldiezChat],
     nested_chat: WaldiezAgentNestedChat,
     agent_names: Dict[str, str],
 ) -> str:
@@ -22,8 +21,6 @@ def get_nested_chat_trigger_agent_names(
 
     Parameters
     ----------
-    all_chats : List[WaldiezChat]
-        All the chats in the flow.
     nested_chat : WaldiezAgentNestedChat
         The nested chat.
     agent_names : Dict[str, str]
@@ -34,14 +31,7 @@ def get_nested_chat_trigger_agent_names(
     str
         The trigger agent names.
     """
-    trigger_agent_ids: List[str] = []
-    for message in nested_chat.triggered_by:
-        waldiez_chat = next(chat for chat in all_chats if chat.id == message.id)
-        if message.is_reply:
-            trigger_agent_ids.append(waldiez_chat.target)
-        else:
-            trigger_agent_ids.append(waldiez_chat.source)
-    agents = [agent_names[agent_id] for agent_id in trigger_agent_ids]
+    agents = [agent_names[agent_id] for agent_id in nested_chat.triggered_by]
     trigger_string = f'{[", ".join(agents)]}'
     return trigger_string.replace("'", '"')
 
@@ -228,7 +218,7 @@ def export_nested_chat(
     use_suffix = len(agent.data.nested_chats) > 1
     for index, entry in enumerate(agent.data.nested_chats):
         trigger_names = get_nested_chat_trigger_agent_names(
-            all_chats=all_chats, nested_chat=entry, agent_names=agent_names
+            nested_chat=entry, agent_names=agent_names
         )
         chat_queue, extra_methods = get_nested_chat_queue(
             nested_chat=entry,
