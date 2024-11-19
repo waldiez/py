@@ -1,10 +1,10 @@
 # Waldiez
-waldiez
+
 ![CI Build](https://github.com/waldiez/waldiez/actions/workflows/main.yaml/badge.svg) [![Coverage Status](https://coveralls.io/repos/github/waldiez/waldiez/badge.svg)](https://coveralls.io/github/waldiez/waldiez) [![PyPI version](https://badge.fury.io/waldiez/waldiez.svg)](https://badge.fury.io/py/waldiez)
 
 Translate a Waldiez flow:
 
-![Flow](https://raw.githubusercontent.com/waldiez/waldiez/refs/heads/main/docs/flow.png)
+![Flow](https://raw.githubusercontent.com/waldiez/waldiez/refs/heads/main/docs/static/images/overview.webp)
 
 To a python script or a jupyter notebook with the corresponding [ag2](https://github.com/ag2ai/ag2/) agents and chats.
 
