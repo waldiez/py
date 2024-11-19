@@ -52,6 +52,6 @@ jobs:
           file: Containerfile
           push: true
           tags: |
-            ${{ github.repository_owner }}/py:${{ github.ref_type == 'tag' && github.ref_name || 'latest' }}
-            ghcr.io/${{ github.repository_owner }}/py:${{ github.ref_type == 'tag' && github.ref_name || 'latest' }}
-            quay.io/${{ github.repository_owner }}/py:${{ github.ref_type == 'tag' && github.ref_name || 'latest' }}
+            ${{ github.repository_owner }}/waldiez:${{ github.ref_type == 'tag' && github.ref_name || 'latest' }}
+            ghcr.io/${{ github.repository_owner }}/waldiez:${{ github.ref_type == 'tag' && github.ref_name || 'latest' }}
+            quay.io/${{ github.repository_owner }}/waldiez:${{ github.ref_type == 'tag' && github.ref_name || 'latest' }}
