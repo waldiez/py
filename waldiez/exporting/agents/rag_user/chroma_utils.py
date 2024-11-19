@@ -109,8 +109,7 @@ def get_chroma_db_args(
         f"            embedding_function={embedding_function_arg},\n"
     )
     # The RAG example:
-    # https://microsoft.github.io/autogen/docs/\
-    #                                       notebooks/agentchat_groupchat_RAG
+    # https://ag2ai.github.io/ag2/docs/notebooks/agentchat_groupchat_RAG/
     # raises `InvalidCollectionException`: Collection groupchat does not exist.
     # https://github.com/chroma-core/chroma/issues/861
     # https://github.com/microsoft/autogen/issues/3551#issuecomment-2366930994

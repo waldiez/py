@@ -75,6 +75,8 @@ jobs:
             --junitxml=reports/xunit.xml \
             tests/
       - name: Report to Coveralls
+        # don't spam coveralls with multiple reports
+        if: matrix.python-version == '3.12'
         uses: coverallsapp/github-action@v2
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
