@@ -17,7 +17,7 @@ To a python script or a jupyter notebook with the corresponding [ag2](https://gi
 From the repository:
 
 ```bash
-python -m pip install git+https://github.com/waldiez/py.git
+python -m pip install git+https://github.com/waldiez/waldiez.git
 ```
 
 ## Usage
@@ -36,13 +36,13 @@ waldiez /path/to/a/flow.waldiez --output /path/to/an/output/flow[.py] [--force]
 ```shell
 CONTAINER_COMMAND=docker # or podman
 # pull the image
-$CONTAINER_COMMAND pull waldiez/py
+$CONTAINER_COMMAND pull waldiez/waldiez
 # Export a Waldiez flow to a python script or a jupyter notebook
 $CONTAINER_COMMAND run \
   --rm \
   -v /path/to/a/flow.waldiez:/flow.waldiez \
   -v /path/to/an/output:/output \
-  waldiez/py --export /flow.waldiez --output /output/flow[.py|.ipynb]
+  waldiez/waldiez --export /flow.waldiez --output /output/flow[.py|.ipynb]
 
 # with selinux and/or podman, you might get permission (or file not found) errors, so you can try:
 $CONTAINER_COMMAND run \
@@ -51,12 +51,12 @@ $CONTAINER_COMMAND run \
   -v /path/to/an/output:/output \
   --userns=keep-id \
   --security-opt label=disable \
-  waldiez/py --export /flow.waldiez --output /output/flow[.py|.ipynb]
+  waldiez/waldiez --export /flow.waldiez --output /output/flow[.py|.ipynb]
 ```
 
 ```shell
 # Export and run the script
-$CONTAINER_COMMAND run --rm -v /path/to/a/flow.waldiez:/flow.waldiez -v /path/to/an/output:/output waldiez/py /flow.waldiez --output /output/output[.py]
+$CONTAINER_COMMAND run --rm -v /path/to/a/flow.waldiez:/flow.waldiez -v /path/to/an/output:/output waldiez/waldiez /flow.waldiez --output /output/output[.py]
 ```
 
 ### As a library

@@ -1,6 +1,12 @@
 # Changelog
 
-## v0.1.7
+## v0.1.8
+
+- Change autogen-agentchat to ag2
+- Requirement updates
+- Minor doc changes
+
+- ## v0.1.7
 
 - Move `WaldiezIOStream` to `waldiez.io` module
 - Move autogen imports to local imports

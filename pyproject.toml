@@ -26,8 +26,8 @@ dependencies = [
 ]
 
 [project.urls]
-homepage = 'https://waldiez.github.io/py/'
-repository = 'https://github.com/waldiez/py.git'
+homepage = 'https://waldiez.github.io/waldiez/'
+repository = 'https://github.com/waldiez/waldiez.git'
 
 [tool.hatch.build.targets.sdist]
 packages = ["waldiez", "waldiez.*"]

@@ -26,8 +26,8 @@ RUN python -m build
 FROM python:3.12-slim
 
 LABEL maintainer="waldiez <development@waldiez.io>"
-LABEL org.opencontainers.image.source="quay.io/waldiez/py"
-LABEL org.opencontainers.image.title="waldiez/py"
+LABEL org.opencontainers.image.source="quay.io/waldiez/waldiez"
+LABEL org.opencontainers.image.title="waldiez/waldiez"
 LABEL org.opencontainers.image.description="Python 3.12-slim image with waldiez"
 
 COPY --from=builder /app/dist/*.whl /tmp/

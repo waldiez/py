@@ -1,9 +1,9 @@
 ---
 site_name: "Waldiez"
 site_description: "Waldiez."
-site_url: https://waldiez.github.io/py/
-repo_name: waldiez/py
-repo_url: https://github.com/waldiez/py.git
+site_url: https://waldiez.github.io/waldiez/
+repo_name: waldiez/waldiez
+repo_url: https://github.com/waldiez/waldiez.git
 edit_uri_template: 'blob/main/docs/{path}'
 copyright: "Copyright &copy; 2024 Waldiez"
 theme:
