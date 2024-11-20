@@ -47,8 +47,9 @@ def test_get_chroma_db_args() -> None:
     # Then
     local_path = os.path.join(os.getcwd(), "local_storage_path")
     assert kwargs == (
-        f'            client=chromadb.PersistentClient(path=r"{local_path}", settings=Settings(anonymized_telemetry=False)),\n'
-        '            embedding_function=SentenceTransformerEmbeddingFunction(model_name="model"),\n'
+        "            client=rag_user_client,\n"
+        "            embedding_function="
+        'SentenceTransformerEmbeddingFunction(model_name="model"),\n'
     )
     assert embeddings_func == ""
     assert imports == {
@@ -94,7 +95,7 @@ def test_get_chroma_db_args_no_local() -> None:
     )
     # Then
     assert kwargs == (
-        "            client=chromadb.Client(Settings(anonymized_telemetry=False)),\n"
+        "            client=rag_user_client,\n"
         '            embedding_function=SentenceTransformerEmbeddingFunction(model_name="model"),\n'
     )
     assert embeddings_func == ""
@@ -142,7 +143,7 @@ def test_get_chroma_db_custom_embeddings() -> None:
     )
     # Then
     assert kwargs == (
-        "            client=chromadb.Client(Settings(anonymized_telemetry=False)),\n"
+        "            client=rag_user_client,\n"
         "            embedding_function=custom_embedding_function_rag_user,\n"
     )
     assert embeddings_func == (

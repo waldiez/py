@@ -32,7 +32,10 @@ def _get_chroma_client_string(agent: WaldiezRagUser) -> Tuple[str, str]:
         # SyntaxError: (unicode error) 'unicodeescape' codec can't decode bytes
         # in position 2-3: truncated \UXXXXXXXX escape
         local_path = Path(agent.retrieve_config.db_config.local_storage_path)
-        client_str += f'PersistentClient(path=r"{local_path}", settings=Settings(anonymized_telemetry=False))'
+        client_str += (
+            f'PersistentClient(path=r"{local_path}", '
+            "settings=Settings(anonymized_telemetry=False))"
+        )
     else:
         client_str += "Client(Settings(anonymized_telemetry=False))"
     return client_str, to_import
@@ -105,7 +108,7 @@ def get_chroma_db_args(
     if to_import_embedding:
         to_import.add(to_import_embedding)
     kwarg_string = (
-        f"            client={client_str},\n"
+        f"            client={agent_name}_client,\n"
         f"            embedding_function={embedding_function_arg},\n"
     )
     # The RAG example:
@@ -115,11 +118,10 @@ def get_chroma_db_args(
     # https://github.com/microsoft/autogen/issues/3551#issuecomment-2366930994
     # manually initializing the collection before running the flow,
     # might be a workaround.
-    content_before = ""
+    content_before = f"{agent_name}_client = {client_str}\n"
     collection_name = agent.retrieve_config.collection_name
     get_or_create = agent.retrieve_config.get_or_create
     if collection_name:
-        content_before = f"{agent_name}_client = {client_str}\n"
         if get_or_create:
             content_before += (
                 f"{agent_name}_client.get_or_create_collection("

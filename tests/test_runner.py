@@ -2,6 +2,7 @@
 
 # pylint: disable=protected-access
 
+from pathlib import Path
 from typing import Optional
 
 import pytest
@@ -42,6 +43,46 @@ def test_runner(waldiez_flow: WaldiezFlow) -> None:
     assert not runner.running
     assert runner._stream.get() is None
     assert prompt_input is not None
+
+
+def test_runner_with_uploads_root(
+    waldiez_flow: WaldiezFlow, tmp_path: Path
+) -> None:
+    """Test WaldiezRunner with uploads root.
+
+    Parameters
+    ----------
+    waldiez_flow : WaldiezFlow
+        A WaldiezFlow instance.
+    tmp_path : Path
+        A pytest fixture to provide a temporary directory.
+    """
+    waldiez = Waldiez(flow=waldiez_flow)
+    uploads_root = tmp_path / "uploads"
+    runner = WaldiezRunner(waldiez, uploads_root)
+    assert runner.waldiez == waldiez
+    assert not runner.running
+
+    prompt_input: Optional[str] = None
+    stream: WaldiezIOStream
+
+    def on_prompt_input(prompt: str) -> None:
+        nonlocal prompt_input, stream
+        prompt_input = prompt
+        stream.set_input("Reply to prompt\n")
+
+    stream = WaldiezIOStream(
+        on_prompt_input=on_prompt_input,
+        print_function=print,
+        input_timeout=2,
+    )
+    with WaldiezIOStream.set_default(stream):
+        runner.run(stream, uploads_root=uploads_root)
+    assert not runner.running
+    assert runner._stream.get() is None
+    assert prompt_input is not None
+    assert uploads_root.exists()
+    uploads_root.rmdir()
 
 
 def test_waldiez_with_invalid_requirement(

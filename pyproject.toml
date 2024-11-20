@@ -4,6 +4,7 @@ description = 'waldiez'
 authors = [
   { name = 'Panagiotis Kasnesis', email = 'pkasnesis@thingenious.io' },
   { name= 'Lazaros Toumanidis', email= 'laztoum@protonmail.com' },
+  { name = 'Stella Ioannidou', email = 'stella@humancentered.gr'}
 ]
 readme = "README.md"
 requires-python = '>=3.10,<3.13'
@@ -65,6 +66,7 @@ ag2_extras =[
     'ag2[gemini]==0.3.2',
     'ag2[together]==0.3.2',
     'ag2[anthropic]==0.3.2',
+    'ag2[lmm]==0.3.2',
     'ag2[mistral]==0.3.2',
     'ag2[groq]==0.3.2',
     'ag2[bedrock]==0.3.2',
@@ -146,8 +148,6 @@ warn_unused_ignores = true
 plugins = [
   'pydantic.mypy'
 ]
-#   'mypy_zope:plugin'
-# ]
 exclude = [
     '.venv',
     '.local',
@@ -200,7 +200,7 @@ unsafe-load-any-extension="no"
 
 [tool.pylint.messages_control]
 enable=["c-extension-no-member"]
-[tool.pylint.fotmat]
+[tool.pylint.format]
 max-line-length=80
 [tool.pylint.similarities]
 ignore-imports="yes"
