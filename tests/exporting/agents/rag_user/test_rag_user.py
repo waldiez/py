@@ -110,8 +110,8 @@ def test_get_rag_user_extras() -> None:
             client=rag_user_client,
             embedding_function=SentenceTransformerEmbeddingFunction(model_name="all-MiniLM-L6-v2"),
         ),
-    },
-    client=rag_user_client,"""
+        "client": rag_user_client,
+    },"""
     )
     assert db_imports == {
         "from chromadb.utils.embedding_functions import SentenceTransformerEmbeddingFunction",
@@ -179,8 +179,8 @@ def custom_embedding_function_rag_user():
             client=rag_user_client,
             embedding_function=custom_embedding_function_rag_user,
         ),
-    },
-    client=rag_user_client,"""
+        "client": rag_user_client,
+    },"""
     )
     assert db_imports == {
         "chromadb",
@@ -245,6 +245,7 @@ def custom_embedding_function():
             client=rag_user_client,
             embedding_function=custom_embedding_function_rag_user,
         ),
+        "client": rag_user_client,
     }}"""
     )
     assert db_imports == {

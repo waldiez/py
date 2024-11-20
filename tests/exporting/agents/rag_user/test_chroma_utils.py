@@ -47,8 +47,9 @@ def test_get_chroma_db_args() -> None:
     # Then
     local_path = os.path.join(os.getcwd(), "local_storage_path")
     assert kwargs == (
-        '            client=rag_user_client,\n'
-        '            embedding_function=SentenceTransformerEmbeddingFunction(model_name="model"),\n'
+        "            client=rag_user_client,\n"
+        "            embedding_function="
+        'SentenceTransformerEmbeddingFunction(model_name="model"),\n'
     )
     assert embeddings_func == ""
     assert imports == {

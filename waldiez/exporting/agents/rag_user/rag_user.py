@@ -69,6 +69,15 @@ def get_rag_user_retrieve_config_str(
     args_content = "\n".join(before_vector_db)
     # add the vector_db arg
     args_content += f',\n        "vector_db": {vector_db_arg},\n'
+    # we should not need to include the client, but let's do it
+    # to avoid later issues (with telemetry or other client settings)
+    # https://github.com/ag2ai/ag2/blob/main/autogen/agentchat/\
+    #   contrib/retrieve_user_proxy_agent.py#L265-L266
+    if (
+        f"{agent_name}_client" in before_the_args
+        and agent.retrieve_config.vector_db == "chroma"
+    ):
+        args_content += f'        "client": {agent_name}_client,\n'
     args_content += closing_arg
     return before_the_args, args_content, imports
 
@@ -107,15 +116,6 @@ def get_rag_user_extras(
             retrieve_arg = f"\n    retrieve_config={retrieve_arg},"
         if rag_content_before_agent:
             before_agent_string += rag_content_before_agent
-            # we should not need to include the client, but let's do it
-            # to avoid later issue (with telemetry or other client settings)
-            # https://github.com/ag2ai/ag2/blob/main/autogen/agentchat/\
-            #   contrib/retrieve_user_proxy_agent.py#L265-L266
-            if (
-                f"{agent_name}_client" in rag_content_before_agent
-                and agent.retrieve_config.vector_db == "chroma"
-            ):
-                retrieve_arg += f"\n    client={agent_name}_client,"
     return before_agent_string, retrieve_arg, db_imports
 
 
