@@ -242,6 +242,7 @@ def get_assistant(agent_id: str = "wa-2") -> WaldiezAssistant:
                 recall_threshold=1.5,
                 max_num_retrievals=10,
             ),
+            is_multimodal=True,
         ),
     )
 

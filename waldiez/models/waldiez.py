@@ -146,6 +146,11 @@ class Waldiez:
         return any(agent.agent_type == "rag_user" for agent in self.agents)
 
     @property
+    def has_multimodal_agents(self) -> bool:
+        """Check if the flow has multimodal agents."""
+        return any(agent.data.is_multimodal for agent in self.agents)
+
+    @property
     def chats(self) -> List[Tuple[WaldiezChat, WaldiezAgent, WaldiezAgent]]:
         """Get the chats."""
         return self.flow.ordered_flow
@@ -214,6 +219,8 @@ class Waldiez:
             requirements.add(f"ag2[retrievechat]=={autogen_version}")
         else:
             requirements.add(f"ag2=={autogen_version}")
+        if self.has_multimodal_agents:
+            requirements.add(f"ag2[lmm]=={autogen_version}")
         # ref: https://github.com/ag2ai/ag2/blob/main/setup.py
         models_with_additional_requirements = [
             "together",
