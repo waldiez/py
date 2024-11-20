@@ -2,11 +2,12 @@
 
 import os
 from pathlib import Path
+from typing import Optional
 
 # pylint: disable=broad-except
 
 
-def _is_local_path(string: str) -> bool:
+def _check_local_path(string: str) -> Optional[Path]:
     """Check if a string is a local path.
 
     Parameters
@@ -21,9 +22,11 @@ def _is_local_path(string: str) -> bool:
     """
     try:
         path = Path(string).resolve()
-        return path.exists()
     except Exception:  # pragma: no cover
-        return False
+        return None
+    if path.exists():
+        return path
+    return None
 
 
 def get_path_string(string: str) -> str:
@@ -41,8 +44,8 @@ def get_path_string(string: str) -> str:
     """
     # On windows, we get paths like "C:\path\to\file"
     # if so, let's try to avoid invalid escape sequences
-    if not _is_local_path(string):
+    if not _check_local_path(string):
         return string
     if os.name == "nt":  # pragma: no cover
         return f"r'{string}'"
-    return f"'{string}'"
+    return f"{Path(string).resolve()}"
