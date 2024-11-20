@@ -46,16 +46,25 @@ def test_get_agent_class_name() -> None:
         id="wa-4",
         name="rag_user",
     )
+    multimodal_agent = WaldiezAssistant(  # type: ignore
+        id="wa-5",
+        name="multimodal_agent",
+        data=WaldiezAssistantData(  # type: ignore
+            is_multimodal=True,
+        ),
+    )
     # When
     user_proxy_class_name = get_agent_class_name(user_proxy)
     assistant_class_name = get_agent_class_name(assistant)
     group_manager_class_name = get_agent_class_name(group_manager)
     rag_user_class_name = get_agent_class_name(rag_user)
+    multimodal_agent_class_name = get_agent_class_name(multimodal_agent)
     # Then
     assert user_proxy_class_name == "UserProxyAgent"
     assert assistant_class_name == "AssistantAgent"
     assert group_manager_class_name == "GroupChatManager"
     assert rag_user_class_name == "RetrieveUserProxyAgent"
+    assert multimodal_agent_class_name == "MultimodalConversableAgent"
 
 
 def test_export_agent() -> None:
@@ -530,4 +539,55 @@ register_function(
         "from autogen import register_function",
         "from autogen import AssistantAgent",
         "from autogen.coding import LocalCommandLineCodeExecutor",
+    }
+
+
+def test_export_multimodal_agent() -> None:
+    """Test export_agent() with multimodal agent."""
+    multimodal_agent = WaldiezAssistant(  # type: ignore
+        id="wa-1",
+        name="multimodal_agent",
+        data=WaldiezAssistantData(  # type: ignore
+            is_multimodal=True,
+        ),
+    )
+    agent_names = {"wa-1": "multimodal_agent"}
+    model_names = {"wm-1": "model_1"}
+    skill_names = {"ws-1": "skill_1"}
+    all_skills: List[WaldiezSkill] = []
+    all_models: List[WaldiezModel] = []
+    group_chat_members: List[WaldiezAgent] = []
+    # When
+    (
+        agent_string,
+        after_agent,
+        imports,
+    ) = export_agent(
+        agent=multimodal_agent,
+        agent_names=agent_names,
+        model_names=model_names,
+        skill_names=skill_names,
+        all_models=all_models,
+        all_skills=all_skills,
+        group_chat_members=group_chat_members,
+    )
+    # Then
+    assert (
+        agent_string
+        == """multimodal_agent = MultimodalConversableAgent(
+    name="multimodal_agent",
+    description="Agent's description",
+    llm_config=False,
+    human_input_mode="NEVER",
+    max_consecutive_auto_reply=None,
+    default_auto_reply=None,
+    code_execution_config=False,
+    is_termination_msg=None,
+)
+"""
+    )
+    assert after_agent == ""
+    assert imports == {
+        "from autogen.agentchat.contrib.multimodal_conversable_agent "
+        "import MultimodalConversableAgent"
     }
