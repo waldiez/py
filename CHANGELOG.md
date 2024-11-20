@@ -1,5 +1,9 @@
 # Changelog
 
+## v0.1.10
+
+- Fixed an issue with using a chromadb client without telemetry
+
 ## v0.1.9
 
 - Fix quotes in paths
