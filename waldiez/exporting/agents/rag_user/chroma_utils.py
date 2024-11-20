@@ -108,7 +108,7 @@ def get_chroma_db_args(
     if to_import_embedding:
         to_import.add(to_import_embedding)
     kwarg_string = (
-        f"            client={client_str},\n"
+        f"            client={agent_name}_client,\n"
         f"            embedding_function={embedding_function_arg},\n"
     )
     # The RAG example:
@@ -118,11 +118,10 @@ def get_chroma_db_args(
     # https://github.com/microsoft/autogen/issues/3551#issuecomment-2366930994
     # manually initializing the collection before running the flow,
     # might be a workaround.
-    content_before = ""
+    content_before = f"{agent_name}_client = {client_str}\n"
     collection_name = agent.retrieve_config.collection_name
     get_or_create = agent.retrieve_config.get_or_create
     if collection_name:
-        content_before = f"{agent_name}_client = {client_str}\n"
         if get_or_create:
             content_before += (
                 f"{agent_name}_client.get_or_create_collection("

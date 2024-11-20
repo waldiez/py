@@ -56,7 +56,7 @@ def test_get_rag_user_vector_db_string_chroma() -> None:
     )
     assert arg == (
         "ChromaVectorDB(\n"
-        f'            client=chromadb.PersistentClient(path=r"{local_path}", settings=Settings(anonymized_telemetry=False)),\n'
+        "            client=rag_user_client,\n"
         '            embedding_function=SentenceTransformerEmbeddingFunction(model_name="model"),\n'
         "        )"
     )
@@ -261,7 +261,7 @@ def custom_embedding_function_rag_user():
     )
     assert arg == (
         "ChromaVectorDB(\n"
-        f'            client=chromadb.PersistentClient(path=r"{local_path}", settings=Settings(anonymized_telemetry=False)),\n'
+        "            client=rag_user_client,\n"
         "            embedding_function=custom_embedding_function_rag_user,\n"
         "        )"
     )
@@ -322,7 +322,7 @@ except ValueError:
     )
     assert arg == (
         "ChromaVectorDB(\n"
-        f'            client=chromadb.PersistentClient(path=r"{local_path}", settings=Settings(anonymized_telemetry=False)),\n'
+        "            client=rag_user_client,\n"
         '            embedding_function=SentenceTransformerEmbeddingFunction(model_name="model"),\n'
         "            metadata={\n"
         '                "hnsw:space": "ip",\n'
