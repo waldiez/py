@@ -4,6 +4,7 @@ description = 'waldiez'
 authors = [
   { name = 'Panagiotis Kasnesis', email = 'pkasnesis@thingenious.io' },
   { name= 'Lazaros Toumanidis', email= 'laztoum@protonmail.com' },
+  { name = 'Stella Ioannidou', email = 'stella@humancentered.gr'}
 ]
 readme = "README.md"
 requires-python = '>=3.10,<3.13'
@@ -147,8 +148,6 @@ warn_unused_ignores = true
 plugins = [
   'pydantic.mypy'
 ]
-#   'mypy_zope:plugin'
-# ]
 exclude = [
     '.venv',
     '.local',
