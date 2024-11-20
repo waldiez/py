@@ -77,7 +77,7 @@ def test_get_rag_user_extras() -> None:
         agent=rag_user, agent_name=agent_name, model_names=model_names
     )
     assert before_agent_string == (
-        "\nrag_user_client = chromadb.Client()\n"
+        "\nrag_user_client = chromadb.Client(Settings(anonymized_telemetry=False))\n"
         "try:\n"
         '    rag_user_client.get_collection("autogen-docs")\n'
         "except ValueError:\n"
@@ -107,7 +107,7 @@ def test_get_rag_user_extras() -> None:
         "collection_name": "autogen-docs",
         "distance_threshold": -1,
         "vector_db": ChromaVectorDB(
-            client=chromadb.Client(),
+            client=chromadb.Client(Settings(anonymized_telemetry=False)),
             embedding_function=SentenceTransformerEmbeddingFunction(model_name="all-MiniLM-L6-v2"),
         ),
     },"""
@@ -115,6 +115,7 @@ def test_get_rag_user_extras() -> None:
     assert db_imports == {
         "from chromadb.utils.embedding_functions import SentenceTransformerEmbeddingFunction",
         "chromadb",
+        "from chromadb.config import Settings",
         "from autogen.agentchat.contrib.vectordb.chromadb import ChromaVectorDB",
     }
 
@@ -137,7 +138,7 @@ def custom_embedding_function():
     assert (
         before_agent_string
         == """
-rag_user_client = chromadb.Client()
+rag_user_client = chromadb.Client(Settings(anonymized_telemetry=False))
 try:
     rag_user_client.get_collection("autogen-docs")
 except ValueError:
@@ -174,13 +175,14 @@ def custom_embedding_function_rag_user():
         "collection_name": "autogen-docs",
         "distance_threshold": -1,
         "vector_db": ChromaVectorDB(
-            client=chromadb.Client(),
+            client=chromadb.Client(Settings(anonymized_telemetry=False)),
             embedding_function=custom_embedding_function_rag_user,
         ),
     },"""
     )
     assert db_imports == {
         "chromadb",
+        "from chromadb.config import Settings",
         "from autogen.agentchat.contrib.vectordb.chromadb import ChromaVectorDB",
     }
 
@@ -238,20 +240,21 @@ def custom_embedding_function():
         "custom_token_count_function": "custom_token_count_function_rag_user",
         "custom_text_split_function": "custom_text_split_function_rag_user",
         "vector_db": ChromaVectorDB(
-            client=chromadb.PersistentClient(path=r"{local_path}"),
+            client=chromadb.PersistentClient(path=r"{local_path}", settings=Settings(anonymized_telemetry=False)),
             embedding_function=custom_embedding_function_rag_user,
         ),
     }}"""
     )
     assert db_imports == {
         "chromadb",
+        "from chromadb.config import Settings",
         "from autogen.agentchat.contrib.vectordb.chromadb import ChromaVectorDB",
     }
     local_path = os.path.join(os.getcwd(), "data")
     assert (
         rag_content_before_agent
         == f"""
-rag_user_client = chromadb.PersistentClient(path=r"{local_path}")
+rag_user_client = chromadb.PersistentClient(path=r"{local_path}", settings=Settings(anonymized_telemetry=False))
 try:
     rag_user_client.get_collection("autogen-docs")
 except ValueError:
