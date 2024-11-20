@@ -15,7 +15,7 @@ def test_get_path_string() -> None:
     if os.name == "nt":
         assert result == f"r'{path}'"
     else:
-        assert result == f"'{path}'"
+        assert result == f"{path}"
 
 
 def test_get_path_string_not_local() -> None:
