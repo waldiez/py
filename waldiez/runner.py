@@ -235,10 +235,31 @@ class WaldiezRunner:
                 os.environ[var_key] = var_value
 
     def _do_run(
-        self, output_path: Optional[Union[str, Path]]
+        self,
+        output_path: Optional[Union[str, Path]],
+        uploads_root: Optional[Union[str, Path]],
     ) -> Union["ChatResult", List["ChatResult"]]:
-        """Run the Waldiez workflow."""
+        """Run the Waldiez workflow.
+
+        Parameters
+        ----------
+        output_path : Optional[Union[str, Path]]
+            The output path.
+        uploads_root : Optional[Union[str, Path]]
+            The runtime uploads root.
+
+        Returns
+        -------
+        Union[ChatResult, List[ChatResult]]
+            The result(s) of the chat(s).
+        """
         results: Union["ChatResult", List["ChatResult"]] = []
+        if not uploads_root:
+            uploads_root = Path(tempfile.mkdtemp())
+        else:
+            uploads_root = Path(uploads_root)
+        if not uploads_root.exists():
+            uploads_root.mkdir(parents=True)
         temp_dir = Path(tempfile.mkdtemp())
         file_name = "flow.py" if not output_path else Path(output_path).name
         if file_name.endswith((".json", ".waldiez")):
@@ -270,6 +291,7 @@ class WaldiezRunner:
     def _run(
         self,
         output_path: Optional[Union[str, Path]],
+        uploads_root: Optional[Union[str, Path]],
     ) -> Union["ChatResult", List["ChatResult"]]:
         self._install_requirements()
         token = self._stream.get()
@@ -278,13 +300,14 @@ class WaldiezRunner:
             from .io import WaldiezIOStream
 
             with WaldiezIOStream.set_default(token):
-                return self._do_run(output_path)
-        return self._do_run(output_path)
+                return self._do_run(output_path, uploads_root)
+        return self._do_run(output_path, uploads_root)
 
     def run(
         self,
         stream: Optional["WaldiezIOStream"] = None,
         output_path: Optional[Union[str, Path]] = None,
+        uploads_root: Optional[Union[str, Path]] = None,
     ) -> Union["ChatResult", List["ChatResult"]]:
         """Run the Waldiez workflow.
 
@@ -294,11 +317,13 @@ class WaldiezRunner:
             The stream to use, by default None.
         output_path : Optional[Union[str, Path]], optional
             The output path, by default None.
+        uploads_root : Optional[Union[str, Path]], optional
+            The uploads root, to get user-uploaded files, by default None.
 
         Returns
         -------
         Union[ChatResult, List[ChatResult]]
-            The result of the chat(s).
+            The result(s) of the chat(s).
 
         Raises
         ------
@@ -311,7 +336,7 @@ class WaldiezRunner:
         token = self._stream.set(stream)
         file_path = output_path or self._file_path
         try:
-            return self._run(file_path)
+            return self._run(file_path, uploads_root)
         finally:
             self._running = False
             self._stream.reset(token)
