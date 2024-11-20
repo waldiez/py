@@ -47,16 +47,17 @@ def test_get_chroma_db_args() -> None:
     # Then
     local_path = os.path.join(os.getcwd(), "local_storage_path")
     assert kwargs == (
-        f'            client=chromadb.PersistentClient(path=r"{local_path}"),\n'
+        f'            client=chromadb.PersistentClient(path=r"{local_path}", settings=Settings(anonymized_telemetry=False)),\n'
         '            embedding_function=SentenceTransformerEmbeddingFunction(model_name="model"),\n'
     )
     assert embeddings_func == ""
     assert imports == {
         "chromadb",
+        "from chromadb.config import Settings",
         "from chromadb.utils.embedding_functions import SentenceTransformerEmbeddingFunction",
     }
     assert before == (
-        f'rag_user_client = chromadb.PersistentClient(path=r"{local_path}")\n'
+        f'rag_user_client = chromadb.PersistentClient(path=r"{local_path}", settings=Settings(anonymized_telemetry=False))\n'
         'rag_user_client.get_or_create_collection("collection_name")\n'
     )
 
@@ -93,12 +94,13 @@ def test_get_chroma_db_args_no_local() -> None:
     )
     # Then
     assert kwargs == (
-        "            client=chromadb.Client(),\n"
+        "            client=chromadb.Client(Settings(anonymized_telemetry=False)),\n"
         '            embedding_function=SentenceTransformerEmbeddingFunction(model_name="model"),\n'
     )
     assert embeddings_func == ""
     assert imports == {
         "chromadb",
+        "from chromadb.config import Settings",
         "from chromadb.utils.embedding_functions import SentenceTransformerEmbeddingFunction",
     }
 
@@ -140,7 +142,7 @@ def test_get_chroma_db_custom_embeddings() -> None:
     )
     # Then
     assert kwargs == (
-        "            client=chromadb.Client(),\n"
+        "            client=chromadb.Client(Settings(anonymized_telemetry=False)),\n"
         "            embedding_function=custom_embedding_function_rag_user,\n"
     )
     assert embeddings_func == (
@@ -148,4 +150,4 @@ def test_get_chroma_db_custom_embeddings() -> None:
         "    # type: () -> Callable[..., Any]\n"
         '    return SentenceTransformerEmbeddingFunction(model_name="model")\n'
     )
-    assert imports == {"chromadb"}
+    assert imports == {"chromadb", "from chromadb.config import Settings"}

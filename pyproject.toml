@@ -87,7 +87,7 @@ docs = [
   'mkdocs==1.6.1',
   'mkdocs-jupyter==0.25.1',
   'mkdocs-macros-plugin==1.3.7',
-  'mkdocs-material==9.5.44',
+  'mkdocs-material==9.5.45',
   'mkdocs-minify-html-plugin==0.2.3',
   'mkdocstrings[crystal,python]==0.27.0',
   'mkdocstrings-python==1.12.2'

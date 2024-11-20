@@ -32,9 +32,9 @@ def _get_chroma_client_string(agent: WaldiezRagUser) -> Tuple[str, str]:
         # SyntaxError: (unicode error) 'unicodeescape' codec can't decode bytes
         # in position 2-3: truncated \UXXXXXXXX escape
         local_path = Path(agent.retrieve_config.db_config.local_storage_path)
-        client_str += f'PersistentClient(path=r"{local_path}")'
+        client_str += f'PersistentClient(path=r"{local_path}", settings=Settings(anonymized_telemetry=False))'
     else:
-        client_str += "Client()"
+        client_str += "Client(Settings(anonymized_telemetry=False))"
     return client_str, to_import
 
 
@@ -97,11 +97,11 @@ def get_chroma_db_args(
         - The custom embedding function.
         - Any additional content to be used before the `kwargs` string.
     """
-    client_str, to_import_client = _get_chroma_client_string(agent)
+    client_str, client_to_import = _get_chroma_client_string(agent)
     embedding_function_arg, to_import_embedding, embedding_function_body = (
         _get_chroma_embedding_function_string(agent, agent_name)
     )
-    to_import = {to_import_client}
+    to_import = {client_to_import, "from chromadb.config import Settings"}
     if to_import_embedding:
         to_import.add(to_import_embedding)
     kwarg_string = (

@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.1.9
+
+- Fix quotes in paths
+- Disable chromadb telemetry
+- Dependency updates
+
 ## v0.1.8
 
 - Change autogen-agentchat to ag2
