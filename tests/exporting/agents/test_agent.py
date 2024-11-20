@@ -587,7 +587,8 @@ def test_export_multimodal_agent() -> None:
 """
     )
     assert after_agent == ""
-    assert imports == {
+    expected_import = (
         "from autogen.agentchat.contrib.multimodal_conversable_agent "
         "import MultimodalConversableAgent"
-    }
+    )
+    assert imports == {expected_import}

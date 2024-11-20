@@ -32,7 +32,10 @@ def _get_chroma_client_string(agent: WaldiezRagUser) -> Tuple[str, str]:
         # SyntaxError: (unicode error) 'unicodeescape' codec can't decode bytes
         # in position 2-3: truncated \UXXXXXXXX escape
         local_path = Path(agent.retrieve_config.db_config.local_storage_path)
-        client_str += f'PersistentClient(path=r"{local_path}", settings=Settings(anonymized_telemetry=False))'
+        client_str += (
+            f'PersistentClient(path=r"{local_path}", '
+            "settings=Settings(anonymized_telemetry=False))"
+        )
     else:
         client_str += "Client(Settings(anonymized_telemetry=False))"
     return client_str, to_import

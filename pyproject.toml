@@ -201,7 +201,7 @@ unsafe-load-any-extension="no"
 
 [tool.pylint.messages_control]
 enable=["c-extension-no-member"]
-[tool.pylint.fotmat]
+[tool.pylint.format]
 max-line-length=80
 [tool.pylint.similarities]
 ignore-imports="yes"
