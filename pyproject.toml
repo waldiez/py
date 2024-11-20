@@ -65,6 +65,7 @@ ag2_extras =[
     'ag2[gemini]==0.3.2',
     'ag2[together]==0.3.2',
     'ag2[anthropic]==0.3.2',
+    'ag2[lmm]==0.3.2',
     'ag2[mistral]==0.3.2',
     'ag2[groq]==0.3.2',
     'ag2[bedrock]==0.3.2',

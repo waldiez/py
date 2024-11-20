@@ -26,6 +26,8 @@ def get_agent_class_name(agent: WaldiezAgent) -> str:
     str
         The agent class name.
     """
+    if agent.data.is_multimodal:
+        return "MultimodalConversableAgent"
     if agent.agent_type == "assistant":
         return "AssistantAgent"
     if agent.agent_type == "user":
@@ -62,6 +64,11 @@ def get_agent_imports(agent_class: str) -> Set[str]:
         imports.add(
             "from autogen.agentchat.contrib.retrieve_user_proxy_agent "
             "import RetrieveUserProxyAgent"
+        )
+    elif agent_class == "MultimodalConversableAgent":
+        imports.add(
+            "from autogen.agentchat.contrib.multimodal_conversable_agent "
+            "import MultimodalConversableAgent"
         )
     return imports
 
