@@ -55,7 +55,6 @@ dev = [
     'yamllint==1.35.1',
 ]
 ag2_extras =[
-    'chromadb==0.5.3',
     'fastembed==0.4.2',
     'pgvector>=0.3.6',
     'psycopg[binary]>=3.2.3',

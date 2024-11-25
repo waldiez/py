@@ -2,8 +2,6 @@
 #    uv pip compile pyproject.toml --output-file requirements/ag2_extras.txt --extra=ag2_extras --no-deps --no-strip-extras
 ag2[anthropic, bedrock, captainagent, gemini, groq, lmm, mistral, retrievechat, retrievechat-mongodb, retrievechat-pgvector, retrievechat-qdrant, together, websurfer]==0.4
     # via waldiez (pyproject.toml)
-chromadb==0.5.3
-    # via waldiez (pyproject.toml)
 fastembed==0.4.2
     # via waldiez (pyproject.toml)
 jupytext==1.16.4
