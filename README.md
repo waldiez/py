@@ -165,6 +165,20 @@ with WaldiezIOStream.set_default(io_stream):
 - [juptytext](https://github.com/mwouts/jupytext)
 - [pydantic](https://github.com/pydantic/pydantic)
 
+## Known Conflicts
+
+- **autogen-agentchat**: This package conflicts with `ag2`. Ensure that `autogen-agentchat` is uninstalled before installing `waldiez`. If you have already installed `autogen-agentchat`, you can uninstall it with the following command:
+
+  ```shell
+  pip uninstall autogen-agentchat -y
+  ```
+
+  If already installed waldiez you might need to reinstall it after uninstalling `autogen-agentchat`:
+  
+    ```shell
+    pip install --force --no-cache waldiez
+    ```
+
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](https://github.com/waldiez/waldiez/blob/main/LICENSE) file for details.
