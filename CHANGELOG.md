@@ -1,5 +1,12 @@
 # Changelog
 
+## [Unreleased]
+
+- Added a conflict check for ag2 and autogen-agentchat
+- Updated exporting skills: create a new file the the skill secrets
+- Updated ag2 to 0.4.0
+- Other dependency updates
+
 ## v0.1.10
 
 - Fixed an issue with using a chromadb client without telemetry
