@@ -69,6 +69,32 @@ def get_agent_skill_registration(
     return content
 
 
+def _write_skill_secrets(
+    skill: WaldiezSkill,
+    skill_name: str,
+    output_dir: Path,
+) -> None:
+    """Write the skill secrets to a file.
+
+    Parameters
+    ----------
+    skill : WaldiezSkill
+        The skill.
+    skill_name : str
+        The name of the skill.
+    output_dir : Path
+        The output directory to save the secrets to.
+    """
+    if not skill.secrets:
+        return
+    secrets_file = output_dir / f"{skill_name}_secrets.py"
+    with secrets_file.open("w", encoding="utf-8") as f:
+        f.write('"""Secrets for the skill."""\n')
+        f.write("from os import environ\n\n")
+        for key, value in skill.secrets.items():
+            f.write(f'environ["{key}"] = "{value}"\n')
+
+
 def export_skills(
     skills: List[WaldiezSkill],
     skill_names: Dict[str, str],
@@ -116,12 +142,21 @@ def export_skills(
     skill_secrets: Set[Tuple[str, str]] = set()
     for skill in skills:
         skill_name = skill_names[skill.id]
-        skill_imports.add(f"from {skill_name} import {skill_name}")
         skill_secrets.update(skill.secrets.items())
         if not output_dir:
+            skill_imports.add(f"from {skill_name} import {skill_name}")
             continue
         if not isinstance(output_dir, Path):
             output_dir = Path(output_dir)
+        if not skill.secrets:
+            skill_imports.add(f"from {skill_name} import {skill_name}")
+        else:
+            # have the secrets before the skill
+            skill_imports.add(
+                f"import {skill_name}_secrets  # noqa\n"
+                f"from {skill_name} import {skill_name}"
+            )
+        _write_skill_secrets(skill, skill_name, output_dir)
         skill_file = output_dir / f"{skill_name}.py"
         with skill_file.open("w", encoding="utf-8") as f:
             f.write(skill.content)

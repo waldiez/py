@@ -18,6 +18,7 @@
   "baselevel",
   "caplog",
   "capsys",
+  "captainagent",
   "chromadb",
   "codehilite",
   "commandline",
