@@ -23,7 +23,7 @@ classifiers = [
 ]
 dependencies = [
     "jupytext",
-    "ag2==0.4"
+    "ag2==0.4.1"
 ]
 
 [project.urls]
@@ -41,7 +41,7 @@ exclude = [ "**/example.py" ]
 [project.optional-dependencies]
 dev = [
     'autoflake==2.3.1',
-    'bandit==1.7.10',
+    'bandit==1.8.0',
     'black[jupyter]==24.10.0',
     'flake8==7.1.1',
     'isort==5.13.2',
@@ -50,7 +50,7 @@ dev = [
     'pydocstyle==6.3.0',
     'pylint==3.3.1',
     'python-dotenv==1.0.1',
-    'ruff==0.8.0',
+    'ruff==0.8.1',
     'types-PyYAML==6.0.12.20240917',
     'yamllint==1.35.1',
 ]
@@ -58,20 +58,20 @@ ag2_extras =[
     'fastembed==0.4.2',
     'pgvector>=0.3.6',
     'psycopg[binary]>=3.2.3',
-    'ag2[captainagent]==0.4',
-    'ag2[retrievechat]==0.4',
-    'ag2[retrievechat-pgvector]==0.4',
-    'ag2[retrievechat-mongodb]==0.4',
-    'ag2[retrievechat-qdrant]==0.4',
-    'ag2[gemini]==0.4',
-    'ag2[together]==0.4',
-    'ag2[anthropic]==0.4',
-    'ag2[lmm]==0.4',
-    'ag2[mistral]==0.4',
-    'ag2[groq]==0.4',
-    'ag2[bedrock]==0.4',
-    'ag2[websurfer]==0.4',
-    'ag2[together]==0.4',
+    'ag2[captainagent]==0.4.1',
+    'ag2[retrievechat]==0.4.1',
+    'ag2[retrievechat-pgvector]==0.4.1',
+    'ag2[retrievechat-mongodb]==0.4.1',
+    'ag2[retrievechat-qdrant]==0.4.1',
+    'ag2[gemini]==0.4.1',
+    'ag2[together]==0.4.1',
+    'ag2[anthropic]==0.4.1',
+    'ag2[lmm]==0.4.1',
+    'ag2[mistral]==0.4.1',
+    'ag2[groq]==0.4.1',
+    'ag2[bedrock]==0.4.1',
+    'ag2[websurfer]==0.4.1',
+    'ag2[together]==0.4.1',
     'pymongo==4.10.1',
     'qdrant-client==1.12.1',
 ]
