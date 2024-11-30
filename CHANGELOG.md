@@ -2,9 +2,11 @@
 
 ## [Unreleased]
 
+## v0.1.11
+
 - Added a conflict check for ag2 and autogen-agentchat
 - Updated exporting skills: create a new file the the skill secrets
-- Updated ag2 to 0.4.0
+- Updated ag2 to 0.4.1
 - Other dependency updates
 
 ## v0.1.10
