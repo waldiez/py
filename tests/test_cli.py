@@ -1,5 +1,6 @@
 """Test the CLI."""
 
+import re
 import sys
 from pathlib import Path
 
@@ -9,6 +10,23 @@ from waldiez import __version__
 from waldiez.__main__ import app as waldiez_main  # type: ignore
 from waldiez.cli import app
 from waldiez.models import WaldiezFlow
+
+
+def escape_ansi(text: str) -> str:
+    """Remove ANSI escape sequences from a string.
+
+    Parameters
+    ----------
+    text : str
+        The text to process.
+
+    Returns
+    -------
+    str
+        The text without ANSI escape sequences.
+    """
+    ansi_escape = re.compile(r"\x1B\[[0-?]*[ -/]*[@-~]")
+    return ansi_escape.sub("", text)
 
 
 def test_get_version(capsys: pytest.CaptureFixture[str]) -> None:
@@ -38,7 +56,7 @@ def test_help(capsys: pytest.CaptureFixture[str]) -> None:
         sys.argv = ["waldiez", "--help"]
         waldiez_main()
     captured = capsys.readouterr()
-    assert "Usage: waldiez" in captured.out
+    assert "Usage: waldiez" in escape_ansi(captured.out)
 
 
 def test_empty_cli(capsys: pytest.CaptureFixture[str]) -> None:
@@ -53,7 +71,7 @@ def test_empty_cli(capsys: pytest.CaptureFixture[str]) -> None:
         sys.argv = ["waldiez"]
         waldiez_main()
     captured = capsys.readouterr()
-    assert "Usage: waldiez" in captured.out
+    assert "Usage: waldiez" in escape_ansi(captured.out)
 
 
 def test_cli_export(
@@ -86,7 +104,8 @@ def test_cli_export(
     ]
     with pytest.raises(SystemExit):
         waldiez_main()
-    assert "Generated" in capsys.readouterr().out
+    captured = capsys.readouterr()
+    assert "Generated" in escape_ansi(captured.out)
     assert output_file.exists()
     output_file.unlink(missing_ok=True)
 
@@ -138,4 +157,5 @@ def test_cli_check(
     sys.argv = ["waldiez", "check", "--file", str(input_file)]
     with pytest.raises(SystemExit):
         waldiez_main()
-    assert "Waldiez flow is valid" in capsys.readouterr().out
+    captured = capsys.readouterr()
+    assert "Waldiez flow is valid" in escape_ansi(captured.out)
