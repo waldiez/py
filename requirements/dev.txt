@@ -20,11 +20,13 @@ pre-commit==4.0.1
     # via waldiez (pyproject.toml)
 pydocstyle==6.3.0
     # via waldiez (pyproject.toml)
-pylint==3.3.1
+pylint==3.3.2
     # via waldiez (pyproject.toml)
 python-dotenv==1.0.1
     # via waldiez (pyproject.toml)
 ruff==0.8.1
+    # via waldiez (pyproject.toml)
+typer==0.12.5
     # via waldiez (pyproject.toml)
 types-pyyaml==6.0.12.20240917
     # via waldiez (pyproject.toml)

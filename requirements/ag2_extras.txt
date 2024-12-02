@@ -14,3 +14,5 @@ pymongo==4.10.1
     # via waldiez (pyproject.toml)
 qdrant-client==1.12.1
     # via waldiez (pyproject.toml)
+typer==0.12.5
+    # via waldiez (pyproject.toml)
