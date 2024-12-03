@@ -23,6 +23,7 @@
   "codehilite",
   "commandline",
   "Containerfile",
+  "coverallsapp",
   "crossrefs",
   "dmypy",
   "docparams",
@@ -41,6 +42,7 @@
   "Ioannidou",
   "ipynb",
   "isort",
+  "junitxml",
   "juptytext",
   "jupytext",
   "Kasnesis",
@@ -66,8 +68,10 @@
   "pylint",
   "pymdownx",
   "pymongo",
+  "pyproject",
   "pytest",
   "qdrant",
+  "rcfile",
   "repr",
   "retrievechat",
   "sdist",
@@ -93,6 +97,7 @@
   "webp",
   "websurfer",
   "xdist",
+  "xunit",
   "yfinance"
 ]
 }
