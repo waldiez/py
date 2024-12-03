@@ -98,7 +98,7 @@ docs = [
 ]
 
 [project.scripts]
-waldiez = 'waldiez.cli:main'
+waldiez = 'waldiez.cli:app'
 
 [build-system]
 requires = ["hatchling"]
