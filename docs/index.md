@@ -7,9 +7,8 @@ To a python script or a jupyter notebook with the corresponding [ag2](https://gi
 
 ## Features
 
-- Export .waldiez flows to .py or .ipynb
+- Convert .waldiez flows to .py or .ipynb
 - Run a .waldiez flow
-- Include a `logs` folder with the logs of the flow in csv format
 - Provide a custom [IOSStream](https://ag2ai.github.io/ag2/docs/reference/io/base#iostream) to handle input and output.
 
 ## Installation
@@ -25,10 +24,10 @@ python -m pip install git+https://github.com/waldiez/waldiez.git
 ### CLI
 
 ```bash
-# Export a Waldiez flow to a python script or a jupyter notebook
-waldiez --export /path/to/a/flow.waldiez --output /path/to/an/output/flow[.py|.ipynb]
-# Export and run the script, optionally force generation if the output file already exists
-waldiez /path/to/a/flow.waldiez --output /path/to/an/output/flow[.py] [--force]
+# Convert a Waldiez flow to a python script or a jupyter notebook
+waldiez convert --file /path/to/a/flow.waldiez --output /path/to/an/output/flow[.py|.ipynb]
+# Convert and run the script, optionally force generation if the output file already exists
+waldiez run --file /path/to/a/flow.waldiez --output /path/to/an/output/flow[.py] [--force]
 ```
 
 ### Using docker/podman
@@ -37,12 +36,12 @@ waldiez /path/to/a/flow.waldiez --output /path/to/an/output/flow[.py] [--force]
 CONTAINER_COMMAND=docker # or podman
 # pull the image
 $CONTAINER_COMMAND pull waldiez/waldiez
-# Export a Waldiez flow to a python script or a jupyter notebook
+# Convert a Waldiez flow to a python script or a jupyter notebook
 $CONTAINER_COMMAND run \
   --rm \
   -v /path/to/a/flow.waldiez:/flow.waldiez \
   -v /path/to/an/output:/output \
-  waldiez/waldiez --export /flow.waldiez --output /output/flow[.py|.ipynb]
+  waldiez/waldiez convert --file /flow.waldiez --output /output/flow[.py|.ipynb]
 
 # with selinux and/or podman, you might get permission (or file not found) errors, so you can try:
 $CONTAINER_COMMAND run \
@@ -51,12 +50,16 @@ $CONTAINER_COMMAND run \
   -v /path/to/an/output:/output \
   --userns=keep-id \
   --security-opt label=disable \
-  waldiez/waldiez --export /flow.waldiez --output /output/flow[.py|.ipynb]
+  waldiez/waldiez convert --file /flow.waldiez --output /output/flow[.py|.ipynb]
 ```
 
 ```shell
-# Export and run the script
-$CONTAINER_COMMAND run --rm -v /path/to/a/flow.waldiez:/flow.waldiez -v /path/to/an/output:/output waldiez/waldiez /flow.waldiez --output /output/output[.py]
+# Convert and run the script
+$CONTAINER_COMMAND run \
+  --rm \
+  -v /path/to/a/flow.waldiez:/flow.waldiez \
+  -v /path/to/an/output:/output \
+  waldiez/waldiez run --file /flow.waldiez --output /output/output[.py]
 ```
 
 ### As a library
@@ -157,3 +160,4 @@ with WaldiezIOStream.set_default(io_stream):
 - [ag2 (formerly AutoGen)](https://github.com/ag2ai/ag2)
 - [juptytext](https://github.com/mwouts/jupytext)
 - [pydantic](https://github.com/pydantic/pydantic)
+- [typer](https://github.com/fastapi/typer)
