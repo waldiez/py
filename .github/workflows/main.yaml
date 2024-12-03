@@ -46,7 +46,7 @@ jobs:
         run: ruff check --config pyproject.toml .
 
   test:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     strategy:
       matrix:
         python-version: ["3.10", "3.11", "3.12"]
