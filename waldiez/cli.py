@@ -22,7 +22,10 @@ if TYPE_CHECKING:
 app = typer.Typer(
     name="waldiez",
     help="Handle Waldiez flows.",
-    context_settings={"help_option_names": ["-h", "--help"]},
+    context_settings={
+        "help_option_names": ["-h", "--help"],
+        "allow_extra_args": True,
+    },
     add_completion=False,
     no_args_is_help=True,
     invoke_without_command=True,
