@@ -66,15 +66,7 @@ jobs:
           pip install -r requirements/main.txt -r requirements/dev.txt -r requirements/test.txt
       - name: Run tests
         run: |
-          python -m pytest \
-            -c pyproject.toml \
-            --cov=waldiez \
-            --cov-report=term-missing:skip-covered \
-            --cov-report html:reports/html \
-            --cov-report xml:reports/coverage.xml \
-            --cov-report lcov:reports/lcov.info \
-            --junitxml=reports/xunit.xml \
-            tests/
+          python -m pytest -c pyproject.toml --cov=waldiez --cov-report=term-missing:skip-covered --cov-report lcov:reports/lcov.info tests/
       - name: Report to Coveralls
         # don't spam coveralls with multiple reports
         if: matrix.python-version == '3.12' && matrix.os == 'ubuntu-latest'
