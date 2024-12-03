@@ -14,11 +14,13 @@ mkdocs-jupyter==0.25.1
     # via waldiez (pyproject.toml)
 mkdocs-macros-plugin==1.3.7
     # via waldiez (pyproject.toml)
-mkdocs-material==9.5.46
+mkdocs-material==9.5.47
     # via waldiez (pyproject.toml)
 mkdocs-minify-html-plugin==0.2.3
     # via waldiez (pyproject.toml)
 mkdocstrings[crystal, python]==0.27.0
     # via waldiez (pyproject.toml)
 mkdocstrings-python==1.12.2
+    # via waldiez (pyproject.toml)
+typer==0.12.5
     # via waldiez (pyproject.toml)

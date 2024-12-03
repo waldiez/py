@@ -2,6 +2,12 @@
 
 ## [Unreleased]
 
+## v0.1.12
+
+- Updated cli usage (use typer)
+- Added a `check` command option to validate a flow
+- Fixed an issue with `pip install {requirements}` giving `externally-managed-environment` error
+
 ## v0.1.11
 
 - Added a conflict check for ag2 and autogen-agentchat

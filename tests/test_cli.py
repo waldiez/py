@@ -1,21 +1,32 @@
 """Test the CLI."""
 
-import argparse
+import re
 import sys
 from pathlib import Path
 
 import pytest
 
 from waldiez import __version__
-from waldiez.__main__ import main as waldiez_main  # type: ignore
-from waldiez.cli import get_parser, main
+from waldiez.__main__ import app as waldiez_main  # type: ignore
+from waldiez.cli import app
 from waldiez.models import WaldiezFlow
 
 
-def test_get_parser() -> None:
-    """Test the get_parser function."""
-    parser = get_parser()
-    assert isinstance(parser, argparse.ArgumentParser)
+def escape_ansi(text: str) -> str:
+    """Remove ANSI escape sequences from a string.
+
+    Parameters
+    ----------
+    text : str
+        The text to process.
+
+    Returns
+    -------
+    str
+        The text without ANSI escape sequences.
+    """
+    ansi_escape = re.compile(r"\x1B\[[0-?]*[ -/]*[@-~]")
+    return ansi_escape.sub("", text)
 
 
 def test_get_version(capsys: pytest.CaptureFixture[str]) -> None:
@@ -28,7 +39,7 @@ def test_get_version(capsys: pytest.CaptureFixture[str]) -> None:
     """
     with pytest.raises(SystemExit):
         sys.argv = ["waldiez", "--version"]
-        main()
+        app()
     captured = capsys.readouterr()
     assert __version__ in captured.out
 
@@ -45,7 +56,7 @@ def test_help(capsys: pytest.CaptureFixture[str]) -> None:
         sys.argv = ["waldiez", "--help"]
         waldiez_main()
     captured = capsys.readouterr()
-    assert "usage: waldiez" in captured.out
+    assert "Usage: waldiez" in escape_ansi(captured.out)
 
 
 def test_empty_cli(capsys: pytest.CaptureFixture[str]) -> None:
@@ -60,11 +71,11 @@ def test_empty_cli(capsys: pytest.CaptureFixture[str]) -> None:
         sys.argv = ["waldiez"]
         waldiez_main()
     captured = capsys.readouterr()
-    assert "usage: waldiez" in captured.out
+    assert "Usage: waldiez" in escape_ansi(captured.out)
 
 
 def test_cli_export(
-    caplog: pytest.LogCaptureFixture,
+    capsys: pytest.CaptureFixture[str],
     tmp_path: Path,
     waldiez_flow: WaldiezFlow,
 ) -> None:
@@ -72,8 +83,8 @@ def test_cli_export(
 
     Parameters
     ----------
-    caplog : pytest.LogCaptureFixture
-        Pytest fixture to capture logs.
+    capsys : pytest.CaptureFixture[str]
+        Pytest fixture to capture stdout and stderr.
     tmp_path : Path
         Pytest fixture to provide a temporary directory.
     waldiez_flow : WaldiezFlow
@@ -85,13 +96,16 @@ def test_cli_export(
     output_file = tmp_path / f"{waldiez_flow.name}.ipynb"
     sys.argv = [
         "waldiez",
-        "--export",
+        "convert",
         "--output",
         str(output_file),
+        "--file",
         str(input_file),
     ]
-    waldiez_main()
-    assert "Generated" in caplog.text
+    with pytest.raises(SystemExit):
+        waldiez_main()
+    captured = capsys.readouterr()
+    assert "Generated" in escape_ansi(captured.out)
     assert output_file.exists()
     output_file.unlink(missing_ok=True)
 
@@ -115,6 +129,33 @@ def test_cli_run(
     input_file = tmp_path / f"{waldiez_flow_no_human_input.name}.waldiez"
     with open(input_file, "w", encoding="utf-8") as file:
         file.write(waldiez_flow_no_human_input.model_dump_json(by_alias=True))
-    sys.argv = ["waldiez", str(input_file)]
-    waldiez_main()
+    sys.argv = ["waldiez", "run", "--file", str(input_file)]
+    with pytest.raises(SystemExit):
+        waldiez_main()
     assert "Summary" in caplog.text
+
+
+def test_cli_check(
+    capsys: pytest.CaptureFixture[str],
+    tmp_path: Path,
+    waldiez_flow_no_human_input: WaldiezFlow,
+) -> None:
+    """Test checking a WaldiezFlow using the CLI.
+
+    Parameters
+    ----------
+    capsys : pytest.CaptureFixture[str]
+        Pytest fixture to capture stdout and stderr.
+    tmp_path : Path
+        Pytest fixture to provide a temporary directory.
+    waldiez_flow_no_human_input : WaldiezFlow
+        A WaldiezFlow instance with no human input.
+    """
+    input_file = tmp_path / f"{waldiez_flow_no_human_input.name}.waldiez"
+    with open(input_file, "w", encoding="utf-8") as file:
+        file.write(waldiez_flow_no_human_input.model_dump_json(by_alias=True))
+    sys.argv = ["waldiez", "check", "--file", str(input_file)]
+    with pytest.raises(SystemExit):
+        waldiez_main()
+    captured = capsys.readouterr()
+    assert "Waldiez flow is valid" in escape_ansi(captured.out)
