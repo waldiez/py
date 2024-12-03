@@ -27,7 +27,7 @@ app = typer.Typer(
     no_args_is_help=True,
     invoke_without_command=True,
     add_help_option=True,
-    pretty_exceptions_short=False,
+    pretty_exceptions_enable=False,
     epilog=("Use `waldiez [COMMAND] --help` for command-specific help. "),
 )
 
