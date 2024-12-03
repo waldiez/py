@@ -2,6 +2,10 @@
 
 ## [Unreleased]
 
+## v0.1.13
+
+- Fix cli start script in pyproject.toml
+
 ## v0.1.12
 
 - Updated cli usage (use typer)
