@@ -169,8 +169,12 @@ class WaldiezRunner:
             print_function(
                 f"Installing requirements: {', '.join(extra_requirements)}"
             )
+            pip_install = [sys.executable, "-m", "pip", "install"]
+            if not in_virtualenv():
+                pip_install.append("--user")
+            pip_install.extend(extra_requirements)
             with subprocess.Popen(
-                [sys.executable, "-m", "pip", "install", *extra_requirements],
+                pip_install,
                 stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE,
             ) as proc:
@@ -341,3 +345,16 @@ class WaldiezRunner:
             self._running = False
             self._stream.reset(token)
             del token
+
+
+def in_virtualenv() -> bool:
+    """Check if we are inside a virtualenv.
+
+    Returns
+    -------
+    bool
+        True if inside a virtualenv, False otherwise.
+    """
+    return hasattr(sys, "real_prefix") or (
+        hasattr(sys, "base_prefix") and sys.base_prefix != sys.prefix
+    )
