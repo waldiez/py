@@ -50,7 +50,7 @@ $CONTAINER_COMMAND run \
   --rm \
   -v /path/to/a/flow.waldiez:/flow.waldiez \
   -v /path/to/an/output:/output \
-  waldiez/waldiez --export /flow.waldiez --output /output/flow[.py|.ipynb]
+  waldiez/waldiez convert --file /flow.waldiez --output /output/flow[.py|.ipynb] [--force]
 
 # with selinux and/or podman, you might get permission (or file not found) errors, so you can try:
 $CONTAINER_COMMAND run \
@@ -59,7 +59,7 @@ $CONTAINER_COMMAND run \
   -v /path/to/an/output:/output \
   --userns=keep-id \
   --security-opt label=disable \
-  waldiez/waldiez convert --file /flow.waldiez --output /output/flow[.py|.ipynb]
+  waldiez/waldiez convert --file /flow.waldiez --output /output/flow[.py|.ipynb] [--force]
 ```
 
 ```shell
@@ -70,6 +70,13 @@ $CONTAINER_COMMAND run \
   -v /path/to/an/output:/output \
   waldiez/waldiez run --file /flow.waldiez --output /output/output[.py]
 ```
+
+### UI
+
+For creating-only (no exporting or running) waldiez flows, you can use the playground at <https://waldiez.github.io>.  
+The repo for the js library is [here](https://github.com/waldiez/react).  
+We are currently working on waldiez-studio to provide a visual interface for creating and running Waldiez flows (you can find more [here](https://github.com/waldiez/studio)).  
+Until then, you can use our [Jupyter](https://github.com/waldiez/jupyter) or the [VSCode](https://github.com/waldiez/vscode) extension to create and run Waldiez flows.
 
 ### As a library
 
@@ -171,7 +178,7 @@ with WaldiezIOStream.set_default(io_stream):
 
 ## Known Conflicts
 
-- **autogen-agentchat**: This package conflicts with `ag2`. Ensure that `autogen-agentchat` is uninstalled before installing `waldiez`. If you have already installed `autogen-agentchat`, you can uninstall it with the following command:
+- **autogen-agentchat**: This package conflicts with `ag2` / `pyautogen`. Ensure that `autogen-agentchat` is uninstalled before installing `waldiez`. If you have already installed `autogen-agentchat`, you can uninstall it with the following command:
 
   ```shell
   pip uninstall autogen-agentchat -y
@@ -180,7 +187,7 @@ with WaldiezIOStream.set_default(io_stream):
   If already installed waldiez you might need to reinstall it after uninstalling `autogen-agentchat`:
   
     ```shell
-    pip install --force --no-cache waldiez
+    pip install --force --no-cache waldiez pyautogen
     ```
 
 ## License
