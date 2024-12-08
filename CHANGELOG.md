@@ -2,6 +2,13 @@
 
 ## [Unreleased]
 
+## v0.1.14
+
+- Updated cli to allow/ignore extra arguments
+- Fixed typo in pydantic model
+- Updated ag2 to 0.5.0
+- Other dependency updates
+
 ## v0.1.13
 
 - Fix cli start script in pyproject.toml
