@@ -42,15 +42,27 @@ class WaldiezFlowData(WaldiezBase):
     # (they for graph connections, positions, etc.)
     nodes: Annotated[
         List[Dict[str, Any]],
-        Field(default_factory=list),
+        Field(
+            default_factory=list,
+            title="Nodes",
+            description="The nodes of the flow",
+        ),
     ]
     edges: Annotated[
         List[Dict[str, Any]],
-        Field(default_factory=list),
+        Field(
+            default_factory=list,
+            title="Edges",
+            description="The edges of the flow",
+        ),
     ]
     viewport: Annotated[
         Dict[str, Any],
-        Field(default_factory=dict),
+        Field(
+            default_factory=dict,
+            title="Viewport",
+            description="The viewport of the flow",
+        ),
     ]
     # these are the ones we use.
     agents: Annotated[

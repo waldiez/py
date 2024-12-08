@@ -74,13 +74,70 @@ class WaldiezModelData(WaldiezBase):
             alias="baseUrl",
         ),
     ]
-    api_key: Annotated[Optional[str], Field(None, alias="apiKey")]
-    api_type: Annotated[WaldiezModelAPIType, Field("other", alias="apiType")]
-    api_version: Annotated[Optional[str], Field(None, alias="apiVersion")]
-    temperature: Annotated[Optional[float], Field(None, alias="temperature")]
-    top_p: Annotated[Optional[float], Field(None, alias="topP")]
-    max_tokens: Annotated[Optional[int], Field(None, alias="maxTokens")]
-    default_headers: Annotated[
-        Dict[str, str], Field(alias="defaultHeaders", default_factory=dict)
+    api_key: Annotated[
+        Optional[str],
+        Field(
+            None,
+            alias="apiKey",
+            title="API Key",
+            description="The api key to use with the model",
+        ),
     ]
-    price: Annotated[Optional[WaldiezModelPrice], Field(None)]
+    api_type: Annotated[
+        WaldiezModelAPIType,
+        Field(
+            "other",
+            alias="apiType",
+            title="API Type",
+            description="The api type of the model",
+        ),
+    ]
+    api_version: Annotated[
+        Optional[str],
+        Field(
+            None,
+            alias="apiVersion",
+            title="API Version",
+            description="The api version of the model",
+        ),
+    ]
+    temperature: Annotated[
+        Optional[float],
+        Field(
+            None,
+            alias="temperature",
+            title="Temperature",
+            description="The temperature of the model",
+        ),
+    ]
+    top_p: Annotated[
+        Optional[float],
+        Field(
+            None,
+            alias="topP",
+            title="Top P",
+            description="The top p of the model",
+        ),
+    ]
+    max_tokens: Annotated[
+        Optional[int],
+        Field(
+            None,
+            alias="maxTokens",
+            title="Max Tokens",
+            description="The max tokens of the model",
+        ),
+    ]
+    default_headers: Annotated[
+        Dict[str, str],
+        Field(
+            alias="defaultHeaders",
+            default_factory=dict,
+            title="Default Headers",
+            description="The default headers of the model",
+        ),
+    ]
+    price: Annotated[
+        Optional[WaldiezModelPrice],
+        Field(None, title="Price", description="The price of the model"),
+    ]

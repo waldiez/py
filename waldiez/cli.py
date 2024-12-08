@@ -25,6 +25,7 @@ app = typer.Typer(
     context_settings={
         "help_option_names": ["-h", "--help"],
         "allow_extra_args": True,
+        "ignore_unknown_options": True,
     },
     add_completion=False,
     no_args_is_help=True,

@@ -14,7 +14,7 @@ class WaldiezBase(BaseModel):
     """
 
     model_config = ConfigDict(
-        extra="forbid",
+        extra="ignore",
         # treat `skillId` as `skill_id`
         alias_generator=to_camel,
         # allow passing either `skill_id` or `skillId`

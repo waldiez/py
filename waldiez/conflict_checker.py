@@ -12,9 +12,10 @@ def check_conflicts() -> None:  # pragma: no cover
     try:
         version("autogen-agentchat")
         print(
-            "Conflict detected: 'autogen-agentchat' is installed, which conflicts with 'ag2'.\n"
+            "Conflict detected: 'autogen-agentchat' is installed, "
+            "which conflicts with 'ag2' / 'pyautogen'.\n"
             "Please uninstall 'autogen-agentchat': pip uninstall -y autogen-agentchat \n"
-            "And install 'ag2' (or 'waldiez') again: pip install --force ag2"
+            "And install 'pyautogen' (or 'waldiez') again: pip install --force pyautogen waldiez"
         )
         sys.exit(1)
     except PackageNotFoundError:

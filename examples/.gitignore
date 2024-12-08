@@ -1,0 +1,11 @@
+**
+!*/
+.ipynb_checkpoints/
+waldiez_out/
+documents/
+# do not ignore these extensions
+!.gitignore
+!*.waldiez
+!*.waldiezModel
+!*.waldiezSkill
+!*.waldiezAgent
