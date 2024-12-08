@@ -211,16 +211,17 @@ class Waldiez:
             lambda requirement: not (
                 requirement.startswith("pyautogen")
                 or requirement.startswith("ag2")
+                or requirement.startswith("autogen")
             ),
             self.flow.requirements,
         )
         requirements = set(requirements_list)
         if self.has_rag_agents:
-            requirements.add(f"ag2[retrievechat]=={autogen_version}")
+            requirements.add(f"pyautogen[retrievechat]=={autogen_version}")
         else:
-            requirements.add(f"ag2=={autogen_version}")
+            requirements.add(f"pyautogen=={autogen_version}")
         if self.has_multimodal_agents:
-            requirements.add(f"ag2[lmm]=={autogen_version}")
+            requirements.add(f"pyautogen[lmm]=={autogen_version}")
         # ref: https://github.com/ag2ai/ag2/blob/main/setup.py
         models_with_additional_requirements = [
             "together",
@@ -234,7 +235,7 @@ class Waldiez:
         for model in self.models:
             if model.data.api_type in models_with_additional_requirements:
                 requirements.add(
-                    f"ag2[{model.data.api_type}]==" f"{autogen_version}"
+                    f"pyautogen[{model.data.api_type}]==" f"{autogen_version}"
                 )
         return list(requirements)
 
