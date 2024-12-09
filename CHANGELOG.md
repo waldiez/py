@@ -2,6 +2,10 @@
 
 ## [Unreleased]
 
+## v0.1.15
+
+- Updated requirements. Force pydantic to >=2.0
+
 ## v0.1.14
 
 - Updated cli to allow/ignore extra arguments
