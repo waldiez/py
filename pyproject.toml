@@ -24,8 +24,9 @@ classifiers = [
 dependencies =[
     "pyautogen==0.5.0",
     "jupytext",
+    "pydantic>=2.0",
     # together(ag2 extra) 1.2.0 depends on typer<0.13 and >=0.9
-    "typer>=0.9,<0.13"
+    "typer>=0.9,<0.13",
 ]
 
 [project.urls]
@@ -55,7 +56,17 @@ dev = [
     'ruff==0.8.2',
     'types-PyYAML==6.0.12.20240917',
     'yamllint==1.35.1',
+    'toml; python_version <= "3.10"',
+    'types-toml== 0.10.8.20240310',
 ]
+# fastembed and fastembed-gpu are not available, yet for python 3.13
+# ref: https://github.com/qdrant/qdrant-client/blob/master/pyproject.toml
+# fastembed = [
+#     { version = "0.3.6", optional = true, python = "<3.13" }
+# ]
+# fastembed-gpu = [
+#     { version = "0.3.6", optional = true, python = "<3.13" }
+# ]
 ag2_extras =[
     'fastembed==0.4.2',
     'pgvector>=0.3.6',
@@ -64,7 +75,8 @@ ag2_extras =[
     'pyautogen[retrievechat]==0.5.0',
     'pyautogen[retrievechat-pgvector]==0.5.0',
     'pyautogen[retrievechat-mongodb]==0.5.0',
-    'pyautogen[retrievechat-qdrant]==0.5.0',
+    'pyautogen[retrievechat-qdrant]==0.5.0; python_version < "3.13"',
+    'qdrant-client[fastembed]; python_version >= "3.13"',
     'pyautogen[gemini]==0.5.0',
     'pyautogen[together]==0.5.0',
     'pyautogen[anthropic]==0.5.0',
@@ -75,7 +87,6 @@ ag2_extras =[
     'pyautogen[websurfer]==0.5.0',
     'pyautogen[together]==0.5.0',
     'pymongo==4.10.1',
-    'qdrant-client==1.12.1',
 ]
 test = [
     'pytest==8.3.4',

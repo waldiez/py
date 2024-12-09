@@ -70,6 +70,7 @@
   "pymongo",
   "pyproject",
   "pytest",
+  "pyyaml",
   "qdrant",
   "rcfile",
   "repr",
