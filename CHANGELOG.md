@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+- Updated conflict checker to provide more detailed instructions on how to resolve conflicts
+
 ## v0.1.15
 
 - Updated requirements. Force pydantic to >=2.0
