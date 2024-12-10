@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+## v0.1.16
+
 - Updated conflict checker to provide more detailed instructions on how to resolve conflicts
 
 ## v0.1.15
