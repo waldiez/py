@@ -33,6 +33,7 @@
   "exitfirst",
   "fastembed",
   "filterwarnings",
+  "gitmodules",
   "greut",
   "groq",
   "groupchat",
