@@ -2,6 +2,10 @@
 
 ## [Unreleased]
 
+- Updated ag2 to 0.5.2
+- Fixed an issue using uuid instead of str for the flow id
+- Updated runtime logging to start earlier
+
 ## v0.1.16
 
 - Updated conflict checker to provide more detailed instructions on how to resolve conflicts
