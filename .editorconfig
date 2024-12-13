@@ -9,7 +9,7 @@ indent_style = space
 insert_final_newline = true
 trim_trailing_whitespace = true
 
-[Makefile]
+[{Makefile,.gitmodules}]
 indent_style = tab
 
 [*.md]
@@ -19,8 +19,7 @@ trim_trailing_whitespace = false
 indent_size = 2
 
 # Ignore:
-[.venv/**/*]
-[*.{svg,waldiez,waldiezSkill,waldiezModel,waldiezAgent}]
+[{*.svg,*.waldiez,*.waldiezSkill,*.waldiezModel,*.waldiezAgent}]
 charset = unset
 end_of_line = unset
 insert_final_newline = unset
