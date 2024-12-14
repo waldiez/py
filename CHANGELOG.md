@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+## v0.1.17
+
 - Updated ag2 to 0.5.3
 - Fixed an issue using uuid instead of str for the flow id
 - Updated runtime logging to start earlier
