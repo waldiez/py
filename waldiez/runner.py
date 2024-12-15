@@ -16,7 +16,6 @@ import subprocess  # nosemgrep # nosec
 import sys
 import tempfile
 from contextlib import contextmanager
-from contextvars import ContextVar
 from pathlib import Path
 from types import TracebackType
 from typing import (
@@ -35,8 +34,6 @@ from .models.waldiez import Waldiez
 
 if TYPE_CHECKING:
     from autogen import ChatResult  # type: ignore
-
-    from .io import WaldiezIOStream
 
 
 @contextmanager
@@ -71,9 +68,6 @@ class WaldiezRunner:
         self._waldiez = waldiez
         self._running = False
         self._file_path = file_path
-        self._stream: ContextVar[Optional["WaldiezIOStream"]] = ContextVar(
-            "waldiez_stream", default=None
-        )
         self._exporter = WaldiezExporter(waldiez)
 
     @classmethod
@@ -136,10 +130,6 @@ class WaldiezRunner:
         """Exit the context manager."""
         if self._running:
             self._running = False
-        token = self._stream.get()
-        if token is not None:
-            self._stream.reset(token)
-            del token
 
     @property
     def waldiez(self) -> Waldiez:
@@ -151,24 +141,13 @@ class WaldiezRunner:
         """Get the running status."""
         return self._running
 
-    def _get_print_function(self) -> Callable[..., None]:
-        """Get the print function."""
-        token = self._stream.get()
-        if token is not None:
-            return token.print
-        return print
-
-    def _install_requirements(self) -> None:
+    def _install_requirements(self, printer: Callable[..., None]) -> None:
         """Install the requirements for the flow."""
         extra_requirements = set(
             req for req in self.waldiez.requirements if req not in sys.modules
         )
         if extra_requirements:
-            print_function = self._get_print_function()
-            # pylint: disable=inconsistent-quotes
-            print_function(
-                f"Installing requirements: {', '.join(extra_requirements)}"
-            )
+            printer(f"Installing requirements: {', '.join(extra_requirements)}")
             pip_install = [sys.executable, "-m", "pip", "install"]
             if not in_virtualenv():
                 pip_install.append("--user")
@@ -180,18 +159,21 @@ class WaldiezRunner:
             ) as proc:
                 if proc.stdout:
                     for line in io.TextIOWrapper(proc.stdout, encoding="utf-8"):
-                        print_function(line.strip())
+                        printer(line.strip())
                 if proc.stderr:
                     for line in io.TextIOWrapper(proc.stderr, encoding="utf-8"):
-                        print_function(line.strip())
-            print_function(
+                        printer(line.strip())
+            printer(
                 "Requirements installed.\n"
                 "NOTE: If new packages were added and you are using Jupyter, "
                 "you might need to restart the kernel."
             )
 
+    @staticmethod
     def _after_run(
-        self, temp_dir: Path, output_path: Optional[Union[str, Path]]
+        temp_dir: Path,
+        output_path: Optional[Union[str, Path]],
+        printer: Callable[..., None],
     ) -> None:
         if output_path:
             destination_dir = Path(output_path).parent
@@ -202,9 +184,7 @@ class WaldiezRunner:
             )
             destination_dir.mkdir(parents=True, exist_ok=True)
             # copy the contents of the temp dir to the destination dir
-            self._get_print_function()(
-                f"Copying the results to {destination_dir}"
-            )
+            printer(f"Copying the results to {destination_dir}")
             for item in temp_dir.iterdir():
                 # skip cache files
                 if (
@@ -257,6 +237,10 @@ class WaldiezRunner:
         Union[ChatResult, List[ChatResult]]
             The result(s) of the chat(s).
         """
+        # pylint: disable=import-outside-toplevel
+        from autogen.io import IOStream  # type: ignore
+
+        printer = IOStream.get_default().print
         results: Union["ChatResult", List["ChatResult"]] = []
         if not uploads_root:
             uploads_root = Path(tempfile.mkdtemp())
@@ -284,32 +268,15 @@ class WaldiezRunner:
             old_vars = self._set_env_vars()
             module = importlib.util.module_from_spec(spec)
             spec.loader.exec_module(module)
-            print_function = self._get_print_function()
-            print_function("Starting workflow...")
+            printer("Starting workflow...")
             results = module.main()
             sys.path.pop(0)
             self._reset_env_vars(old_vars)
-        self._after_run(temp_dir, output_path)
+        self._after_run(temp_dir, output_path, printer)
         return results
-
-    def _run(
-        self,
-        output_path: Optional[Union[str, Path]],
-        uploads_root: Optional[Union[str, Path]],
-    ) -> Union["ChatResult", List["ChatResult"]]:
-        self._install_requirements()
-        token = self._stream.get()
-        if token is not None:
-            # pylint: disable=import-outside-toplevel
-            from .io import WaldiezIOStream
-
-            with WaldiezIOStream.set_default(token):
-                return self._do_run(output_path, uploads_root)
-        return self._do_run(output_path, uploads_root)
 
     def run(
         self,
-        stream: Optional["WaldiezIOStream"] = None,
         output_path: Optional[Union[str, Path]] = None,
         uploads_root: Optional[Union[str, Path]] = None,
     ) -> Union["ChatResult", List["ChatResult"]]:
@@ -317,8 +284,6 @@ class WaldiezRunner:
 
         Parameters
         ----------
-        stream : Optional[WaldiezIOStream], optional
-            The stream to use, by default None.
         output_path : Optional[Union[str, Path]], optional
             The output path, by default None.
         uploads_root : Optional[Union[str, Path]], optional
@@ -337,14 +302,11 @@ class WaldiezRunner:
         if self._running is True:
             raise RuntimeError("Workflow already running")
         self._running = True
-        token = self._stream.set(stream)
         file_path = output_path or self._file_path
         try:
-            return self._run(file_path, uploads_root)
+            return self._do_run(file_path, uploads_root)
         finally:
             self._running = False
-            self._stream.reset(token)
-            del token
 
 
 def in_virtualenv() -> bool:

@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+- Removed custom IOStream
+
 ## v0.1.17
 
 - Updated ag2 to 0.5.3
