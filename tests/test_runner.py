@@ -2,87 +2,85 @@
 
 # pylint: disable=protected-access
 
+import shutil
 from pathlib import Path
-from typing import Optional
+from typing import Any
 
 import pytest
+from autogen.io import IOStream  # type: ignore
 
 from waldiez import Waldiez, WaldiezRunner
-from waldiez.io import WaldiezIOStream
 from waldiez.models import WaldiezFlow
 
 
-def test_runner(waldiez_flow: WaldiezFlow) -> None:
+class CustomIOStream(IOStream):
+    """Custom IOStream class."""
+
+    def print(
+        self,
+        *objects: Any,
+        sep: str = " ",
+        end: str = "\n",
+        flush: bool = False,
+    ) -> None:
+        """Print objects.
+
+        Parameters
+        ----------
+        objects : Any
+            Objects to print.
+        sep : str, optional
+            Separator, by default " ".
+        end : str, optional
+            End, by default 'eol'.
+        flush : bool, optional
+            Whether to flush, by default False.
+        """
+        print(*objects, sep=sep, end=end, flush=flush)
+
+    def input(self, prompt: str = "", *, password: bool = False) -> str:
+        """Get user input.
+
+        Parameters
+        ----------
+        prompt : str, optional
+            Prompt, by default "".
+        password : bool, optional
+            Whether to read a password, by default False.
+
+        Returns
+        -------
+        str
+            User input.
+        """
+        return "User input"
+
+
+def test_waldiez_runner(
+    waldiez_flow: WaldiezFlow,
+    tmp_path: Path,
+    capsys: pytest.CaptureFixture[str],
+) -> None:
     """Test WaldiezRunner.
 
     Parameters
     ----------
     waldiez_flow : WaldiezFlow
         A WaldiezFlow instance.
-    """
-    waldiez = Waldiez(flow=waldiez_flow)
-    runner = WaldiezRunner(waldiez)
-    assert runner.waldiez == waldiez
-    assert not runner.running
-
-    prompt_input: Optional[str] = None
-    stream: WaldiezIOStream
-
-    def on_prompt_input(prompt: str) -> None:
-        nonlocal prompt_input, stream
-        prompt_input = prompt
-        stream.set_input("Reply to prompt\n")
-
-    stream = WaldiezIOStream(
-        on_prompt_input=on_prompt_input,
-        print_function=print,
-        input_timeout=2,
-    )
-    with WaldiezIOStream.set_default(stream):
-        runner.run(stream)
-    assert not runner.running
-    assert runner._stream.get() is None
-    assert prompt_input is not None
-
-
-def test_runner_with_uploads_root(
-    waldiez_flow: WaldiezFlow, tmp_path: Path
-) -> None:
-    """Test WaldiezRunner with uploads root.
-
-    Parameters
-    ----------
-    waldiez_flow : WaldiezFlow
-        A WaldiezFlow instance.
     tmp_path : Path
-        A pytest fixture to provide a temporary directory.
+        Pytest fixture to create temporary directory.
+    capsys : pytest.CaptureFixture[Optional[str]]
+        Pytest fixture to capture stdout and stderr.
     """
-    waldiez = Waldiez(flow=waldiez_flow)
-    uploads_root = tmp_path / "uploads"
-    runner = WaldiezRunner(waldiez, uploads_root)
-    assert runner.waldiez == waldiez
-    assert not runner.running
-
-    prompt_input: Optional[str] = None
-    stream: WaldiezIOStream
-
-    def on_prompt_input(prompt: str) -> None:
-        nonlocal prompt_input, stream
-        prompt_input = prompt
-        stream.set_input("Reply to prompt\n")
-
-    stream = WaldiezIOStream(
-        on_prompt_input=on_prompt_input,
-        print_function=print,
-        input_timeout=2,
-    )
-    with WaldiezIOStream.set_default(stream):
-        runner.run(stream, uploads_root=uploads_root)
-    assert not runner.running
-    assert runner._stream.get() is None
-    assert prompt_input is not None
-    assert uploads_root.exists()
-    uploads_root.rmdir()
+    waldiez = Waldiez.from_dict(data=waldiez_flow.model_dump(by_alias=True))
+    output_path = tmp_path / "output.py"
+    runner = WaldiezRunner(waldiez)
+    with IOStream.set_default(CustomIOStream()):
+        runner.run(output_path=output_path)
+    std_out = capsys.readouterr().out
+    assert "Starting workflow" in std_out
+    assert (tmp_path / "waldiez_out").exists()
+    shutil.rmtree(tmp_path / "waldiez_out")
 
 
 def test_waldiez_with_invalid_requirement(
@@ -103,7 +101,7 @@ def test_waldiez_with_invalid_requirement(
     flow_dict["requirements"] = ["invalid_requirement"]
     waldiez = Waldiez.from_dict(data=flow_dict)
     runner = WaldiezRunner(waldiez)
-    runner._install_requirements()
+    runner._install_requirements(print)
     std_err = capsys.readouterr().out
     assert (
         "ERROR: No matching distribution found for invalid_requirement"

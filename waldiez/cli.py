@@ -90,7 +90,7 @@ def run(
             raise typer.Exit(code=1) from error
     waldiez = Waldiez.from_dict(data)
     runner = WaldiezRunner(waldiez)
-    results = runner.run(stream=None, output_path=output_path)
+    results = runner.run(output_path=output_path)
     logger = _get_logger()
     if isinstance(results, list):
         logger.info("Results:")
