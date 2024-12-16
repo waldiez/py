@@ -11,7 +11,7 @@ To a python script or a jupyter notebook with the corresponding [ag2](https://gi
 
 - Convert .waldiez flows to .py or .ipynb
 - Run a .waldiez flow
-- Provide a custom [IOSStream](https://ag2ai.github.io/ag2/docs/reference/io/base#iostream) to handle input and output.
+- Store the runtime logs of a flow to csv for further analysis
 
 ## Installation
 
