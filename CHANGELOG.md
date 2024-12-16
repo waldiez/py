@@ -2,7 +2,11 @@
 
 ## [Unreleased]
 
+## v0.1.18
+
 - Removed custom IOStream
+- Handle refreshing the environment after pip install
+- Dev dependencies updates
 
 ## v0.1.17
 
