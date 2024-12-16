@@ -12,6 +12,7 @@ import importlib.util
 import io
 import os
 import shutil
+import site
 import subprocess  # nosemgrep # nosec
 import sys
 import tempfile
@@ -56,6 +57,11 @@ def _chdir(to: Union[str, Path]) -> Iterator[None]:
         yield
     finally:
         os.chdir(old_cwd)
+
+
+def refresh_site_packages() -> None:
+    """Refresh the site packages."""
+    site.main()
 
 
 class WaldiezRunner:
@@ -163,6 +169,8 @@ class WaldiezRunner:
                 if proc.stderr:
                     for line in io.TextIOWrapper(proc.stderr, encoding="utf-8"):
                         printer(line.strip())
+            printer("Refreshing site packages...")
+            refresh_site_packages()
             printer(
                 "Requirements installed.\n"
                 "NOTE: If new packages were added and you are using Jupyter, "
@@ -241,6 +249,7 @@ class WaldiezRunner:
         from autogen.io import IOStream  # type: ignore
 
         printer = IOStream.get_default().print
+        self._install_requirements(printer)
         results: Union["ChatResult", List["ChatResult"]] = []
         if not uploads_root:
             uploads_root = Path(tempfile.mkdtemp())
