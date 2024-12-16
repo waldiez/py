@@ -62,6 +62,10 @@ def _chdir(to: Union[str, Path]) -> Iterator[None]:
 def refresh_site_packages() -> None:
     """Refresh the site packages."""
     site.main()
+    # pylint: disable=import-outside-toplevel
+    import autogen
+
+    importlib.reload(autogen)
 
 
 class WaldiezRunner:
