@@ -2,6 +2,10 @@
 
 ## [Unreleased]
 
+## v0.1.19
+
+- Updated runner: Make the call to install requirements public
+
 ## v0.1.18
 
 - Removed custom IOStream
