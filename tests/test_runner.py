@@ -101,7 +101,7 @@ def test_waldiez_with_invalid_requirement(
     flow_dict["requirements"] = ["invalid_requirement"]
     waldiez = Waldiez.from_dict(data=flow_dict)
     runner = WaldiezRunner(waldiez)
-    runner._install_requirements(print)
+    runner.install_requirements()
     std_err = capsys.readouterr().out
     assert (
         "ERROR: No matching distribution found for invalid_requirement"

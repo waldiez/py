@@ -7,6 +7,8 @@ return the results. Before running the flow, any additional environment
 variables specified in the waldiez file are set.
 """
 
+# pylint: disable=import-outside-toplevel,reimported
+
 import datetime
 import importlib.util
 import io
@@ -59,11 +61,6 @@ def _chdir(to: Union[str, Path]) -> Iterator[None]:
         os.chdir(old_cwd)
 
 
-def refresh_site_packages() -> None:
-    """Refresh the site packages."""
-    site.main()
-
-
 class WaldiezRunner:
     """Waldiez runner class."""
 
@@ -75,6 +72,7 @@ class WaldiezRunner:
         self._running = False
         self._file_path = file_path
         self._exporter = WaldiezExporter(waldiez)
+        self._called_install_requirements = False
 
     @classmethod
     def load(
@@ -147,8 +145,10 @@ class WaldiezRunner:
         """Get the running status."""
         return self._running
 
-    def _install_requirements(self, printer: Callable[..., None]) -> None:
+    def install_requirements(self) -> None:
         """Install the requirements for the flow."""
+        self._called_install_requirements = True
+        printer = get_printer()
         extra_requirements = set(
             req for req in self.waldiez.requirements if req not in sys.modules
         )
@@ -169,13 +169,7 @@ class WaldiezRunner:
                 if proc.stderr:
                     for line in io.TextIOWrapper(proc.stderr, encoding="utf-8"):
                         printer(line.strip())
-            printer("Refreshing site packages...")
-            refresh_site_packages()
-            printer(
-                "Requirements installed.\n"
-                "NOTE: If new packages were added and you are using Jupyter, "
-                "you might need to restart the kernel."
-            )
+            refresh_environment()
 
     @staticmethod
     def _after_run(
@@ -245,11 +239,16 @@ class WaldiezRunner:
         Union[ChatResult, List[ChatResult]]
             The result(s) of the chat(s).
         """
-        # pylint: disable=import-outside-toplevel
-        from autogen.io import IOStream  # type: ignore
-
-        printer = IOStream.get_default().print
-        self._install_requirements(printer)
+        if not self._called_install_requirements:
+            self.install_requirements()
+        else:
+            refresh_environment()
+        printer = get_printer()
+        printer(
+            "Requirements installed.\n"
+            "NOTE: If new packages were added and you are using Jupyter, "
+            "you might need to restart the kernel."
+        )
         results: Union["ChatResult", List["ChatResult"]] = []
         if not uploads_root:
             uploads_root = Path(tempfile.mkdtemp())
@@ -277,7 +276,7 @@ class WaldiezRunner:
             old_vars = self._set_env_vars()
             module = importlib.util.module_from_spec(spec)
             spec.loader.exec_module(module)
-            printer("Starting workflow...")
+            printer("<Waldiez> - Starting workflow...")
             results = module.main()
             sys.path.pop(0)
             self._reset_env_vars(old_vars)
@@ -329,3 +328,37 @@ def in_virtualenv() -> bool:
     return hasattr(sys, "real_prefix") or (
         hasattr(sys, "base_prefix") and sys.base_prefix != sys.prefix
     )
+
+
+def refresh_environment() -> None:
+    """Refresh the environment."""
+    # backup the default IOStream
+    from autogen.io import IOStream  # type: ignore
+
+    default_io_stream = IOStream.get_default()
+    site.main()
+    # pylint: disable=import-outside-toplevel
+    modules_to_reload = [
+        mod for mod in sys.modules if mod.startswith("autogen")
+    ]
+    for mod in modules_to_reload:
+        del sys.modules[mod]
+    import autogen
+    from autogen.io import IOStream
+
+    importlib.reload(autogen)
+    # restore the default IOStream
+    IOStream.set_global_default(default_io_stream)
+
+
+def get_printer() -> Callable[..., None]:
+    """Get the printer function.
+
+    Returns
+    -------
+    Callable[..., None]
+        The printer function.
+    """
+    from autogen.io import IOStream
+
+    return IOStream.get_default().print
