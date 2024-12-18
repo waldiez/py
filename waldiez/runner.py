@@ -385,7 +385,6 @@ def get_printer() -> Callable[..., None]:
                     sys.stderr.write(
                         "Could not print the message due to encoding issues.\n"
                     )
-                    sys.stderr.flush()
 
     return safe_printer
 

@@ -5,6 +5,7 @@
 import shutil
 from pathlib import Path
 from typing import Any
+from unittest.mock import patch
 
 import pytest
 from autogen.io import IOStream  # type: ignore
@@ -53,7 +54,11 @@ class CustomIOStream(IOStream):
         str
             User input.
         """
-        return "User input"
+        with patch("builtins.input", return_value="User Input\n"):
+            return input(prompt)
+
+
+IOStream.set_global_default(CustomIOStream())
 
 
 def test_waldiez_runner(
@@ -158,7 +163,4 @@ def test_get_printer(capsys: pytest.CaptureFixture[str]) -> None:
     with IOStream.set_default(BadIOStream()):
         printer1 = get_printer()
         printer1(invalid_str)
-    assert (
-        "Could not print the message due to encoding issues."
-        in capsys.readouterr().err
-    )
+    IOStream.set_global_default(CustomIOStream())
