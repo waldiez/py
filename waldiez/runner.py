@@ -18,6 +18,7 @@ import site
 import subprocess  # nosemgrep # nosec
 import sys
 import tempfile
+import warnings
 from contextlib import contextmanager
 from pathlib import Path
 from types import TracebackType
@@ -350,6 +351,7 @@ def refresh_environment() -> None:
     importlib.reload(autogen)
     # restore the default IOStream
     IOStream.set_global_default(default_io_stream)
+    warnings.filterwarnings("ignore", "flaml.automl is not available")
 
 
 def get_printer() -> Callable[..., None]:
