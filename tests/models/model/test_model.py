@@ -1,10 +1,12 @@
 """Test waldiez.models.model.WaldiezModel."""
 
 import os
+from typing import List
 
 import pytest
 
 from waldiez.models.model import (
+    DEFAULT_BASE_URLS,
     WaldiezModel,
     WaldiezModelAPIType,
     WaldiezModelData,
@@ -205,3 +207,39 @@ def test_waldiez_invalid_model() -> None:
             tags=["tag1", "tag2"],
             requirements=["requirement1", "requirement2"],
         )
+
+
+def test_waldiez_model_use_default_base_url() -> None:
+    """Test WaldiezModel use default base url."""
+    # Given
+    api_types: List[WaldiezModelAPIType] = [
+        "openai",
+        "azure",
+        "google",
+        "anthropic",
+        "mistral",
+        "groq",
+        "together",
+        "nim",
+        "other",
+    ]
+    for api_type in api_types:
+        data = WaldiezModelData(  # type: ignore
+            api_type=api_type,
+        )
+        # When
+        model = WaldiezModel(
+            id="wm-1",
+            name="model",
+            description="description",
+            data=data,
+            type="model",
+            tags=["tag1", "tag2"],
+            requirements=["requirement1", "requirement2"],
+            created_at="2021-01-01T00:00:00.000Z",
+            updated_at="2021-01-01T00:00:00.000Z",
+        )
+        # Then
+        expected_url = DEFAULT_BASE_URLS.get(api_type, "")
+        if expected_url:
+            assert model.get_llm_config()["base_url"] == expected_url

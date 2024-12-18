@@ -1,12 +1,15 @@
 """Waldiez package."""
 
 import logging
+import warnings
 
 from ._version import __version__
 from .conflict_checker import check_conflicts
 from .exporter import WaldiezExporter
 from .models import Waldiez
 from .runner import WaldiezRunner
+
+warnings.filterwarnings("ignore", "flaml.automl is not available")
 
 
 # pylint: disable=too-few-public-methods

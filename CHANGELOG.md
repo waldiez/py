@@ -2,6 +2,12 @@
 
 ## [Unreleased]
 
+## v0.1.20
+
+- Fix models not using a default base_url if not provided
+- Updated runner: try handling UnicodeDecodeError
+- Ignore 'flaml.automl is not available' warning
+
 ## v0.1.19
 
 - Updated runner: Make the call to install requirements public

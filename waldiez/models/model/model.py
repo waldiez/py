@@ -7,7 +7,16 @@ from pydantic import Field
 from typing_extensions import Annotated, Literal
 
 from ..common import WaldiezBase, now
-from .model_data import WaldiezModelData
+from .model_data import WaldiezModelAPIType, WaldiezModelData
+
+DEFAULT_BASE_URLS: Dict[WaldiezModelAPIType, str] = {
+    "google": "https://generativelanguage.googleapis.com/v1beta",
+    "anthropic": "https://api.anthropic.com/v1",
+    "mistral": "https://api.mistral.ai/v1",
+    "groq": "https://api.groq.com/openai/v1",
+    "together": "https://api.together.xyz/v1",
+    "nim": "https://integrate.api.nvidia.com/v1",
+}
 
 
 class WaldiezModel(WaldiezBase):
@@ -166,4 +175,30 @@ class WaldiezModel(WaldiezBase):
             value = getattr(self, attr)
             if value:
                 _llm_config[attr] = value
-        return _llm_config
+        return set_default_base_url(_llm_config, self.data.api_type)
+
+
+def set_default_base_url(
+    llm_config: Dict[str, Any], api_type: WaldiezModelAPIType
+) -> Dict[str, Any]:
+    """Set the default base url if not provided.
+
+    Parameters
+    ----------
+    llm_config : Dict[str, Any]
+        The llm config dictionary.
+    api_type : str
+        The api type.
+
+    Returns
+    -------
+    Dict[str, Any]
+        The llm config dictionary with the default base url set.
+    """
+    if api_type in ("openai", "other", "azure"):
+        return llm_config
+    if "base_url" not in llm_config or not llm_config["base_url"]:
+        dict_copy = llm_config.copy()
+        dict_copy["base_url"] = DEFAULT_BASE_URLS.get(api_type, "")
+        return dict_copy
+    return llm_config
