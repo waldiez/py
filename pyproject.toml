@@ -314,6 +314,7 @@ python_files = [
 ]
 addopts = """
     -d \
+    -s \
     -n auto \
     --exitfirst \
     --durations=10 \

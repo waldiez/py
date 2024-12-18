@@ -87,7 +87,7 @@ test: .before_test
 
 .PHONY: test_models
 test_models: .before_test
-	python -m pytest \
+	python -m pytest -s \
 		-c pyproject.toml -vv \
 		--cov-report=term-missing:skip-covered \
 		--cov=${.PACKAGE_NAME}/models \

@@ -9,8 +9,8 @@ from typing import Any
 import pytest
 from autogen.io import IOStream  # type: ignore
 
-from waldiez import Waldiez, WaldiezRunner
-from waldiez.models import WaldiezFlow
+from waldiez.models import Waldiez, WaldiezFlow
+from waldiez.runner import WaldiezRunner, get_printer
 
 
 class CustomIOStream(IOStream):
@@ -106,4 +106,59 @@ def test_waldiez_with_invalid_requirement(
     assert (
         "ERROR: No matching distribution found for invalid_requirement"
         in std_err
+    )
+
+
+class BadIOStream(IOStream):
+    """Bad IOStream class."""
+
+    def print(
+        self,
+        *objects: Any,
+        sep: str = " ",
+        end: str = "\n",
+        flush: bool = False,
+    ) -> None:
+        """Print objects.
+
+        Parameters
+        ----------
+        objects : Any
+            Objects to print.
+        sep : str, optional
+            Separator, by default " ".
+        end : str, optional
+            End, by default 'eol'.
+        flush : bool, optional
+            Whether to flush, by default False.
+
+        Raises
+        ------
+        UnicodeEncodeError
+            If the string is invalid
+        """
+        raise UnicodeEncodeError("utf-8", "", 0, 1, "invalid string")
+
+
+def test_get_printer(capsys: pytest.CaptureFixture[str]) -> None:
+    """Test get_printer.
+
+    Parameters
+    ----------
+    capsys : pytest.CaptureFixture[str]
+        Pytest fixture to capture stdout and stderr.
+    """
+    printer = get_printer()
+    invalid_str = "This is an invalid string: 🤯"
+    printer(invalid_str)
+    assert "This is an invalid string: " in capsys.readouterr().out
+    invalid_encoded = "This is an invalid encoded string".encode("cp1252")
+    printer(invalid_encoded)
+    assert "This is an invalid encoded string" in capsys.readouterr().out
+    with IOStream.set_default(BadIOStream()):
+        printer1 = get_printer()
+        printer1(invalid_str)
+    assert (
+        "Could not print the message due to encoding issues."
+        in capsys.readouterr().err
     )

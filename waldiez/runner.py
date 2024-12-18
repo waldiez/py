@@ -28,6 +28,7 @@ from typing import (
     Iterator,
     List,
     Optional,
+    Tuple,
     Type,
     Union,
 )
@@ -361,4 +362,58 @@ def get_printer() -> Callable[..., None]:
     """
     from autogen.io import IOStream
 
-    return IOStream.get_default().print
+    printer = IOStream.get_default().print
+
+    def safe_printer(*args: object, **kwargs: object) -> None:
+        try:
+            printer(*args, **kwargs)
+        except UnicodeEncodeError:
+            # pylint: disable=too-many-try-statements
+            try:
+                msg, flush = get_what_to_print(*args, **kwargs)
+                printer(msg, end="", flush=flush)
+            except UnicodeEncodeError:
+                sys.stdout = io.TextIOWrapper(
+                    sys.stdout.buffer, encoding="utf-8"
+                )
+                sys.stderr = io.TextIOWrapper(
+                    sys.stderr.buffer, encoding="utf-8"
+                )
+                try:
+                    printer(*args, **kwargs)
+                except UnicodeEncodeError:
+                    sys.stderr.write(
+                        "Could not print the message due to encoding issues.\n"
+                    )
+                    sys.stderr.flush()
+
+    return safe_printer
+
+
+def get_what_to_print(*args: object, **kwargs: object) -> Tuple[str, bool]:
+    """Get what to print.
+
+    Parameters
+    ----------
+    args : object
+        The arguments.
+    kwargs : object
+        The keyword arguments.
+
+    Returns
+    -------
+    Tuple[str, bool]
+        The message and whether to flush.
+    """
+    sep = kwargs.get("sep", " ")
+    if not isinstance(sep, str):
+        sep = " "
+    end = kwargs.get("end", "\n")
+    if not isinstance(end, str):
+        end = "\n"
+    flush = kwargs.get("flush", False)
+    if not isinstance(flush, bool):
+        flush = False
+    msg = sep.join(str(arg) for arg in args) + end
+    utf8_msg = msg.encode("utf-8", errors="replace").decode("utf-8")
+    return utf8_msg, flush
